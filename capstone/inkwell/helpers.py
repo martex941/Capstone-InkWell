@@ -9,4 +9,3 @@ def email_validator(email):
         return True
     else:
         return False
-    

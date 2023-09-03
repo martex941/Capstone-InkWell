@@ -6,8 +6,8 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.db import IntegrityError
 
-from helpers import email_validator
-from models import User
+from .helpers import email_validator
+from .models import User
 
 def index(request):
     return render(request, 'inkwell/index.html')
