@@ -1,5 +1,5 @@
 # inkwell/views.py
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -12,10 +12,80 @@ from .models import User
 def index(request):
     return render(request, 'inkwell/index.html')
 
+def newInk(request):
+    
+    return render("inkwell/newInk.html")
+
+def settings(request):
+    if request.method == "POST":
+
+        # Password change
+        if "change_password" in request.POST:
+            old_password = request.POST.get("oldPassword_confirm")
+            new_password = request.POST.get("new_password")
+            new_password_confirm = request.POST.get("newPassword_confirm")
+            
+            user = request.user
+            
+            # Check if the old password matches the user's current password
+            if not user.check_password(old_password):
+                return render(request, "inkwell/settings.html", {
+                    "message": "Incorrect old password"
+                })
+            
+            # Check if the new password is valid
+            if len(new_password) < 8:
+                return render(request, "inkwell/settings.html", {
+                    "message": "New password must be at least 8 characters long"
+                })
+            
+            # Check if the new passwords match
+            if new_password != new_password_confirm:
+                return render(request, "inkwell/settings.html", {
+                    "message": "Passwords must match"
+                })
+
+            # Update the user's password
+            user.set_password(new_password)
+            user.save()
+            
+            # Update the session to reflect the password change
+            update_session_auth_hash(request, user)
+            
+            return render(request, "inkwell/settings.html", {
+                "message": "Password changed successfully"
+            })
+        
+        # Username change
+        if "change_username" in request.POST:
+            old_username = request.user
+            new_username = request.POST.get("new_username")
+            if new_username == old_username:
+                return render(request, "inkwell/settings.html", {
+                    "message": "New username must be different than the old username"
+                })
+            elif len(new_username) < 5:
+                return render(request, "inkwell/settings.html", {
+                    "message": "New username must be at least 5 characters long"
+                })
+            elif User.objects.filter(username=new_username).exclude(pk=user.pk).exists():
+                return render(request, "inkwell/settings.html", {
+                    "message": "Username is already taken"
+                })
+        else:
+            current_user = User.objects.get(pk=user.pk)
+            current_user.username = new_username
+            current_user.save()
+            return render(request, "inkwell/settings.html", {
+                "message": "Username successfully changed"
+            })
+        
+    return render(request, "inkwell/settings.html")
+
 def login(request):
     if request.method == "POST":
-        username = request.POST["username"]
-        password = request.POST["password"]
+        username = request.POST.get("username")
+        password = request.POST.get("password")
         
         user = authenticate(request, username=username, password=password)
         
@@ -38,10 +108,10 @@ def register(request):
     if request.method == "POST":
 
         # Necessary variables
-        username = request.POST["username"]
-        email = request.POST["email"]
-        password = request.POST["password"]
-        confirmedPassword = request.POST["confirmed_password"]
+        username = request.POST.get("username")
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+        confirmedPassword = request.POST.get("confirmed_password")
         users = User.objects.all()
 
         # Check various conditions 
@@ -54,8 +124,7 @@ def register(request):
             return render(request, "inkwell/register.html", {
                 "message": "Email is already taken"
             })
-
-        if email_validator(email) == False:
+        elif email_validator(email) == False:
             return render(request, "inkwell/register.html", {
                 "message": "Email is invalid"
             })
@@ -64,8 +133,7 @@ def register(request):
             return render(request, "inkwell/register.html", {
                 "message": "Password must be at least 8 characters long"
             })
-
-        if password != confirmedPassword:
+        elif password != confirmedPassword:
             return render(request, "inkwell/register.html", {
                 "message": "Passwords must match"
             })
