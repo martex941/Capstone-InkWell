@@ -13,8 +13,10 @@ def index(request):
     return render(request, 'inkwell/index.html')
 
 def newInk(request):
-    
-    return render("inkwell/newInk.html")
+    return render(request, "inkwell/newInk.html")
+
+def well(request):
+    return render(request, "inkwell/well.html")
 
 def settings(request):
     if request.method == "POST":
