@@ -82,7 +82,7 @@ def settings(request):
         
     return render(request, "inkwell/settings.html")
 
-def login(request):
+def login_view(request):
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
@@ -111,8 +111,7 @@ def register(request):
         username = request.POST.get("username")
         email = request.POST.get("email")
         password = request.POST.get("password")
-        confirmedPassword = request.POST.get("confirmed_password")
-        users = User.objects.all()
+        confirmedPassword = request.POST.get("confirmation")
 
         # Check various conditions 
         if len(username) < 5:
@@ -120,11 +119,7 @@ def register(request):
                 "message": "Username must be at least 5 characters long"
             })
         
-        if email in users.email:
-            return render(request, "inkwell/register.html", {
-                "message": "Email is already taken"
-            })
-        elif email_validator(email) == False:
+        if email_validator(email) == False:
             return render(request, "inkwell/register.html", {
                 "message": "Email is invalid"
             })
