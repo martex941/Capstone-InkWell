@@ -19,7 +19,7 @@
                 <span class="navbar-toggler-icon"></span>
               </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul>
+                <ul class="navbar-nav container d-flex justify-content-start nav-left">
                     {% if user.is_authenticated %}
                         <li>
                             <a class="nav-link" href="{% url 'well' %}">Your Well</a>
@@ -32,7 +32,7 @@
                         </li>
                     {% endif %}
                 </ul>
-                <ul class="navbar-nav mr-auto">
+                <ul class="navbar-nav container d-flex justify-content-end nav-right">
                     {% if user.is_authenticated %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
