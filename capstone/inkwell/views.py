@@ -18,9 +18,11 @@ def newInk(request):
 def well(request):
     return render(request, "inkwell/well.html")
 
-def settings(request):
-    if request.method == "POST":
+def settings(request):  
+    return render(request, "inkwell/settings.html")
 
+def password_change(request):
+    if request.method == "POST":
         # Password change
         if "change_password" in request.POST:
             old_password = request.POST.get("oldPassword_confirm")
@@ -58,10 +60,15 @@ def settings(request):
                 "message": "Password changed successfully"
             })
         
+    return render(request, "inkwell/password_change.html")
+
+def username_change(request):
+    if request.method == "POST":
         # Username change
         if "change_username" in request.POST:
             old_username = request.user
             new_username = request.POST.get("new_username")
+            user = request.user
             if new_username == old_username:
                 return render(request, "inkwell/settings.html", {
                     "message": "New username must be different than the old username"
@@ -82,7 +89,7 @@ def settings(request):
                 "message": "Username successfully changed"
             })
         
-    return render(request, "inkwell/settings.html")
+    return render(request, "inkwell/username_change.html")
 
 def login_view(request):
     if request.method == "POST":

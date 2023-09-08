@@ -1,0 +1,28 @@
+{% extends "inkwell/layout.html" %}
+
+{% block body %}
+    <style>
+        .container {
+            border: none;
+            width: 25%;
+        }        
+    </style>
+    
+    <div class="container">
+        <div class="form">
+            {% if message %}
+                <div>{{ message }}</div>
+            {% endif %}
+            <form action="{% url 'username_change' %}" method="post">
+                {% csrf_token %}
+                <div class="form-label">
+                    <input class="form-control" type="text" name="new_username" placeholder="Enter your new username">
+                </div>
+                <div class="d-flex justify-content-center">
+                    <input class="btn btn-primary" type="submit" value="Change username">
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
