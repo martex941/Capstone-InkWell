@@ -13,6 +13,7 @@ class Well(models.Model):
 class Ink(models.Model):
     wellOrigin = models.ForeignKey(Well, on_delete=models.CASCADE, related_name="well_pk", default="")
     inkOwner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="ink_owner", default="")
+    privateStatus = models.BooleanField(default=False)
     title = models.CharField(max_length=64, default="")
     content = models.TextField()
 

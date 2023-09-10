@@ -12,15 +12,19 @@ from .models import User
 def index(request):
     return render(request, 'inkwell/index.html')
 
+@login_required
 def newInk(request):
     return render(request, "inkwell/newInk.html")
 
+@login_required
 def well(request):
     return render(request, "inkwell/well.html")
 
-def settings(request):  
+@login_required
+def settings(request):
     return render(request, "inkwell/settings.html")
 
+@login_required
 def password_change(request):
     if request.method == "POST":
         # Password change
@@ -62,6 +66,7 @@ def password_change(request):
         
     return render(request, "inkwell/password_change.html")
 
+@login_required
 def username_change(request):
     if request.method == "POST":
         # Username change
@@ -109,6 +114,7 @@ def login_view(request):
 
     return render(request, 'inkwell/login.html')
 
+@login_required
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
