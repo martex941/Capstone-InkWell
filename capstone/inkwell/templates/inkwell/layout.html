@@ -22,7 +22,7 @@
                 <ul class="navbar-nav container d-flex justify-content-start nav-left">
                     {% if user.is_authenticated %}
                         <li>
-                            <a class="nav-link" href="{% url 'well' %}">Your Well</a>
+                            <a class="nav-link" href="{% url 'well' username=user.username %}">Your Well</a>
                         </li>
                         <li>
                             <a class="nav-link" href="{% url 'newInk' %}">New Ink</a>

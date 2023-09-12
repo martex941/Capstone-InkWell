@@ -2,4 +2,20 @@
 
 {% block body %}
 
+<div class="container">
+    <h5>{{ wellOwner }}'s well</h5>
+    <h5>Co-authors: a number</h5>
+    <h5>Available inks: {{ ink_number }}</h5>
+    <a href="{% url 'ink_settings' %}">Manage your inks</a>
+</div>
+
+<div class="container">
+    <div id="well" class="well">
+        <!-- {% for ink in inks %}
+            <h5>{ ink.title }</h5>
+        {% endfor %} -->
+    </div>
+</div>
+
+
 {% endblock %}

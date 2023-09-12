@@ -1,0 +1,24 @@
+{% extends "inkwell/layout.html" %}
+
+{% block body %}
+<div class="container">
+    {% for ink in inks %}
+        <div class="row">
+            <div class="col">
+                {{ ink.title }}
+            </div>
+            <div class="col">
+                {{ ink.creation_date }}
+            </div>
+            <div class="col">
+                Privacy settings
+            </div>
+            <div class="col">
+                Edit Ink
+            </div>
+            <div class="col">
+                <button class="btn btn-danger">DELETE</button>
+            </div>
+        </div>
+</div>
+{% endblock %}

@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.db import IntegrityError
 
 from .helpers import email_validator
-from .models import User
+from .models import User, Ink, CoAuthor
 
 def index(request):
     return render(request, 'inkwell/index.html')
@@ -17,8 +17,14 @@ def newInk(request):
     return render(request, "inkwell/newInk.html")
 
 @login_required
-def well(request):
-    return render(request, "inkwell/well.html")
+def well(request, username):
+    wellOwner = User.objects.get(username=username)
+    inks = Ink.objects.filter(inkOwner=wellOwner.pk)
+    return render(request, "inkwell/well.html", {
+        "wellOwner": wellOwner,
+        "inks": inks,
+        "ink_number": len(inks)
+    })
 
 @login_required
 def settings(request):
@@ -95,6 +101,13 @@ def username_change(request):
             })
         
     return render(request, "inkwell/username_change.html")
+
+@login_required
+def ink_settings(request):
+    retrieve_inks = Ink.objects.filter(inkOwner=request.user)
+    return render(request, "inkwell/ink_settings.html", {
+        "inks": retrieve_inks
+    })
 
 def login_view(request):
     if request.method == "POST":
