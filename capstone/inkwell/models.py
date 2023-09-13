@@ -5,6 +5,10 @@ from django.db import models
 class User(AbstractUser):
     pass
 
+class Follow(models.Model):
+    follower = models.ForeignKey(User, on_delete=models.CASCADE, related_name="follower", default="")
+    followee = models.ForeignKey(User, on_delete=models.CASCADE, related_name="followee", default="")
+
 class Well(models.Model):
     wellOwner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="well_owner", default="")
     privateStatus = models.BooleanField(default=False)

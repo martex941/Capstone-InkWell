@@ -31,6 +31,13 @@
                         <li>
                             <a class="nav-link" href="{% url 'settings' %}">Account Settings</a>
                         </li>
+                    {% else %}
+                        <li>
+                            <a class="nav-link" href="">Discover Authors</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="">Discover Inks</a>
+                        </li>
                     {% endif %}
                 </ul>
                 <ul class="navbar-nav container d-flex justify-content-end nav-right">
