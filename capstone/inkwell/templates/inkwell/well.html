@@ -3,10 +3,16 @@
 {% block body %}
 
 <div class="container">
-    <h5>{{ wellOwner }}'s well</h5>
-    <h5>Co-authors: a number</h5>
+    {% if wellOwner == request.user %}
+        <h5>Your well</h5>
+    {% else %}
+        <h5>{{ wellOwner }}'s well</h5>
+    {% endif %}
+    <h5>Co-authors: {{ coAuthors }}</h5>
     <h5>Available inks: {{ ink_number }}</h5>
-    <a href="{% url 'ink_settings' %}">Manage your inks</a>
+    {% if wellOwner == request.user %}
+        <a href="{% url 'ink_settings' %}">Manage your inks</a>
+    {% endif %}
 </div>
 
 <div class="container">

@@ -16,14 +16,19 @@ def index(request):
 def newInk(request):
     return render(request, "inkwell/newInk.html")
 
+def ink_view(request):
+    return render(request, "inkwell/ink_view.html")
+
 @login_required
 def well(request, username):
     wellOwner = User.objects.get(username=username)
     inks = Ink.objects.filter(inkOwner=wellOwner.pk)
+    co_authors = Ink.objects.filter(inkOwner=wellOwner.pk).values_list('coAuthor', flat=True)
     return render(request, "inkwell/well.html", {
         "wellOwner": wellOwner,
         "inks": inks,
-        "ink_number": len(inks)
+        "ink_number": len(inks),
+        "coAuthors": len(co_authors)
     })
 
 @login_required
