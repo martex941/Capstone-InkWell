@@ -14,13 +14,13 @@
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <img src="{% static 'inkwell/inkwell1.ico' %}" width="40px" height="40px">
+            <img class="nav-logo" src="{% static 'inkwell/inkwell1.ico' %}" width="40px" height="40px">
             <a class="navbar-brand" href="{% url 'index' %}">InkWell</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav container d-flex justify-content-start nav-left">
+                <ul class="navbar-nav d-flex justify-content-start nav-left">
                     {% if user.is_authenticated %}
                         <li>
                             <a class="nav-link" href="{% url 'well' username=user.username %}">Your Well</a>

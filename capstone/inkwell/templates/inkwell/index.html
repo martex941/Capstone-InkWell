@@ -1,16 +1,45 @@
 {% extends "inkwell/layout.html" %}
 
 {% block body %}
-    
-<div class="container row">
-    <div class="col-1" id="discover-authors">
-        
-    </div>
-    <div class="col-2" id="discover-inks">
+<style>
+    .column {
+        border: black 2px solid;
+        border-radius: 5%;
+        height: 100vh;
+        margin: 1rem;
+    }
+    .index.container-fluid {
+        padding: 0;
+        margin: 0;
+    }
+    .row {
+        padding: 1rem;
+    }
 
-    </div>
-    <div class="col-1">
-        
+
+</style>
+    
+<div class="index container-fluid">
+    <div class="row">
+
+        <div class="column col-3" id="discover-authors">
+            <div class="search text-center mt-2">
+                <input type="text" placeholder="Search for authors...">
+                <button>Search</button>
+            </div>
+        </div>
+
+        <div class="column col-5" id="discover-inks">
+            <div class="search text-center mt-2">
+                <input type="text" placeholder="Search for inks...">
+                <button>Search</button>
+            </div>
+        </div>
+
+        <div class="column col-3">
+            <h5 class="text-center mt-2">NOTIFICATIONS</h5>
+        </div>
+
     </div>
 </div>
 
