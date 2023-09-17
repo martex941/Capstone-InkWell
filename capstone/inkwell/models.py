@@ -21,6 +21,7 @@ class Ink(models.Model):
     inkOwner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="ink_owner", default="")
     coAuthor = models.ForeignKey(User, on_delete=models.CASCADE, related_name="co_author", default="")
     privateStatus = models.BooleanField(default=False)
+    genre = models.CharField(max_length=64, default="")
     title = models.CharField(max_length=64, default="")
     content = models.TextField()
     creation_date = models.DateTimeField(default=timezone.now, editable=False)
@@ -34,3 +35,9 @@ class CoAuthor(models.Model):
 
     def __str__(self):
         return f"{self.user}'s contribution to {self.ink}"
+    
+class Notification(models.Model):
+    notifiedUser = models.ForeignKey(User, on_delete=models.CASCADE, related_name="notifiedUser", default="")
+    contents = models.CharField(max_length=120, default="")
+    date = models.DateTimeField(default=timezone.now, editable=False)
+    url = models.CharField(max_length=120, default="")
