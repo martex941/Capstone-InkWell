@@ -1,17 +1,16 @@
 # inkwell/views.py
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.db.models import Sum
 from django.urls import reverse
 from django.db import IntegrityError
 
 from .helpers import email_validator
-from .models import User, Ink, CoAuthor
+from .models import User, Ink
 
 def index(request):
-    
     return render(request, 'inkwell/index.html')
 
 def index_cols(request):
@@ -19,8 +18,40 @@ def index_cols(request):
     popularAuthors = sorted(users, key=lambda user: user.readers * user.followers, reverse=True)[:10]
     topAuthors = sorted(users, key=lambda user: user.letters * user.coAuthorRequests, reverse=True)[:10]
     topCoAuthors = sorted(users, key=lambda user: user.acceptedRequests, reverse=True)[:10]
-    
-    return render(request, 'inkwell/index.html')
+
+    popularAuthors_col = [
+        {
+            'id': author.id,
+            'username': author.username,
+            'followers': author.followers
+        }
+        for author in popularAuthors
+    ]
+    topAuthors_col = [
+        {
+            'id': author.id,
+            'username': author.username,
+            'followers': author.followers
+        }
+        for author in topAuthors
+    ]
+    topCoAuthors_col = [
+        {
+            'id': author.id,
+            'username': author.username,
+            'followers': author.followers
+        }
+        for author in topCoAuthors
+    ]
+
+    index_columns = {
+        'popularAuthors_col': popularAuthors_col,
+        'topAuthors_col': topAuthors_col,
+        'topCoAuthors_col': topCoAuthors_col
+
+    }
+
+    return JsonResponse(index_columns, safe=False)
     
 
 @login_required
