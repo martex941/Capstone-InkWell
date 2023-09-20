@@ -75,7 +75,10 @@
             
             <div class="underline-text discover-authors text-center">
                 <h3>Discover</h3>
-                <!--  -->
+                <!-- 20 users are chosen at random -->
+                {% for author in discoverAuthors %}
+                    <a class="authorLink" href="/well/{{author.username}}"><h5 class="lead">{{author.username}}</h5></a>
+                {% endfor %}
             </div>
             
         </div>

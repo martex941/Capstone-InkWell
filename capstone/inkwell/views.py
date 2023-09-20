@@ -3,61 +3,50 @@ from django.contrib.auth import authenticate, login, logout, update_session_auth
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
-from django.db.models import Sum
+from django.db.models import Q
 from django.urls import reverse
 from django.db import IntegrityError
+from django.db.models.functions import Random
 
 from .helpers import email_validator
-from .models import User, Ink
+from .models import User, Ink, Notification
 
 def index(request):
     users = User.objects.all()
     popularAuthors = sorted(users, key=lambda user: user.readers * user.followers, reverse=True)[:10]
     topAuthors = sorted(users, key=lambda user: user.letters * user.coAuthorRequests, reverse=True)[:10]
     topCoAuthors = sorted(users, key=lambda user: user.acceptedRequests, reverse=True)[:10]
+    discoverAuthors = User.objects.annotate(random_order=Random()).order_by('random_order')[:20]
 
     return render(request, 'inkwell/index.html', {
         'popularAuthors': popularAuthors,
         'topAuthors': topAuthors,
-        'topCoAuthors': topCoAuthors
+        'topCoAuthors': topCoAuthors,
+        'discoverAuthors': discoverAuthors
     })
 
 def index_cols(request):
-    users = User.objects.all()
-    popularAuthors = sorted(users, key=lambda user: user.readers * user.followers, reverse=True)[:10]
-    topAuthors = sorted(users, key=lambda user: user.letters * user.coAuthorRequests, reverse=True)[:10]
-    topCoAuthors = sorted(users, key=lambda user: user.acceptedRequests, reverse=True)[:10]
 
-    popularAuthors_col = [
+    allInks = Ink.objects.all()
+
+    followers = User.objects.filter(followee__follower=request.user)
+
+    followedInks = Ink.objects.filter(Q(inkOwner__in=followers))
+
+    notifications = Notification.objects.filter(notifiedUser=request.user)
+    notifications_col = [
         {
-            'id': author.id,
-            'username': author.username,
-            'followers': author.followers
+            'contents': notif.contents,
+            'date': notif.date,
+            'url': notif.url
         }
-        for author in popularAuthors
-    ]
-    topAuthors_col = [
-        {
-            'id': author.id,
-            'username': author.username,
-            'followers': author.followers
-        }
-        for author in topAuthors
-    ]
-    topCoAuthors_col = [
-        {
-            'id': author.id,
-            'username': author.username,
-            'followers': author.followers
-        }
-        for author in topCoAuthors
+        for notif in notifications
     ]
 
     index_columns = {
-        'popularAuthors_col': popularAuthors_col,
-        'topAuthors_col': topAuthors_col,
-        'topCoAuthors_col': topCoAuthors_col
-
+        'allInks': allInks,
+        'followedInks': followedInks,
+        'notifications': notifications_col
     }
 
     return JsonResponse(index_columns, safe=False)
