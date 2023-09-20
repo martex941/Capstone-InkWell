@@ -11,7 +11,16 @@ from .helpers import email_validator
 from .models import User, Ink
 
 def index(request):
-    return render(request, 'inkwell/index.html')
+    users = User.objects.all()
+    popularAuthors = sorted(users, key=lambda user: user.readers * user.followers, reverse=True)[:10]
+    topAuthors = sorted(users, key=lambda user: user.letters * user.coAuthorRequests, reverse=True)[:10]
+    topCoAuthors = sorted(users, key=lambda user: user.acceptedRequests, reverse=True)[:10]
+
+    return render(request, 'inkwell/index.html', {
+        'popularAuthors': popularAuthors,
+        'topAuthors': topAuthors,
+        'topCoAuthors': topCoAuthors
+    })
 
 def index_cols(request):
     users = User.objects.all()

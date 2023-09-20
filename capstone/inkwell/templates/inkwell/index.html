@@ -31,9 +31,9 @@
 </style>
 
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        index_cols();
-    });
+    // document.addEventListener("DOMContentLoaded", () => {
+    //     index_cols();
+    // });
 </script>
 
 <div class="index container-fluid">
@@ -51,17 +51,26 @@
             <div class="underline-text popular-authors text-center" id="popularAuthors">
                 <h3>Most popular authors this week</h3>
                 <!-- authors that had the most new followers times amount of readers this week -->
+                {% for author in popularAuthors %}
+                    <a class="authorLink" href="/well/{{author.username}}"><h5 class="lead">{{author.username}}</h5></a>
+                {% endfor %}
             </div>
             
             <div class="underline-text top-authors text-center" id="topAuthors">
                 <h3>Top authors this week</h3>
                 <!-- multiply amount of letters/words written in their inks
                 times amount of co-auhtor requests -->
+                {% for author in topAuthors %}
+                    <a class="authorLink" href="/well/{{author.username}}"><h5 class="lead">{{author.username}}</h5></a>
+                {% endfor %}
             </div>
             
             <div class="underline-text top-co-authors text-center" id="topCoAuthors">
                 <h3>Top co-authors this week</h3>
                 <!-- co-authors that had the biggest amount of accepted edit requests -->
+                {% for author in topCoAuthors %}
+                    <a class="authorLink" href="/well/{{author.username}}"><h5 class="lead">{{author.username}}</h5></a>
+                {% endfor %}
             </div>
             
             <div class="underline-text discover-authors text-center">
