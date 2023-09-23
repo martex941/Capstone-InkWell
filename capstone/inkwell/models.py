@@ -34,9 +34,12 @@ class Well(models.Model):
 class Ink(models.Model):
     wellOrigin = models.ForeignKey(Well, on_delete=models.CASCADE, related_name="well_pk", default="")
     inkOwner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="ink_owner", default="")
-    coAuthor = models.ForeignKey(User, on_delete=models.CASCADE, related_name="co_author", default="")
+    coAuthors = models.ManyToManyField("CoAuthor")
     privateStatus = models.BooleanField(default=False)
+    updateStatus = models.BooleanField(default=False) # If the Ink is edited at least once, this changes to true
+    following = models.ManyToManyField(User)
     genre = models.CharField(max_length=64, default="")
+    description = models.CharField(max_length=500, default="")
     title = models.CharField(max_length=64, default="")
     content = models.TextField()
     views = models.PositiveBigIntegerField(default=0)
@@ -46,12 +49,14 @@ class Ink(models.Model):
     def __str__(self):
         return f"{self.title} by {self.inkOwner}"
     
+class InkVersionControl(models.Model):
+    comment = models.CharField(max_length=120, default="")
+    originalInk = models.ForeignKey(Ink, on_delete=models.CASCADE)
+    contents = models.TextField()
+    date = models.DateTimeField(auto_now_add=True)
+    
 class CoAuthor(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="CoAuthor", default="")
-    ink = models.ForeignKey(Ink, on_delete=models.CASCADE, related_name="co_ink", default="")
-
-    def __str__(self):
-        return f"{self.user}'s contribution to {self.ink}"
     
 class Notification(models.Model):
     notifiedUser = models.ForeignKey(User, on_delete=models.CASCADE, related_name="notifiedUser", default="")

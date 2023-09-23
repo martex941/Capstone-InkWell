@@ -7,6 +7,8 @@ from django.db.models import Q
 from django.urls import reverse
 from django.db import IntegrityError
 from django.db.models.functions import Random
+from django.core.paginator import Paginator
+import time
 
 from .helpers import email_validator
 from .models import User, Ink, Notification
@@ -25,29 +27,59 @@ def index(request):
         'discoverAuthors': discoverAuthors
     })
 
-def index_cols(request):
+def index_cols(request, page):
 
-    allInks = Ink.objects.all()
+    allInks = Ink.objects.filter(privateStatus=False).order_by('-creation_date')
+    allInksPag = Paginator(allInks, 20)
+    allInks_col = [
+        {
+            'title': ink.title,
+            'description': ink.description,
+            'privateStatus': ink.privateStatus,
+            'updateStatus': ink.updateStatus,
+            'coAuthors': ink.coAuthors,
+            'inkOwner': ink.inkOwner,
+            'creation_date': ink.creation_date
+
+        }
+        for ink in allInksPag.page(page)
+    ]
 
     followers = User.objects.filter(followee__follower=request.user)
+    followedInks = Ink.objects.filter(Q(inkOwner__in=followers), privateStatus=False).order_by('-creation_date')
+    followedInksPag = Paginator(followedInks, 20)
+    followedInks_col = [
+        {
+            'title': ink.title,
+            'description': ink.description,
+            'privateStatus': ink.privateStatus,
+            'updateStatus': ink.updateStatus,
+            'coAuthors': ink.coAuthors,
+            'inkOwner': ink.inkOwner,
+            'creation_date': ink.creation_date
 
-    followedInks = Ink.objects.filter(Q(inkOwner__in=followers))
+        }
+        for ink in followedInksPag.page(page)
+    ]
 
-    notifications = Notification.objects.filter(notifiedUser=request.user)
+    notifications = Notification.objects.filter(notifiedUser=request.user).order_by('-date')
+    notificationsPag = Paginator(notifications, 10)
     notifications_col = [
         {
             'contents': notif.contents,
             'date': notif.date,
             'url': notif.url
         }
-        for notif in notifications
+        for notif in notificationsPag.page(page)
     ]
 
     index_columns = {
-        'allInks': allInks,
-        'followedInks': followedInks,
+        'allInks': allInks_col,
+        'followedInks': followedInks_col,
         'notifications': notifications_col
     }
+
+    time.sleep(1)
 
     return JsonResponse(index_columns, safe=False)
     

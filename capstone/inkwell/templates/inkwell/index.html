@@ -31,9 +31,9 @@
 </style>
 
 <script>
-    // document.addEventListener("DOMContentLoaded", () => {
-    //     index_cols();
-    // });
+    document.addEventListener("DOMContentLoaded", () => {
+        index_cols();
+    });
 </script>
 
 <div class="index container-fluid">
@@ -85,13 +85,15 @@
 
         <div class="column col-5" id="inks-col">
             <div class="container d-flex justify-content-center filtering mt-2">
-                <button class="">Main Timeline</button>
-                <button class="">Following</button>
+                <button class="" id="mainTimelineBtn">Main Timeline</button>
+                <button class="" id="followingTimelineBtn">Following</button>
+            </div>
+            <div class="container" id="timeline">
             </div>
         </div>
 
         <div class="column col-3">
-            <h5 class="text-center mt-2">NOTIFICATIONS</h5>
+            <h5 class="text-center mt-2" id="notifications">NOTIFICATIONS</h5>
         </div>
 
     </div>
