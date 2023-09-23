@@ -40,7 +40,6 @@ def index_cols(request, page):
             'coAuthors': ink.coAuthors,
             'inkOwner': ink.inkOwner,
             'creation_date': ink.creation_date
-
         }
         for ink in allInksPag.page(page)
     ]
@@ -57,7 +56,6 @@ def index_cols(request, page):
             'coAuthors': ink.coAuthors,
             'inkOwner': ink.inkOwner,
             'creation_date': ink.creation_date
-
         }
         for ink in followedInksPag.page(page)
     ]
@@ -95,13 +93,19 @@ def ink_view(request):
 def well(request, username):
     wellOwner = User.objects.get(username=username)
     inks = Ink.objects.filter(inkOwner=wellOwner.pk)
+    followers = User.objects.filter(followee__follower=username)
     co_authors = Ink.objects.filter(inkOwner=wellOwner.pk).values_list('coAuthor', flat=True)
     return render(request, "inkwell/well.html", {
         "wellOwner": wellOwner,
         "inks": inks,
+        "followers": len(followers),
         "ink_number": len(inks),
         "coAuthors": len(co_authors)
     })
+
+def followers(request, username):
+    # page that displays all followers of a given user after clicking on followers on a user's well profile
+    return render(request, "inkwell/followers.html")
 
 @login_required
 def settings(request):

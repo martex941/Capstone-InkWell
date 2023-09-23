@@ -1,4 +1,4 @@
-function index_cols() {
+function timeline() {
 
     // By default show the main timeline with all inks
     document.querySelector("#main-timeline").style.display = 'block';
@@ -53,7 +53,6 @@ function index_cols() {
 
                 document.querySelector("#timeline").append(ink_div);
 
-
             });
         })
     }
@@ -73,4 +72,8 @@ function index_cols() {
     }
     document.querySelector("#mainTimelineBtn").addEventListener('click', mainTimelineBtn);
     document.querySelector("#followingTimelineBtn").addEventListener('click', followingTimelineBtn);
+}
+
+function notifications() {
+    
 }
