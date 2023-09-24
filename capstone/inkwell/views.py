@@ -27,7 +27,7 @@ def index(request):
         'discoverAuthors': discoverAuthors
     })
 
-def index_cols(request, page):
+def timeline(request, page):
 
     allInks = Ink.objects.filter(privateStatus=False).order_by('-creation_date')
     allInksPag = Paginator(allInks, 20)
@@ -37,11 +37,11 @@ def index_cols(request, page):
             'description': ink.description,
             'privateStatus': ink.privateStatus,
             'updateStatus': ink.updateStatus,
-            'coAuthors': ink.coAuthors,
-            'inkOwner': ink.inkOwner,
-            'creation_date': ink.creation_date
+            'inkOwner': ink.inkOwner.username,
+            'coAuthors': [coauthor.username for coauthor in ink.coAuthors.all()],
+            'creation_date': ink.creation_date.strftime('%Y-%m-%d %H:%M:%S')
         }
-        for ink in allInksPag.page(page)
+        for ink in allInks
     ]
 
     followers = User.objects.filter(followee__follower=request.user)
@@ -53,34 +53,32 @@ def index_cols(request, page):
             'description': ink.description,
             'privateStatus': ink.privateStatus,
             'updateStatus': ink.updateStatus,
-            'coAuthors': ink.coAuthors,
-            'inkOwner': ink.inkOwner,
-            'creation_date': ink.creation_date
+            'inkOwner': ink.inkOwner.username,
+            'coAuthors': [coauthor.username for coauthor in ink.coAuthors.all()],
+            'creation_date': ink.creation_date.strftime('%Y-%m-%d %H:%M:%S')
         }
-        for ink in followedInksPag.page(page)
-    ]
-
-    notifications = Notification.objects.filter(notifiedUser=request.user).order_by('-date')
-    notificationsPag = Paginator(notifications, 10)
-    notifications_col = [
-        {
-            'contents': notif.contents,
-            'date': notif.date,
-            'url': notif.url
-        }
-        for notif in notificationsPag.page(page)
+        for ink in followedInks
     ]
 
     index_columns = {
         'allInks': allInks_col,
         'followedInks': followedInks_col,
-        'notifications': notifications_col
     }
 
-    time.sleep(1)
-
     return JsonResponse(index_columns, safe=False)
-    
+
+def notifications(request, page):
+    notifications = Notification.objects.filter(notifiedUser=request.user).order_by('-date')
+    notificationsPag = Paginator(notifications, 5)
+    notifications_col = [
+        {
+            'contents': notif.contents,
+            'date': notif.date.strftime('%Y-%m-%d %H:%M:%S'),
+            'url': notif.url
+        }
+        for notif in notifications
+    ]
+    return JsonResponse(notifications_col, safe=False)
 
 @login_required
 def newInk(request):

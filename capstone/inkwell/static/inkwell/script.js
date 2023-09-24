@@ -1,30 +1,15 @@
 function timeline() {
 
-    // By default show the main timeline with all inks
-    document.querySelector("#main-timeline").style.display = 'block';
-    document.querySelector("#following-timeline").style.display = 'none';
-
     document.querySelector("#mainTimelineBtn").style.display = 'none';
 
     // Clear the timeline feed
-    document.querySelector("#main-timeline").innerHTML = '';
-    document.querySelector("#following-timeline").innerHTML = '';
+    document.querySelector("#timeline").innerHTML = '';
 
     // Declare the page
     let page = 1;
-    load(page, "allInks");
-
-    function infiniteScroll (timeline) {
-        window.onscroll = () => {
-            if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-                load(page, timeline);
-                page++;
-            }
-        };
-    }
     
     function load(page, timeline) {
-        fetch(`index_cols/${page}`)
+        fetch(`timeline/${page}`)
         .then(response => response.json())
         .then(data => {
             console.log(data);
@@ -43,19 +28,31 @@ function timeline() {
 
                 const contents = document.createElement('p');
                 contents.className = 'inkPostDescription';
-                contents.innerHTML = `${element.description}`
-                ink_div.append(contents)
+                contents.innerHTML = `${element.description}`;
+                ink_div.append(contents);
 
                 const date = document.createElement('span');
                 date.className = 'date';
-                date.innerHTML = `Created: ${element.creation_date}`
-                ink_div.append(date)
+                date.innerHTML = `Created: ${element.creation_date}`;
+                ink_div.append(date);
 
                 document.querySelector("#timeline").append(ink_div);
 
             });
         })
     }
+
+    load(page, "allInks");
+
+    function infiniteScroll (timeline) {
+        window.onscroll = () => {
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+                load(page, timeline);
+                page++;
+            }
+        };
+    }
+
     function mainTimelineBtn () {
         page = 1;
         document.querySelector("#mainTimelineBtn").style.display = 'block';
@@ -67,13 +64,58 @@ function timeline() {
         page = 1;
         document.querySelector("#mainTimelineBtn").style.display = 'none';
         document.querySelector("#followingTimelineBtn").style.display = 'block';
-        load(page, "followingInks");
-        infiniteScroll("followingInks");
+        load(page, "followedInks");
+        infiniteScroll("followedInks");
     }
     document.querySelector("#mainTimelineBtn").addEventListener('click', mainTimelineBtn);
     document.querySelector("#followingTimelineBtn").addEventListener('click', followingTimelineBtn);
 }
 
 function notifications() {
-    
+    let page = 1;
+
+    function loadNotifications () {
+        fetch(`notifications/${page}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            data.forEach(element => {
+                const notiDiv = document.createElement('div');
+                notiDiv.className = 'notificaiton-div';
+
+                const link = document.createElement('a');
+                link.className = 'notification-redirect';
+                link.href = `${element.url}`;
+
+                const notiMessage = document.createElement('p');
+                notiMessage.className = 'nofitication-contents';
+                notiMessage.innerHTML = `${element.contents}`;
+                link.append(notiMessage);
+
+                const date = document.createElement('span');
+                date.className = 'notification-date';
+                date.innerHTML = `${element.date}`;
+                link.append(date);
+
+                notiDiv.append(link);
+
+                document.querySelector("#notifications").append(notiDiv);
+            });
+        })
+    }
+
+    loadNotifications();
+
+    const notiColumn = document.querySelector("#notifications_col");
+    notiColumn.onscroll = () => {
+        if (notiColumn.innerHeight + notiColumn.scrollY >= notiColumn.offsetHeight) {
+            loadNotifications();
+            page++;
+        }
+    };
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    timeline();
+    notifications();
+});

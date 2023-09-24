@@ -4,7 +4,6 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('index_cols/<int:page>', views.index_cols, name='index_cols'),
     path('login', views.login_view, name='login'),
     path('logout', views.logout_view, name='logout'),
     path('register', views.register, name='register'),
@@ -15,5 +14,7 @@ urlpatterns = [
     path('newInk', views.newInk, name='newInk'),
     path('ink_view', views.ink_view, name='ink_view'),
     path('well/<str:username>', views.well, name="well"),
-    path('well/<str:username>/followers', views.followers, name='followers')
+    path('well/<str:username>/followers', views.followers, name='followers'),
+    path('timeline/<int:page>', views.timeline, name='timeline'),
+    path('notifications/<int:page>', views.notifications, name='notificaitons')
 ]

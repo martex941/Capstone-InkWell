@@ -30,12 +30,12 @@
     }
 </style>
 
-<script>
+<!-- <script>
     document.addEventListener("DOMContentLoaded", () => {
         timeline();
         notifications();
     });
-</script>
+</script> -->
 
 <div class="index container-fluid">
     <div class="row">
@@ -84,7 +84,7 @@
             
         </div>
 
-        <div class="column col-5" id="inks-col">
+        <div class="column col-5">
             <div class="container d-flex justify-content-center filtering mt-2">
                 <button class="" id="mainTimelineBtn">Main Timeline</button>
                 <button class="" id="followingTimelineBtn">Following</button>
@@ -93,8 +93,11 @@
             </div>
         </div>
 
-        <div class="column col-3">
-            <h5 class="text-center mt-2" id="notifications">NOTIFICATIONS</h5>
+        <div class="column col-3" id="notifications_col">
+            <h5 class="text-center mt-2">NOTIFICATIONS</h5>
+            <div class="container" id="notifications">
+
+            </div>
         </div>
 
     </div>

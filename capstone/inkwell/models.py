@@ -34,10 +34,10 @@ class Well(models.Model):
 class Ink(models.Model):
     wellOrigin = models.ForeignKey(Well, on_delete=models.CASCADE, related_name="well_pk", default="")
     inkOwner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="ink_owner", default="")
-    coAuthors = models.ManyToManyField("CoAuthor")
+    coAuthors = models.ManyToManyField("CoAuthor", blank=True)
     privateStatus = models.BooleanField(default=False)
     updateStatus = models.BooleanField(default=False) # If the Ink is edited at least once, this changes to true
-    following = models.ManyToManyField(User)
+    following = models.ManyToManyField(User, blank=True)
     genre = models.CharField(max_length=64, default="")
     description = models.CharField(max_length=500, default="")
     title = models.CharField(max_length=64, default="")
