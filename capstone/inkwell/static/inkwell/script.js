@@ -37,7 +37,6 @@ function timeline() {
                 ink_div.append(date);
 
                 document.querySelector("#timeline").append(ink_div);
-
             });
         })
     }

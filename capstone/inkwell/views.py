@@ -11,7 +11,7 @@ from django.core.paginator import Paginator
 import time
 
 from .helpers import email_validator
-from .models import User, Ink, Notification
+from .models import User, Ink, Notification, Well
 
 def index(request):
     users = User.objects.all()
@@ -249,6 +249,8 @@ def register(request):
         try:
             user = User.objects.create_user(username, email, password)
             user.save()
+            well = Well(wellOwner=user.pk)
+            well.save()
             return render(request, "inkwell/login.html")
         except IntegrityError:
             return render(request, "network/register.html", {
