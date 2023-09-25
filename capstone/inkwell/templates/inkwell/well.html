@@ -8,11 +8,16 @@
     {% else %}
         <h5>{{ wellOwner }}'s well</h5>
     {% endif %}
-    <h5><a href="{% url 'followers' username={{wellOwner}} %}">Followers</a>: {{ followers }}</h5>
-    <h5>Co-authors: {{ coAuthors }}</h5>
+    <h5><a href="{% url 'followers' username=wellOwner %}">Followers</a>: {{ followers }}</h5>
+    <h5><a href="{% url 'coauthors' username=wellOwner %}">Co-authors</a>: {{ coAuthors }}</h5>
     <h5>Available inks: {{ ink_number }}</h5>
     {% if wellOwner == request.user %}
         <a href="{% url 'ink_settings' %}">Manage your inks</a>
+    {% endif %}
+    {% if followCheck %}
+        <button class="btn btn-primary" id="followBtn">Follow</button>
+    {% else %}
+        <button class="btn btn-primary" id="unfollowBtn">Unfollow</button>
     {% endif %}
 </div>
 

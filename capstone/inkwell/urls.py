@@ -15,6 +15,7 @@ urlpatterns = [
     path('ink_view', views.ink_view, name='ink_view'),
     path('well/<str:username>', views.well, name="well"),
     path('well/<str:username>/followers', views.followers, name='followers'),
+    path('well/<str:username>/coauthors', views.coauthors, name='coauthors'),
     path('timeline/<int:page>', views.timeline, name='timeline'),
     path('notifications/<int:page>', views.notifications, name='notificaitons')
 ]

@@ -80,19 +80,19 @@ function notifications() {
             console.log(data);
             data.forEach(element => {
                 const notiDiv = document.createElement('div');
-                notiDiv.className = 'notificaiton-div';
+                notiDiv.className = 'notiDiv';
 
                 const link = document.createElement('a');
-                link.className = 'notification-redirect';
+                link.className = 'notiRedirect';
                 link.href = `${element.url}`;
 
                 const notiMessage = document.createElement('p');
-                notiMessage.className = 'nofitication-contents';
+                notiMessage.className = 'nofiContents';
                 notiMessage.innerHTML = `${element.contents}`;
                 link.append(notiMessage);
 
                 const date = document.createElement('span');
-                date.className = 'notification-date';
+                date.className = 'notiDate';
                 date.innerHTML = `${element.date}`;
                 link.append(date);
 

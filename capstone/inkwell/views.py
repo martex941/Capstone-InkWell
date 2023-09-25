@@ -11,7 +11,7 @@ from django.core.paginator import Paginator
 import time
 
 from .helpers import email_validator
-from .models import User, Ink, Notification, Well
+from .models import User, Ink, Notification, Well, CoAuthor
 
 def index(request):
     users = User.objects.all()
@@ -41,7 +41,7 @@ def timeline(request, page):
             'coAuthors': [coauthor.username for coauthor in ink.coAuthors.all()],
             'creation_date': ink.creation_date.strftime('%Y-%m-%d %H:%M:%S')
         }
-        for ink in allInks
+        for ink in allInksPag.page(page).object_list
     ]
 
     followers = User.objects.filter(followee__follower=request.user)
@@ -57,7 +57,7 @@ def timeline(request, page):
             'coAuthors': [coauthor.username for coauthor in ink.coAuthors.all()],
             'creation_date': ink.creation_date.strftime('%Y-%m-%d %H:%M:%S')
         }
-        for ink in followedInks
+        for ink in followedInksPag.page(page).object_list
     ]
 
     index_columns = {
@@ -76,7 +76,7 @@ def notifications(request, page):
             'date': notif.date.strftime('%Y-%m-%d %H:%M:%S'),
             'url': notif.url
         }
-        for notif in notifications
+        for notif in notificationsPag.page(page).object_list
     ]
     return JsonResponse(notifications_col, safe=False)
 
@@ -91,19 +91,37 @@ def ink_view(request):
 def well(request, username):
     wellOwner = User.objects.get(username=username)
     inks = Ink.objects.filter(inkOwner=wellOwner.pk)
-    followers = User.objects.filter(followee__follower=username)
-    co_authors = Ink.objects.filter(inkOwner=wellOwner.pk).values_list('coAuthor', flat=True)
+    followers = User.objects.filter(followee__follower=wellOwner.pk)
+    co_authors = Ink.objects.filter(inkOwner=wellOwner.pk).values_list('coAuthors', flat=True)
+    followCheck = False
+    if User.objects.filter(follower__followee=request.user):
+        followCheck = True
+
     return render(request, "inkwell/well.html", {
         "wellOwner": wellOwner,
         "inks": inks,
         "followers": len(followers),
         "ink_number": len(inks),
-        "coAuthors": len(co_authors)
+        "coAuthors": len(co_authors),
+        "followCheck": followCheck
     })
 
 def followers(request, username):
+    user = User.objects.get(username=username)
+    followers = User.objects.filter(follower__followee=user.pk)
     # page that displays all followers of a given user after clicking on followers on a user's well profile
-    return render(request, "inkwell/followers.html")
+    return render(request, "inkwell/followers.html", {
+        "followers": followers
+    })
+
+def coauthors(request, username):
+    user = User.objects.get(username=username)
+    userInks = Ink.objects.filter(inkOwner=user.pk)
+    co_authors = CoAuthor.objects.filter(CoAuthor__in=userInks).exclude(id=user.id).distinct()
+
+    return render(request, "inkwell/coauthors.html", {
+        "coauthors": co_authors
+    })
 
 @login_required
 def settings(request):
@@ -249,7 +267,8 @@ def register(request):
         try:
             user = User.objects.create_user(username, email, password)
             user.save()
-            well = Well(wellOwner=user.pk)
+            time.sleep(1)
+            well = Well(wellOwner=user)
             well.save()
             return render(request, "inkwell/login.html")
         except IntegrityError:
