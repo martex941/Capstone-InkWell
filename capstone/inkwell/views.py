@@ -8,10 +8,10 @@ from django.urls import reverse
 from django.db import IntegrityError
 from django.db.models.functions import Random
 from django.core.paginator import Paginator
-import time
+import time, json
 
 from .helpers import email_validator
-from .models import User, Ink, Notification, Well, CoAuthor
+from .models import User, Ink, Notification, Well, CoAuthor, Follow
 
 def index(request):
     users = User.objects.all()
@@ -105,6 +105,44 @@ def well(request, username):
         "coAuthors": len(co_authors),
         "followCheck": followCheck
     })
+
+@login_required
+def follow(request):
+    if request.method != "POST":
+        return JsonResponse({"error": "POST request required."}, status=400)
+    
+    # Get the data from javascript post request
+    data = json.loads(request.body)
+    body = data.get("followee", "")
+
+    # Get the current user and user object using the obtained JSON file
+    current_user = request.user
+    followed_user = User.objects.get(username=body)
+
+    # Create a new Follow object and save it
+    new_follow = Follow(follower=current_user, followee=followed_user)
+    new_follow.save()
+
+    return JsonResponse({"message": "Followed"}, status=201)
+
+@login_required
+def unfollow(request):
+    if request.method != "POST":
+        return JsonResponse({"error": "POST request required."}, status=400)
+
+    # Get the data from javascript post request
+    data = json.loads(request.body)
+    body = data.get("followee", "")
+
+    # Get the current user and user object using the obtained JSON file
+    current_user = request.user
+    followed_user = User.objects.get(username=body)
+
+    # Get the Follow object and delete it, thus ending the following of one user and another
+    unfollowing = Follow.objects.get(follower=current_user, followee=followed_user)
+    unfollowing.delete()
+
+    return JsonResponse({"message": "Unfollowed"}, status=201)
 
 def followers(request, username):
     user = User.objects.get(username=username)

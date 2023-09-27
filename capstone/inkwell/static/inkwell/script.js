@@ -1,3 +1,9 @@
+function getCsrf(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
 function timeline() {
 
     document.querySelector("#mainTimelineBtn").style.display = 'none';
@@ -114,7 +120,50 @@ function notifications() {
     };
 }
 
+function follow(fetch) {
+    const csrftoken = getCsrf('csrftoken');
+    const followee = document.querySelector("#well-username").dataset.name;
+
+    fetch(fetch, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": csrftoken
+        },
+        body: JSON.stringify({
+            followee: followee
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+    })
+    .catch(error => {
+        console.error(error);
+    });
+    setTimeout(() => {
+        location.reload();
+    }, 50);
+}
+
+// Changes the follow/unfollow button
+function following_switch() {
+    const following_check = document.querySelector("#following-check").dataset.following;
+    if (following_check === "True") {
+        document.querySelector("#followBtn").style.display = 'none';
+        document.querySelector("#unfollowBtn").style.display = 'block';
+    }
+    else if (following_check === "False") {
+        document.querySelector("#follow-btn").style.display = 'block';
+        document.querySelector("#unfollow-btn").style.display = 'none';
+    }
+}
+
+document.querySelector("#followBtn").addEventListener('click', follow("follow"));
+document.querySelector("#unfollowBtn").addEventListener('click', follow("unfollow"));
+
 document.addEventListener("DOMContentLoaded", () => {
     timeline();
     notifications();
+    following_switch();
 });

@@ -17,5 +17,7 @@ urlpatterns = [
     path('well/<str:username>/followers', views.followers, name='followers'),
     path('well/<str:username>/coauthors', views.coauthors, name='coauthors'),
     path('timeline/<int:page>', views.timeline, name='timeline'),
-    path('notifications/<int:page>', views.notifications, name='notificaitons')
+    path('notifications/<int:page>', views.notifications, name='notificaitons'),
+    path('follow', views.follow, name='follow'),
+    path('unfollow', views.unfollow, name='unfollow')
 ]
