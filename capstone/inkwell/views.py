@@ -11,7 +11,7 @@ from django.core.paginator import Paginator
 import time, json
 
 from .helpers import email_validator
-from .models import User, Ink, Notification, Well, CoAuthor, Follow
+from .models import User, Ink, Notification, Well, CoAuthor, Follow, InkVersionControl
 
 def index(request):
     users = User.objects.all()
@@ -84,7 +84,10 @@ def notifications(request, page):
 def newInk(request):
     return render(request, "inkwell/newInk.html")
 
-def ink_view(request):
+def ink_view(request, inkID):
+    viewedInk = Ink.objects.get(id=inkID)
+    versions = InkVersionControl.objects.filter(originalInk=viewedInk.id)
+
     return render(request, "inkwell/ink_view.html")
 
 @login_required

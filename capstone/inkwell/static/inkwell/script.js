@@ -25,17 +25,23 @@ function timeline() {
 
                 const statusSpan = document.createElement('span');
                 if (!element.updateStatus) {
-                    statusSpan.innerHTML = `<a href="well/${element.inkOwner}"></a> posted a new Ink`;
+                    statusSpan.innerHTML = `<a href="well/${element.inkOwner}">${element.inkOwner}</a> posted a new Ink`;
                 }
                 else {
-                    statusSpan.innerHTML = `<a href="well/${element.inkOwner}"></a> updated ${element.title}`;
+                    statusSpan.innerHTML = `<a href="well/${element.inkOwner}">${element.inkOwner}</a> updated ${element.title}`;
                 }
                 ink_div.append(statusSpan);
+                
+                const inkLink = document.createElement('a');
+                inkLink.className = 'inkLink';
+                inkLink.href = `{% url 'ink_view' inkID=${element.id} %}`;
 
                 const contents = document.createElement('p');
                 contents.className = 'inkPostDescription';
                 contents.innerHTML = `${element.description}`;
-                ink_div.append(contents);
+
+                inkLink.append(contents);
+                ink_div.append(inkLink);
 
                 const date = document.createElement('span');
                 date.className = 'date';

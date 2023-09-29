@@ -15,10 +15,14 @@
         <a href="{% url 'ink_settings' %}">Manage your inks</a>
     {% endif %}
     <div id="following-check" data-following="{{ followCheck }}"></div>
-    {% if followCheck %}
-        <button class="btn btn-primary" id="followBtn">Follow</button>
+    {% if wellOwner == request.user %}
+    <!-- Do not generate a follow button -->
     {% else %}
-        <button class="btn btn-primary" id="unfollowBtn">Unfollow</button>
+        {% if followCheck %}
+            <button class="btn btn-primary" id="followBtn">Follow</button>
+        {% else %}
+            <button class="btn btn-primary" id="unfollowBtn">Unfollow</button>
+        {% endif %}
     {% endif %}
 </div>
 
