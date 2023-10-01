@@ -2,6 +2,12 @@
 
 {% block body %}
 
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        following_switch();
+    });
+</script>
+
 <div class="container">
     {% if wellOwner == request.user %}
         <h5>Your well</h5>
@@ -18,11 +24,8 @@
     {% if wellOwner == request.user %}
     <!-- Do not generate a follow button -->
     {% else %}
-        {% if followCheck %}
-            <button class="btn btn-primary" id="followBtn">Follow</button>
-        {% else %}
-            <button class="btn btn-primary" id="unfollowBtn">Unfollow</button>
-        {% endif %}
+        <button class="btn btn-primary" id="followBtn" onclick="follow('follow')">Follow</button>
+        <button class="btn btn-primary" id="unfollowBtn" onclick="follow('unfollow')">Unfollow</button>
     {% endif %}
 </div>
 

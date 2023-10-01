@@ -1,0 +1,68 @@
+{% extends "inkwell/layout.html" %}
+
+{% block body %}
+<style>
+    .row {
+        margin: 0;
+    }
+    .titleColumn {
+        display: flex;
+        flex-direction: column;
+    }
+    .buttonsColumn {
+        gap: 10px;
+    }
+    .btn {
+        width: 117px;
+        height: 35px;
+        margin: 0.5rem;
+    }
+    .upperRowInkView {
+        background-color: aqua;
+    }
+    .lowerRowInkView {
+        background-color: antiquewhite;
+    }
+    p {
+        text-align: justify;
+    }
+</style>
+<div class="container-flex">
+    <div class="row mt-5 d-flex justify-content-center upperRowInkView">
+        <div class="col-2">
+            
+        </div>
+        <div class="col-6 titleColumn">
+            <h1 class="text-center title">{{ ink.title }}</h1>
+            <span class="author-credit text-center">by {{ ink.inkOwner }}</span>
+        </div>
+        <div class="col-2 buttonsColumn">
+            {% if request.user == ink.inkOwner %}
+                <button class="btn btn-primary">EDIT INK</button>
+            {% endif %}
+            <button class="btn btn-primary">FOLLOW INK</button>
+        </div>
+    </div>
+    <div class="row mt-2 d-flex justify-content-center lowerRowInkView">
+        <div class="col-2">
+            <div class="container">
+                <h5 class="text-start">CHAPTERS</h5>
+                <ul>
+                    <li>Chapter 1</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-6">
+            <p class="inkContents ">
+                {{ ink.content }}
+            </p>
+        </div>
+        <div class="col-2">
+            <h5 class="text-center">COMMETS AND EDIT NOTES</h5>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock%}

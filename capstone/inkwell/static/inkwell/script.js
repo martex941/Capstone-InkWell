@@ -34,7 +34,7 @@ function timeline() {
                 
                 const inkLink = document.createElement('a');
                 inkLink.className = 'inkLink';
-                inkLink.href = `{% url 'ink_view' inkID=${element.id} %}`;
+                inkLink.href = `ink_view/${element.id}`;
 
                 const contents = document.createElement('p');
                 contents.className = 'inkPostDescription';
@@ -126,11 +126,11 @@ function notifications() {
     };
 }
 
-function follow(fetch) {
+function follow(command) {
     const csrftoken = getCsrf('csrftoken');
     const followee = document.querySelector("#well-username").dataset.name;
 
-    fetch(fetch, {
+    fetch(`${followee}/${command}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -155,21 +155,13 @@ function follow(fetch) {
 // Changes the follow/unfollow button
 function following_switch() {
     const following_check = document.querySelector("#following-check").dataset.following;
+    console.log(following_check);
     if (following_check === "True") {
         document.querySelector("#followBtn").style.display = 'none';
         document.querySelector("#unfollowBtn").style.display = 'block';
     }
     else if (following_check === "False") {
-        document.querySelector("#follow-btn").style.display = 'block';
-        document.querySelector("#unfollow-btn").style.display = 'none';
+        document.querySelector("#followBtn").style.display = 'block';
+        document.querySelector("#unfollowBtn").style.display = 'none';
     }
 }
-
-document.querySelector("#followBtn").addEventListener('click', follow("follow"));
-document.querySelector("#unfollowBtn").addEventListener('click', follow("unfollow"));
-
-document.addEventListener("DOMContentLoaded", () => {
-    timeline();
-    notifications();
-    following_switch();
-});

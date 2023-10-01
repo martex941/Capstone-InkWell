@@ -33,6 +33,7 @@ def timeline(request, page):
     allInksPag = Paginator(allInks, 20)
     allInks_col = [
         {
+            'id': ink.id,
             'title': ink.title,
             'description': ink.description,
             'privateStatus': ink.privateStatus,
@@ -49,6 +50,7 @@ def timeline(request, page):
     followedInksPag = Paginator(followedInks, 20)
     followedInks_col = [
         {
+            'id': ink.id,
             'title': ink.title,
             'description': ink.description,
             'privateStatus': ink.privateStatus,
@@ -82,13 +84,20 @@ def notifications(request, page):
 
 @login_required
 def newInk(request):
+    if request.method == "POST":
+        title = request.POST.get("title")
+        contents = request.POST.get("editor")
+        letter_count = len([char for char in contents if char.isalpha()])
+
     return render(request, "inkwell/newInk.html")
 
 def ink_view(request, inkID):
     viewedInk = Ink.objects.get(id=inkID)
     versions = InkVersionControl.objects.filter(originalInk=viewedInk.id)
 
-    return render(request, "inkwell/ink_view.html")
+    return render(request, "inkwell/ink_view.html", {
+        "ink": viewedInk
+    })
 
 @login_required
 def well(request, username):
@@ -97,7 +106,7 @@ def well(request, username):
     followers = User.objects.filter(followee__follower=wellOwner.pk)
     co_authors = Ink.objects.filter(inkOwner=wellOwner.pk).values_list('coAuthors', flat=True)
     followCheck = False
-    if User.objects.filter(follower__followee=request.user):
+    if User.objects.filter(followee__follower=request.user):
         followCheck = True
 
     return render(request, "inkwell/well.html", {
@@ -110,7 +119,7 @@ def well(request, username):
     })
 
 @login_required
-def follow(request):
+def follow(request, username):
     if request.method != "POST":
         return JsonResponse({"error": "POST request required."}, status=400)
     
@@ -129,7 +138,7 @@ def follow(request):
     return JsonResponse({"message": "Followed"}, status=201)
 
 @login_required
-def unfollow(request):
+def unfollow(request, username):
     if request.method != "POST":
         return JsonResponse({"error": "POST request required."}, status=400)
 

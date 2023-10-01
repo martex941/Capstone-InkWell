@@ -4,17 +4,33 @@
     <!-- Include stylesheet -->
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
+    <style>
+        .newInkInfo {
+            flex-direction: column;
+        }
+    </style>
     <div class="container">
-        <div class="d-flex justify-content-center mb-3 mt-3">
-            <input class="" type="text" placeholder="Title goes here...">
-        </div>
-        <!-- Create the editor container -->
-        <div class="editor" id="editor">
-            
-        </div>
-        <div class="d-flex justify-content-center mb-3 mt-3">
-            <button class="btn btn-primary" id="saveInk">SAVE</button>                
-        </div>
+        <form class="form" action="{% url 'newInk' %}" id="new-post-form">
+            {% csrf_token %}
+            <div class="newInkInfo d-flex justify-content-center mb-3 mt-3">
+                <input class="title" type="text" name="title" placeholder="Title goes here...">
+                <br>
+                <input class="genre" type="text" name="genre" placeholder="Genre">
+                <br>
+                <textarea class="description" name="description" placeholder="Write a short description of your work (max 500 characters)"></textarea>
+
+            </div>
+
+            <div class="editor" name="editor" id="editor">
+
+            </div>
+
+            <div class="d-flex justify-content-center mb-3 mt-3">
+                <button class="btn btn-primary" type="submit" id="saveInk">SAVE</button>                
+            </div>
+        </form>
+        
+        
     </div>
     <!-- Include the Quill library -->
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>

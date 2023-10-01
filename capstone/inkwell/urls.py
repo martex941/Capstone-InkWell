@@ -12,12 +12,12 @@ urlpatterns = [
     path('username_change', views.username_change, name='username_change'),
     path('ink_settings', views.ink_settings, name='ink_settings'),
     path('newInk', views.newInk, name='newInk'),
-    path('ink_view', views.ink_view, name='ink_view'),
+    path('ink_view/<int:inkID>', views.ink_view, name='ink_view'),
     path('well/<str:username>', views.well, name="well"),
     path('well/<str:username>/followers', views.followers, name='followers'),
     path('well/<str:username>/coauthors', views.coauthors, name='coauthors'),
     path('timeline/<int:page>', views.timeline, name='timeline'),
     path('notifications/<int:page>', views.notifications, name='notificaitons'),
-    path('follow', views.follow, name='follow'),
-    path('unfollow', views.unfollow, name='unfollow')
+    path('well/<str:username>/follow', views.follow, name='follow'),
+    path('well/<str:username>/unfollow', views.unfollow, name='unfollow')
 ]
