@@ -2,10 +2,14 @@
 
 {% block body %}
 <style>
-    .column {
+    .col-5 {
         border: black 2px solid;
         border-radius: 5%;
-        height: 100vh;
+        margin: 1rem;
+    }
+    .col-3 {
+        border: black 2px solid;
+        border-radius: 5%;
         margin: 1rem;
     }
     .index.container-fluid {
@@ -20,7 +24,7 @@
         border-width: 50%;
     }
     .underline-text {
-        border-bottom: 1px black solid;
+        border-top: 1px black solid;
     }
     .genre-buttons {
         padding: 1rem;
@@ -32,6 +36,14 @@
     .inkDiv, .notiDiv {
         border: 1px black solid;
     }
+
+    .notifications-col-style {
+        height: 50vh;
+    }
+    .profile-picture {
+        border: 1px black solid;
+        border-radius: 100%;
+    }
 </style>
 
 <script>
@@ -42,9 +54,9 @@
 </script>
 
 <div class="index container-fluid">
-    <div class="row">
+    <div class="row d-flex justify-content-center">
 
-        <div class="column col-3" id="authors-col">
+        <div class="col-3" id="authors-col">
             <div class="genre-buttons">
                 <button>Fantasy</button>
                 <button>Horror</button>
@@ -57,7 +69,15 @@
                 <h3>Most popular authors this week</h3>
                 <!-- authors that had the most new followers times amount of readers this week -->
                 {% for author in popularAuthors %}
-                    <a class="authorLink" href="/well/{{author.username}}"><h5 class="lead">{{author.username}}</h5></a>
+                <div class="popAuthors row">
+                    <div class="col">
+                        <h5 class="profile-picture lead">profile pic</h5>
+                    </div>
+                    <div class="col">
+                        <a class="authorLink" href="{% url 'well' username=author.username %}"><h5 class="lead">{{author.username}}</h5></a>
+                        <h5 class="lead">followers</h5>
+                    </div>
+                </div>
                 {% endfor %}
             </div>
             
@@ -66,7 +86,7 @@
                 <!-- multiply amount of letters/words written in their inks
                 times amount of co-auhtor requests -->
                 {% for author in topAuthors %}
-                    <a class="authorLink" href="/well/{{author.username}}"><h5 class="lead">{{author.username}}</h5></a>
+                    <a class="authorLink" href="{% url 'well' username=author.username %}"><h5 class="lead">{{author.username}}</h5></a>
                 {% endfor %}
             </div>
             
@@ -74,7 +94,7 @@
                 <h3>Top co-authors this week</h3>
                 <!-- co-authors that had the biggest amount of accepted edit requests -->
                 {% for author in topCoAuthors %}
-                    <a class="authorLink" href="/well/{{author.username}}"><h5 class="lead">{{author.username}}</h5></a>
+                    <a class="authorLink" href="{% url 'well' username=author.username %}"><h5 class="lead">{{author.username}}</h5></a>
                 {% endfor %}
             </div>
             
@@ -82,13 +102,13 @@
                 <h3>Discover</h3>
                 <!-- 20 users are chosen at random -->
                 {% for author in discoverAuthors %}
-                    <a class="authorLink" href="/well/{{author.username}}"><h5 class="lead">{{author.username}}</h5></a>
+                    <a class="authorLink" href="{% url 'well' username=author.username %}"><h5 class="lead">{{author.username}}</h5></a>
                 {% endfor %}
             </div>
             
         </div>
 
-        <div class="column col-5">
+        <div class="col-5">
             <div class="container d-flex justify-content-center filtering mt-2">
                 <button class="" id="mainTimelineBtn">Main Timeline</button>
                 <button class="" id="followingTimelineBtn">Following</button>
@@ -97,7 +117,7 @@
             </div>
         </div>
 
-        <div class="column col-3" id="notifications_col">
+        <div class="notifications-col-style col-3" id="notifications_col">
             <h5 class="text-center mt-2">NOTIFICATIONS</h5>
             <div class="container" id="notifications">
 
