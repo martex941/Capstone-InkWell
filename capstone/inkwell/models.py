@@ -3,6 +3,9 @@ from django.utils import timezone
 from django.db import models
 
 class User(AbstractUser):
+    about = models.CharField(max_length=250, default="")
+    profilePicture = models.ImageField(upload_to='media', blank=True, null=True)
+
     followers = models.PositiveIntegerField(default=0)
     coAuthorRequests = models.PositiveIntegerField(default=0)
     acceptedRequests = models.PositiveIntegerField(default=0)

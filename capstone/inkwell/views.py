@@ -250,6 +250,10 @@ def username_change(request):
     return render(request, "inkwell/username_change.html")
 
 @login_required
+def edit_profile(request):
+    return render(request, "inkwell/edit_profile.html")
+
+@login_required
 def ink_settings(request):
     retrieve_inks = Ink.objects.filter(inkOwner=request.user)
     return render(request, "inkwell/ink_settings.html", {

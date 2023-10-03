@@ -43,6 +43,9 @@
     .profile-picture {
         border: 1px black solid;
         border-radius: 100%;
+        width: 75px;
+        height: 75px;
+
     }
 </style>
 
@@ -70,11 +73,11 @@
                 <!-- authors that had the most new followers times amount of readers this week -->
                 {% for author in popularAuthors %}
                 <div class="popAuthors row">
-                    <div class="col">
+                    <div class="col-1">
                         <h5 class="profile-picture lead">profile pic</h5>
                     </div>
                     <div class="col">
-                        <a class="authorLink" href="{% url 'well' username=author.username %}"><h5 class="lead">{{author.username}}</h5></a>
+                        <a class="authorLink" href="{% url 'well' username=author.username %}"><h5 class="">{{author.username}}</h5></a>
                         <h5 class="lead">followers</h5>
                     </div>
                 </div>
