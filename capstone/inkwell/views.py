@@ -27,40 +27,42 @@ def index(request):
         'discoverAuthors': discoverAuthors
     })
 
+# def authors(request):
+#     users = User.objects.all()
+#     popularAuthors = sorted(users, key=lambda user: user.readers * user.followers, reverse=True)[:10]
+#     topAuthors = sorted(users, key=lambda user: user.letters * user.coAuthorRequests, reverse=True)[:10]
+#     topCoAuthors = sorted(users, key=lambda user: user.acceptedRequests, reverse=True)[:10]
+#     discoverAuthors = User.objects.annotate(random_order=Random()).order_by('random_order')[:20]
+
+
+#     return JsonResponse(authors_col, safe=False)
+
 def timeline(request, page):
+
+    def serialize(inks):
+        serialized_inks = [
+            {
+                'id': ink.id,
+                'title': ink.title,
+                'description': ink.description,
+                'privateStatus': ink.privateStatus,
+                'updateStatus': ink.updateStatus,
+                'inkOwner': ink.inkOwner.username,
+                'coAuthors': [coauthor.username for coauthor in ink.coAuthors.all()],
+                'creation_date': ink.creation_date.strftime('%Y-%m-%d %H:%M:%S')
+            }
+            for ink in inks.page(page).object_list
+        ]
+        return serialized_inks
 
     allInks = Ink.objects.filter(privateStatus=False).order_by('-creation_date')
     allInksPag = Paginator(allInks, 20)
-    allInks_col = [
-        {
-            'id': ink.id,
-            'title': ink.title,
-            'description': ink.description,
-            'privateStatus': ink.privateStatus,
-            'updateStatus': ink.updateStatus,
-            'inkOwner': ink.inkOwner.username,
-            'coAuthors': [coauthor.username for coauthor in ink.coAuthors.all()],
-            'creation_date': ink.creation_date.strftime('%Y-%m-%d %H:%M:%S')
-        }
-        for ink in allInksPag.page(page).object_list
-    ]
+    allInks_col = serialize(allInksPag)
 
     followers = User.objects.filter(followee__follower=request.user)
     followedInks = Ink.objects.filter(Q(inkOwner__in=followers), privateStatus=False).order_by('-creation_date')
     followedInksPag = Paginator(followedInks, 20)
-    followedInks_col = [
-        {
-            'id': ink.id,
-            'title': ink.title,
-            'description': ink.description,
-            'privateStatus': ink.privateStatus,
-            'updateStatus': ink.updateStatus,
-            'inkOwner': ink.inkOwner.username,
-            'coAuthors': [coauthor.username for coauthor in ink.coAuthors.all()],
-            'creation_date': ink.creation_date.strftime('%Y-%m-%d %H:%M:%S')
-        }
-        for ink in followedInksPag.page(page).object_list
-    ]
+    followedInks_col = serialize(followedInksPag)
 
     index_columns = {
         'allInks': allInks_col,
