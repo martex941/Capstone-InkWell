@@ -251,7 +251,31 @@ def username_change(request):
 
 @login_required
 def edit_profile(request):
-    return render(request, "inkwell/edit_profile.html")
+    user = request.user
+    current_user = User.objects.get(pk=user.pk)
+    profilePic = current_user.profilePicture
+    print(profilePic)
+    if not profilePic:
+        profilePic = "https://vectorified.com/images/no-profile-picture-icon-8.jpg"
+    description = current_user.about
+
+    if request.method == "POST" and "new_profile_picture" in request.FILES:
+        print("image form submitted")
+        newProfilePic = request.FILES.get("new_profile_picture")
+        current_user.profilePicture = newProfilePic
+        current_user.save()
+        profilePic = newProfilePic
+    elif request.method == "POST" and "new_description" in request.POST:
+        newDescription = request.POST.get("new_description")
+        current_user.about = newDescription
+        current_user.save()
+        description = newDescription
+
+
+    return render(request, "inkwell/edit_profile.html", {
+        "profile_picture": profilePic,
+        "description": description
+    })
 
 @login_required
 def ink_settings(request):

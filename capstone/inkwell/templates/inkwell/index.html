@@ -42,10 +42,15 @@
     }
     .profile-picture {
         border: 1px black solid;
-        border-radius: 100%;
+        border-radius: 50%;
         width: 75px;
         height: 75px;
-
+        overflow: hidden;
+    }
+    .profile-picture img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 </style>
 
@@ -74,7 +79,7 @@
                 {% for author in popularAuthors %}
                 <div class="popAuthors row">
                     <div class="col-1">
-                        <h5 class="profile-picture lead">profile pic</h5>
+                        <img class="profile-picture lead" src="https://vectorified.com/images/no-profile-picture-icon-8.jpg">
                     </div>
                     <div class="col">
                         <a class="authorLink" href="{% url 'well' username=author.username %}"><h5 class="">{{author.username}}</h5></a>

@@ -1,0 +1,42 @@
+{% extends "inkwell/layout.html" %}
+
+{% block body%}
+<style>
+    .profile-picture-edit {
+        border: 1px black solid;
+        border-radius: 50%;
+        width: 200px;
+        height: 200px;
+        overflow: hidden;
+    }
+    .profile-picture-edit img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    form {
+        margin: 1rem;
+    }
+</style>
+<div class="container d-flex justify-content-center mt-5">
+
+        <img class="profile-picture-edit" src="media/{{ profile_picture }}">
+
+        <form method="post" enctype="multipart/form-data" action="{% url 'edit_profile' %}">
+            {% csrf_token %}
+            <div class="form-label">
+                <input class="form-control" type="file" name="new_profile_picture">
+            </div>
+            <button class="btn btn-primary" type="submit">Upload Profile Picture</button>
+        </form>
+
+        <form method="post" action="{% url 'edit_profile' %}">
+            {% csrf_token %}
+            <div class="form-label">
+                <textarea class="form-control description-edit" name="new_description" rows="4" cols="50">{{ description }}</textarea>
+            </div>
+            <button class="btn btn-primary" type="submit" >Update Description</button>
+        </form>
+</div>
+
+{% endblock %}

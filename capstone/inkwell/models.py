@@ -4,7 +4,7 @@ from django.db import models
 
 class User(AbstractUser):
     about = models.CharField(max_length=250, default="")
-    profilePicture = models.ImageField(upload_to='media', blank=True, null=True)
+    profilePicture = models.ImageField(upload_to='', blank=True, null=True)
 
     followers = models.PositiveIntegerField(default=0)
     coAuthorRequests = models.PositiveIntegerField(default=0)
