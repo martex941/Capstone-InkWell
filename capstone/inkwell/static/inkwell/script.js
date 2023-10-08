@@ -120,8 +120,9 @@ function notifications() {
     const notiColumn = document.querySelector("#notifications_col");
     notiColumn.onscroll = () => {
         if (notiColumn.innerHeight + notiColumn.scrollY >= notiColumn.offsetHeight) {
-            loadNotifications();
             page++;
+            loadNotifications();
+            print(page)
         }
     };
 }

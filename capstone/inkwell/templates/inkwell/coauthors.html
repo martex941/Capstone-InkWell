@@ -3,6 +3,8 @@
 {% block body %}
 <h3>People who are co-authors to USERNAME's inks</h3>
 <div class="container">
-    
+    {% for coauthor in coauthors %}
+        <h5>{{ coauthor.username }}</h5>
+    {% endfor %}
 </div>
 {% endblock %}

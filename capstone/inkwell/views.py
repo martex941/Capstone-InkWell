@@ -11,7 +11,7 @@ from django.core.paginator import Paginator
 import time, json
 
 from .helpers import email_validator
-from .models import User, Ink, Notification, Well, CoAuthor, Follow, InkVersionControl
+from .models import User, Ink, Notification, Well, Follow, InkVersionControl
 
 def index(request):
     users = User.objects.all()
@@ -73,7 +73,7 @@ def timeline(request, page):
 
 def notifications(request, page):
     notifications = Notification.objects.filter(notifiedUser=request.user).order_by('-date')
-    notificationsPag = Paginator(notifications, 5)
+    notificationsPag = Paginator(notifications, 7)
     notifications_col = [
         {
             'contents': notif.contents,
@@ -105,8 +105,8 @@ def ink_view(request, inkID):
 def well(request, username):
     wellOwner = User.objects.get(username=username)
     inks = Ink.objects.filter(inkOwner=wellOwner.pk)
-    followers = User.objects.filter(followee__follower=wellOwner.pk)
-    co_authors = Ink.objects.filter(inkOwner=wellOwner.pk).values_list('coAuthors', flat=True)
+    followers = wellOwner.followers
+    co_authors = wellOwner.acceptedRequests
     followCheck = False
     if User.objects.filter(followee__follower=request.user):
         followCheck = True
@@ -114,9 +114,9 @@ def well(request, username):
     return render(request, "inkwell/well.html", {
         "wellOwner": wellOwner,
         "inks": inks,
-        "followers": len(followers),
+        "followers": followers,
         "ink_number": len(inks),
-        "coAuthors": len(co_authors),
+        "coAuthors": co_authors,
         "followCheck": followCheck
     })
 
@@ -133,9 +133,10 @@ def follow(request, username):
     current_user = request.user
     followed_user = User.objects.get(username=body)
 
-    # Create a new Follow object and save it
-    new_follow = Follow(follower=current_user, followee=followed_user)
-    new_follow.save()
+    # If user isn't following themselves create a new Follow object and save it
+    if current_user != followed_user:
+        new_follow = Follow(follower=current_user, followee=followed_user)
+        new_follow.save()
 
     return JsonResponse({"message": "Followed"}, status=201)
 
@@ -169,10 +170,11 @@ def followers(request, username):
 def coauthors(request, username):
     user = User.objects.get(username=username)
     userInks = Ink.objects.filter(inkOwner=user.pk)
-    co_authors = CoAuthor.objects.filter(CoAuthor__in=userInks).exclude(id=user.id).distinct()
+    coauthors = User.objects.filter(CoAuthors__in=userInks).distinct()
+    print(coauthors)
 
     return render(request, "inkwell/coauthors.html", {
-        "coauthors": co_authors
+        "coauthors": coauthors
     })
 
 @login_required
