@@ -1,7 +1,7 @@
 {% extends "inkwell/layout.html" %}
 
 {% block body %}
-<h3>People who are co-authors to USERNAME's inks</h3>
+<h3>People who are co-authors to {{ user }}'s inks</h3>
 <div class="container">
     {% for coauthor in coauthors %}
         <h5>{{ coauthor.username }}</h5>

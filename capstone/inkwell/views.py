@@ -73,7 +73,7 @@ def timeline(request, page):
 
 def notifications(request, page):
     notifications = Notification.objects.filter(notifiedUser=request.user).order_by('-date')
-    notificationsPag = Paginator(notifications, 7)
+    notificationsPag = Paginator(notifications, 10)
     notifications_col = [
         {
             'contents': notif.contents,
@@ -106,7 +106,7 @@ def well(request, username):
     wellOwner = User.objects.get(username=username)
     inks = Ink.objects.filter(inkOwner=wellOwner.pk)
     followers = wellOwner.followers
-    co_authors = wellOwner.acceptedRequests
+    co_authors = wellOwner.coAuthorRequests
     followCheck = False
     if User.objects.filter(followee__follower=request.user):
         followCheck = True
@@ -171,10 +171,10 @@ def coauthors(request, username):
     user = User.objects.get(username=username)
     userInks = Ink.objects.filter(inkOwner=user.pk)
     coauthors = User.objects.filter(CoAuthors__in=userInks).distinct()
-    print(coauthors)
 
     return render(request, "inkwell/coauthors.html", {
-        "coauthors": coauthors
+        "coauthors": coauthors,
+        "user": user
     })
 
 @login_required
