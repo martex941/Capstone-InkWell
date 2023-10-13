@@ -258,9 +258,8 @@ def edit_profile(request):
     user = request.user
     current_user = User.objects.get(pk=user.pk)
     profilePic = current_user.profilePicture
-    print(profilePic)
     if not profilePic:
-        profilePic = "https://vectorified.com/images/no-profile-picture-icon-8.jpg"
+        profilePic = "no-profile-picture-icon.jpg"
     description = current_user.about
 
     if request.method == "POST" and "new_profile_picture" in request.FILES:
@@ -352,7 +351,8 @@ def register(request):
             time.sleep(1)
             well = Well(wellOwner=user)
             well.save()
-            return render(request, "inkwell/login.html")
+            login(request, user)
+            return HttpResponseRedirect(reverse("edit_profile"))
         except IntegrityError:
             return render(request, "network/register.html", {
                 "message": "Username already taken."
