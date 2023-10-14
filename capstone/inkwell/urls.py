@@ -15,6 +15,7 @@ urlpatterns = [
     path('edit_profile', views.edit_profile, name='edit_profile'),
     path('ink_settings', views.ink_settings, name='ink_settings'),
     path('newInk', views.newInk, name='newInk'),
+    path('edit_ink/<int:inkID>', views.edit_ink, name="edit_ink"),
     path('ink_view/<int:inkID>', views.ink_view, name='ink_view'),
     path('well/<str:username>', views.well, name="well"),
     path('well/<str:username>/followers', views.followers, name='followers'),

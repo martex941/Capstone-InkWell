@@ -88,8 +88,31 @@ def notifications(request, page):
 def newInk(request):
     if request.method == "POST":
         title = request.POST.get("title")
-        contents = request.POST.get("editor")
-        letter_count = len([char for char in contents if char.isalpha()])
+        genre = request.POST.get("genre")
+        privateStatus = request.POST.get("privateStatus")
+        if privateStatus == "on":
+            privateStatus = True
+        else:
+            privateStatus = False
+
+        description = request.POST.get("description")
+
+        current_user = User.objects.get(username=request.user)
+        user_well = Well.objects.get(wellOwner=current_user.pk)
+
+        new_ink = Ink(
+            wellOrigin=user_well, 
+            inkOwner=current_user, 
+            privateStatus=privateStatus, 
+            updateStatus=False, 
+            genre=genre, 
+            description=description, 
+            title=title, 
+            content="", 
+            )
+        new_ink.save()
+        print("ink saved successfully")
+        # return HttpResponseRedirect(reverse("edit_ink"))
 
     return render(request, "inkwell/newInk.html")
 
@@ -100,6 +123,11 @@ def ink_view(request, inkID):
     return render(request, "inkwell/ink_view.html", {
         "ink": viewedInk
     })
+
+@login_required
+def edit_ink(request):
+
+    return render(request, "inkwell/edit_ink.html")
 
 @login_required
 def well(request, username):
