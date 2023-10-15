@@ -15,11 +15,11 @@
             {% csrf_token %}
             <div class="row mb-3 mt-3">
                 <div class="col inkInfo">
-                    <h5 class="">Title:</h5>
+                    <h5 class="">Change title:</h5>
                     <input class="title" type="text" name="title">
-                    <div class="genres">
-                        <label for="genres">Select a genre:</label>
-                        <select id="genres" name="genres">
+                    <div class="genresEdit">
+                        <label for="genresEdit">Change genre:</label>
+                        <select id="genresEdit" name="genresEdit">
                             <option value="option1">Option 1</option>
                             <option value="option2">Option 2</option>
                             <option value="option3">Option 3</option>
@@ -29,7 +29,7 @@
                 </div>
                 <div class="col">
                     <h5>Description:</h5>
-                    <textarea class="description" rows="4" cols="100" name="description" placeholder="Write a short description of your work (max 500 characters)"></textarea>
+                    <textarea class="descriptionEdit" rows="4" cols="100" name="descriptionEdit"></textarea>
                 </div>
             </div>
 

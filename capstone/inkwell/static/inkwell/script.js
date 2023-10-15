@@ -165,3 +165,38 @@ function following_switch() {
         document.querySelector("#unfollowBtn").style.display = 'none';
     }
 }
+
+function displayMessage(messageDivID, message, color) {
+    const messageDiv = document.getElementById(`${messageDivID}`);
+    messageDiv.innerHTML = ''; // Clear the message div
+    messageDiv.style = `background-color: ${color}`;
+    const messageContent = document.createElement('h5');
+    messageContent.className = 'message';
+    messageContent.innerHTML = `${message}`;
+}
+
+function checkTitleAvailability() {
+    const title = document.getElementById("title");
+    const csrftoken = getCsrf('csrftoken');
+
+    title.addEventListener('input', () => {
+        fetch("checkNewInkTitle", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrftoken
+            },
+            body: JSON.stringify({
+                title: title.value
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            displayMessage("messageNewInk", data.message, data.color);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    });
+}

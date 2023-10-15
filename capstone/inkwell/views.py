@@ -111,10 +111,29 @@ def newInk(request):
             content="", 
             )
         new_ink.save()
-        print("ink saved successfully")
-        # return HttpResponseRedirect(reverse("edit_ink"))
+        time.sleep(1) # The page loads quicker than the server so it is held by 1 second for the server to catch up
+        return HttpResponseRedirect(reverse("edit_ink") + f'?inkID={new_ink.id}')
 
     return render(request, "inkwell/newInk.html")
+
+@login_required
+def checkNewInkTitle(request):
+    data = json.loads(request.body)
+    title = data.get("title", "")
+    try:
+        exists = Ink.objects.get(title=title)
+        if exists:
+            messageData = {
+                'message': "Title is taken.",
+                'color': "red"
+            }
+            return JsonResponse(messageData, safe=False)
+    except Ink.DoesNotExist:
+        messageData = {
+            'message': "Title is available.",
+            'color': "green"
+            }
+        return JsonResponse(messageData, safe=False)
 
 def ink_view(request, inkID):
     viewedInk = Ink.objects.get(id=inkID)
@@ -125,9 +144,12 @@ def ink_view(request, inkID):
     })
 
 @login_required
-def edit_ink(request):
+def edit_ink(request, inkID):
+    editInk = Ink.objects.get(id=inkID)
 
-    return render(request, "inkwell/edit_ink.html")
+    return render(request, "inkwell/edit_ink.html", {
+        "editInk": editInk
+    })
 
 @login_required
 def well(request, username):

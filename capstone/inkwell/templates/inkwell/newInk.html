@@ -1,9 +1,6 @@
 {% extends "inkwell/layout.html" %}
 
 {% block body %}
-    <!-- Include stylesheet -->
-    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-
     <style>
         .newInkInfo {
             flex-direction: column;
@@ -18,11 +15,21 @@
         }
 
     </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Your code here
+            checkTitleAvailability();
+        });
+    </script>
+    
     <div class="container-flex d-flex justify-content-center mt-5">
         <form class="form newInkInfo d-flex justify-content-center" method="post" action="{% url 'newInk' %}" id="new-post-form">
             {% csrf_token %}
             <h5 class="text-center">Title:</h5>
-            <input class="title form-label" type="text" name="title">
+            <input class="title form-label" id="title" type="text" name="title">
+            <div class="messageNewInk" id="messageNewInk">
+
+            </div>
 
             <label for="genre">Select a genre:</label>
             <select class="form-label" id="genre" name="genre">
