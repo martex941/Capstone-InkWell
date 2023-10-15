@@ -169,10 +169,18 @@ function following_switch() {
 function displayMessage(messageDivID, message, color) {
     const messageDiv = document.getElementById(`${messageDivID}`);
     messageDiv.innerHTML = ''; // Clear the message div
-    messageDiv.style = `background-color: ${color}`;
+    if (color == "red") {
+        messageDiv.className = 'alert alert-danger';
+        messageDiv.role = 'alert';
+    }
+    else if (color == "green") {
+        messageDiv.className = 'alert alert-success';
+        messageDiv.role = 'alert';
+    }
     const messageContent = document.createElement('h5');
-    messageContent.className = 'message';
+    messageContent.className = 'message text-center';
     messageContent.innerHTML = `${message}`;
+    messageDiv.append(messageContent);
 }
 
 function checkTitleAvailability() {
@@ -180,23 +188,39 @@ function checkTitleAvailability() {
     const csrftoken = getCsrf('csrftoken');
 
     title.addEventListener('input', () => {
-        fetch("checkNewInkTitle", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRFToken": csrftoken
-            },
-            body: JSON.stringify({
-                title: title.value
+        setTimeout(() => {
+            fetch("checkNewInkTitle", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrftoken
+                },
+                body: JSON.stringify({
+                    title: title.value
+                })
             })
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            displayMessage("messageNewInk", data.message, data.color);
-        })
-        .catch(error => {
-            console.error(error);
-        });
+            .then(response => response.json())
+            .then(data => {
+                if (title.value.trim() === "") {
+                    document.getElementById("messageNewInk").style.display = 'none';
+                }
+                else {
+                    document.getElementById("messageNewInk").style.display = 'block';
+                    displayMessage("messageNewInk", data.message, data.color);
+                }
+
+                // Disable the submit button if the title is taken
+                const submitButton = document.getElementById("createInk");
+                if (data.color == "red") {
+                    submitButton.disabled = true;
+                }
+                else if (data.color == "green") {
+                    submitButton.disabled = false;
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        }, 500);
     });
 }

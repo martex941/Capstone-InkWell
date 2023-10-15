@@ -121,8 +121,8 @@ def checkNewInkTitle(request):
     data = json.loads(request.body)
     title = data.get("title", "")
     try:
-        exists = Ink.objects.get(title=title)
-        if exists:
+        inkExists = Ink.objects.get(title=title)
+        if inkExists:
             messageData = {
                 'message': "Title is taken.",
                 'color': "red"
