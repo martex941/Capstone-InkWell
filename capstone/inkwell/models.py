@@ -58,6 +58,15 @@ class Ink(models.Model):
     def __str__(self):
         return f"{self.title} by {self.inkOwner}"
     
+class Chapter(models.Model):
+    chapterNumber = models.PositiveIntegerField(default=0)
+    chapterTitle = models.CharField(max_length=64)
+    chapterContents = models.TextField()
+    chapterInkOrigin = models.ForeignKey(Ink, on_delete=models.CASCADE, related_name="chapterInkOrigin", default="")
+
+    def __str__(self):
+        return f"Chapter {self.chapterNumber} of {self.chapterInkOrigin.title} titled {self.chapterTitle}"
+    
 class InkVersionControl(models.Model):
     comment = models.CharField(max_length=120, default="")
     originalInk = models.ForeignKey(Ink, on_delete=models.CASCADE)

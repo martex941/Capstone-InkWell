@@ -2,17 +2,17 @@
 
 {% block body %}
 <style>
-    .row {
+    .inkViewContainer .row {
         margin: 0;
     }
-    .titleColumn {
+    .inkViewTitleColumn {
         display: flex;
         flex-direction: column;
     }
-    .buttonsColumn {
+    .inkViewButtonsColumn {
         gap: 10px;
     }
-    .btn {
+    .inkViewButtonsColumn .btn {
         width: 117px;
         height: 35px;
         margin: 0.5rem;
@@ -23,23 +23,21 @@
     .lowerRowInkView {
         background-color: antiquewhite;
     }
-    p {
+    .inkViewContents p {
         text-align: justify;
     }
 </style>
-<div class="container-flex">
+<div class="container-flex inkViewContainer">
     <div class="row mt-5 d-flex justify-content-center upperRowInkView">
         <div class="col-2">
             
         </div>
-        <div class="col-6 titleColumn">
+        <div class="col-6 inkViewTitleColumn">
             <h1 class="text-center title">{{ ink.title }}</h1>
             <span class="author-credit text-center">by {{ ink.inkOwner }}</span>
         </div>
-        <div class="col-2 buttonsColumn">
-            {% if request.user == ink.inkOwner %}
-                <button class="btn btn-primary">EDIT INK</button>
-            {% endif %}
+        <div class="col-2 inkViewButtonsColumn">
+            <a href="{% url 'edit_ink' inkID=ink.id %}"><button class="btn btn-primary">EDIT INK</button></a>
             <button class="btn btn-primary">FOLLOW INK</button>
         </div>
     </div>
@@ -52,12 +50,12 @@
                 </ul>
             </div>
         </div>
-        <div class="col-6">
-            <p class="inkContents ">
+        <div class="col-6 inkViewContents">
+            <p>
                 {{ ink.content }}
             </p>
         </div>
-        <div class="col-2">
+        <div class="col-2 inkViewCommentsAndEditNotes">
             <h5 class="text-center">COMMETS AND EDIT NOTES</h5>
         </div>
 
