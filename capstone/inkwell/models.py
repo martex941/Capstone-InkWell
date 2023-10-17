@@ -59,7 +59,7 @@ class Ink(models.Model):
         return f"{self.title} by {self.inkOwner}"
     
 class Chapter(models.Model):
-    chapterNumber = models.PositiveIntegerField(default=0)
+    chapterNumber = models.PositiveIntegerField(default=1)
     chapterTitle = models.CharField(max_length=64)
     chapterContents = models.TextField()
     chapterInkOrigin = models.ForeignKey(Ink, on_delete=models.CASCADE, related_name="chapterInkOrigin", default="")
@@ -72,6 +72,9 @@ class InkVersionControl(models.Model):
     originalInk = models.ForeignKey(Ink, on_delete=models.CASCADE)
     contents = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Edit from {self.date}"
     
 class Notification(models.Model):
     notifiedUser = models.ForeignKey(User, on_delete=models.CASCADE, related_name="notifiedUser", default="")

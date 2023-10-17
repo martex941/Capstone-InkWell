@@ -11,7 +11,7 @@ from django.core.paginator import Paginator
 import time, json
 
 from .helpers import email_validator
-from .models import User, Ink, Notification, Well, Follow, InkVersionControl
+from .models import User, Ink, Notification, Well, Follow, InkVersionControl, Chapter
 
 def index(request):
     users = User.objects.all()
@@ -146,10 +146,19 @@ def ink_view(request, inkID):
 @login_required
 def edit_ink(request, inkID):
     editInk = Ink.objects.get(id=inkID)
+    chapters = Chapter.objects.filter(chapterInkOrigin=editInk.id).order_by("-chapterNumber")
 
     return render(request, "inkwell/edit_ink.html", {
-        "editInk": editInk
+        "editInk": editInk,
+        "chapters": chapters
     })
+
+@login_required
+def sendChapterContents(request, inkID):
+    chapters = Chapter.objects.filter(chapterInkOrigin=inkID).order_by("-chapterNumber")
+    chapterContents = [{'contents': chapter.chapterContents}for chapter in chapters]
+
+    JsonResponse(chapterContents, safe=False)
 
 @login_required
 def well(request, username):
