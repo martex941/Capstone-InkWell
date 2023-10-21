@@ -146,7 +146,7 @@ def ink_view(request, inkID):
 @login_required
 def edit_ink(request, inkID):
     editInk = Ink.objects.get(id=inkID)
-    chapters = Chapter.objects.filter(chapterInkOrigin=editInk.id).order_by("-chapterNumber")
+    chapters = Chapter.objects.filter(chapterInkOrigin=editInk.id).order_by("chapterNumber")
 
     return render(request, "inkwell/edit_ink.html", {
         "editInk": editInk,
