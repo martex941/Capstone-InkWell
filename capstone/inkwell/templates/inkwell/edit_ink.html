@@ -5,6 +5,9 @@
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
     <style>
+        .chapterEditorDiv {
+            margin-top: 1rem;
+        }
 
         .chaptersEdit {
             background-color: aqua;
@@ -20,52 +23,46 @@
 
     </style>
     <div class="container-flex inkEditContainer">
-        <div class="row d-flex justify-content-center ">
+        <div class="row d-flex justify-content-center">
             <div class="col-2 chaptersEdit">
                 <h5>CHAPTERS</h5>
                 <ul>
                     {% for chapter in chapters %}
-                        <a href=""><li>Chapter {{ chapter.chapterNumber }}: {{ chapter.chapterTitle }}</li></a>
+                        <a href="#anchorChapter{{ chapter.chapterNumber }}"><li>Chapter {{ chapter.chapterNumber }}: {{ chapter.chapterTitle }}</li></a>
                     {% endfor %}
                 </ul>
             </div>
     
             <div class="col-6 inkEditFormColumn">
-                <form class="form inkEditForm" action="{% url 'newInk' %}" id="new-post-form">
-                    {% csrf_token %}
-                    <div class="row mb-3 mt-3">
-                        <div class="col inkInfo">
-                            <h5 class="">Change title:</h5>
-                            <input class="title" type="text" name="title" value="{{ editInk.title }}">
-                            <div class="genresEdit">
-                                <label for="genresEdit">Change genre:</label>
-                                <select id="genresEdit" name="genresEdit">
-                                    <option value="Horror">Horror</option>
-                                    <option value="Fantasy">Fantasy</option>
-                                    <option value="Romance">Romance</option>
-                                </select>    
-                            </div>
-                        </div>
-                        <div class="col">
-                            <h5>Edit description:</h5>
-                            <textarea class="descriptionEdit" rows="4" cols="100" name="descriptionEdit">{{ editInk.description }}</textarea>
+                <div class="row mb-3 mt-3 d-flex justify-content-center">
+                    <div class="col inkInfo">
+                        <h5 class="">Change title:</h5>
+                        <input class="title" type="text" name="title" value="{{ editInk.title }}">
+                        <div class="genresEdit">
+                            <label for="genresEdit">Change genre:</label>
+                            <select id="genresEdit" name="genresEdit">
+                                <option value="Horror">Horror</option>
+                                <option value="Fantasy">Fantasy</option>
+                                <option value="Romance">Romance</option>
+                            </select>    
                         </div>
                     </div>
-                    
-                    {% for chapter in chapters %}
+                    <div class="col">
+                        <h5>Edit description:</h5>
+                        <textarea class="descriptionEdit" rows="4" cols="100" name="descriptionEdit">{{ editInk.description }}</textarea>
+                    </div>
+                </div>
+                
+                {% for chapter in chapters %}
+                    <div class="chapterEditorDiv" id="anchorChapter{{ chapter.chapterNumber }}">
                         <h5 class="text-center">Chapter {{ chapter.chapterNumber }}: {{ chapter.chapterTitle }}</h5>
-                        <div id="chapterDataContents" ></div>
-                        <div class="editor" name="{{ chapter.chapterTitle }}" id="editor-{{ chapter.id }}" data-contents="{{ chapter.chapterContents }}">
-                            
-                        </div>
-                    {% endfor %}
-                    <button class="btn btn-primary" id="addChapter">Add Chapter {{ chapter.chapterNumber }}</button>                
-
-        
-                    <!-- <div class="d-flex justify-content-center mb-3 mt-3">
-                        <button class="btn btn-primary" type="submit" id="saveInk">SAVE</button>                
-                    </div> -->
-                </form>
+                        <div id="chapterID" data-chapterID="{{ chapter.id }}"></div>
+                        <div class="editor" name="{{ chapter.chapterTitle }}" id="editor-{{ chapter.id }}" data-contents="{{ chapter.chapterContents }}"></div>
+                    </div>
+                {% endfor %}
+                <div class="d-flex justify-content-center mt-3">
+                    <button class="btn btn-primary" id="addChapter">Add Chapter {{ lastChapter }}</button>           
+                </div>
             </div>
     
             <div class="col-2 chaptersEdit">
@@ -76,22 +73,14 @@
 
         </div>
     </div>
+    
     <!-- Include the Quill library -->
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 
-    <!-- Initialize Quill editors -->
     <script>
-        const editors = document.querySelectorAll(".editor");
-        for (var index = 0; index < editors.length; index++) {
-            var editorDiv = editors[index];
-            var contents = editorDiv.dataset.contents;
-            var initialDelta = [{insert: contents}];
-            var quill = new Quill('#editor-' + (index+1), {
-                theme: 'snow'
-            });
-            quill.setContents(initialDelta);
-        }
-        
+        document.addEventListener("DOMContentLoaded", () => {
+        loadQuillEditors();
+    });
     </script>
   
 {% endblock %}
