@@ -239,5 +239,13 @@ function loadQuillEditors() {
 }
 
 function addChapter () {
+    document.querySelector("#addChapterBtn").style.display = 'none';
+    document.querySelector("#cancelAddingNewChapter").style.display = 'block';
+    document.querySelector("#addChapterForm").style.display = 'block';
+}
 
+function cancelAddingNewChapter() {
+    document.querySelector("#addChapterBtn").style.display = 'block';
+    document.querySelector("#cancelAddingNewChapter").style.display = 'none';
+    document.querySelector("#addChapterForm").style.display = 'none';
 }

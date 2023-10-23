@@ -67,15 +67,6 @@ class Chapter(models.Model):
     def __str__(self):
         return f"Chapter {self.chapterNumber} of {self.chapterInkOrigin.title} titled {self.chapterTitle}"
     
-class InkVersionControl(models.Model):
-    comment = models.CharField(max_length=120, default="")
-    originalInk = models.ForeignKey(Ink, on_delete=models.CASCADE)
-    contents = models.TextField()
-    date = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"Edit from {self.date}"
-    
 class Notification(models.Model):
     notifiedUser = models.ForeignKey(User, on_delete=models.CASCADE, related_name="notifiedUser", default="")
     contents = models.CharField(max_length=120, default="")

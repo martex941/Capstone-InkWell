@@ -11,7 +11,7 @@ from django.core.paginator import Paginator
 import time, json
 
 from .helpers import email_validator
-from .models import User, Ink, Notification, Well, Follow, InkVersionControl, Chapter
+from .models import User, Ink, Notification, Well, Follow, Chapter
 
 def index(request):
     users = User.objects.all()
@@ -26,16 +26,6 @@ def index(request):
         'topCoAuthors': topCoAuthors,
         'discoverAuthors': discoverAuthors
     })
-
-# def authors(request):
-#     users = User.objects.all()
-#     popularAuthors = sorted(users, key=lambda user: user.readers * user.followers, reverse=True)[:10]
-#     topAuthors = sorted(users, key=lambda user: user.letters * user.coAuthorRequests, reverse=True)[:10]
-#     topCoAuthors = sorted(users, key=lambda user: user.acceptedRequests, reverse=True)[:10]
-#     discoverAuthors = User.objects.annotate(random_order=Random()).order_by('random_order')[:20]
-
-
-#     return JsonResponse(authors_col, safe=False)
 
 def timeline(request, page):
 
@@ -137,8 +127,6 @@ def checkNewInkTitle(request):
 
 def ink_view(request, inkID):
     viewedInk = Ink.objects.get(id=inkID)
-    versions = InkVersionControl.objects.filter(originalInk=viewedInk.id)
-
     return render(request, "inkwell/ink_view.html", {
         "ink": viewedInk
     })
@@ -147,13 +135,25 @@ def ink_view(request, inkID):
 def edit_ink(request, inkID):
     editInk = Ink.objects.get(id=inkID)
     chapters = Chapter.objects.filter(chapterInkOrigin=editInk.id).order_by("chapterNumber")
-    lastChapter = chapters[1:][0].chapterNumber
+    if chapters:
+        lastChapter = chapters.last().chapterNumber
+    else:
+        lastChapter = 0
 
     return render(request, "inkwell/edit_ink.html", {
         "editInk": editInk,
         "chapters": chapters,
-        "lastChapter": (lastChapter + 1)
+        "newChapterNum": (lastChapter + 1)
     })
+
+@login_required
+def addNewChapter(request, newChapterNumber, inkId):
+    if request.method == "POST":
+        newChapterTitle = request.POST.get("newChapterTitle")
+        inkOrigin = Ink.objects.get(id=inkId)
+        new_chapter = Chapter(chapterNumber=newChapterNumber, chapterTitle=newChapterTitle, chapterInkOrigin=inkOrigin)
+        new_chapter.save()
+        return HttpResponseRedirect(reverse("edit_ink", kwargs={'inkID': inkId}))
 
 @login_required
 def sendChapterContents(request, inkID):
