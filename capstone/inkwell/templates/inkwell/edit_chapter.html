@@ -1,0 +1,20 @@
+{% extends "inkwell/layout.html" %}
+
+{% block body %}
+    <button class="btn btn-primary mx-2 mt-2">Go back</button>
+    <div class="container-flex d-flex justify-content-center">
+        <form class="form" action="{% url 'edit_chapter' chapterID=chapterInfo.id inkID=inkID %}" method="post">
+            {% csrf_token %}
+            {{form.media}}
+            <div>
+                <h5>Editing Chapter {{ chapterInfo.chapterNumber }}: {{form.chapterTitle}}</h5>
+            </div>
+            <div>
+                {{form.chapterContents}}
+            </div>
+            <div>
+                <button class="btn btn-primary" type="submit">Save Changes</button>
+            </div>
+        </form>
+    </div>
+{% endblock%}

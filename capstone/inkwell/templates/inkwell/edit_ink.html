@@ -1,16 +1,26 @@
 {% extends "inkwell/layout.html" %}
 
+
 {% block body %}
-    <!-- Include stylesheet -->
-    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+    <!-- <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet"> -->
 
     <style>
         .chapterEditorDiv {
             margin-top: 1rem;
         }
 
-        .chaptersEdit {
+        .chaptersListEdit, .chaptersNotesEdit {
             background-color: aqua;
+        }
+
+        .editChapterAnchor {
+            text-decoration: none;
+            color: black;
+        }
+
+        .editChapterAnchor:hover {
+            opacity: 50%;
         }
 
         .inkEditContainer .row {
@@ -24,7 +34,7 @@
     </style>
     <div class="container-flex inkEditContainer">
         <div class="row d-flex justify-content-center">
-            <div class="col-2 chaptersEdit">
+            <div class="col-2 chaptersListEdit">
                 <h5>CHAPTERS</h5>
                 <ul>
                     {% for chapter in chapters %}
@@ -62,16 +72,20 @@
                         <textarea class="descriptionEdit" rows="4" cols="100" name="descriptionEdit">{{ editInk.description }}</textarea>
                     </div>
                 </div>
+                <button class="btn btn-primary" id="saveAllChapterChangesBtn">SAVE CHANGES</button>
                 {% for chapter in chapters %}
                     <div class="chapterEditorDiv" id="anchorChapter{{ chapter.chapterNumber }}">
-                        <h5 class="text-center">Chapter {{ chapter.chapterNumber }}: {{ chapter.chapterTitle }}</h5>
-                        <div id="chapterID" data-chapterID="{{ chapter.id }}"></div>
-                        <div class="editor" name="{{ chapter.chapterTitle }}" id="editor-{{ chapter.chapterNumber }}" data-contents="{{ chapter.chapterContents }}"></div>
+                        <a class="editChapterAnchor" href="{% url 'edit_chapter' chapterID=chapter.id inkID=editInk.id %}">
+                            <h5 class="text-center">Chapter {{ chapter.chapterNumber }}: {{ chapter.chapterTitle }}</h5>
+                            <div id="chapterID" data-chapterID="{{ chapter.id }}">
+                                {{ chapter.chapterContents.html|safe }}
+                            </div>
+                        </a>
                     </div>
                 {% endfor %}
             </div>
     
-            <div class="col-2 chaptersEdit">
+            <div class="col-2 chaptersNotesEdit">
                 <h5>Notes</h5>
 
             </div>
@@ -79,13 +93,12 @@
         </div>
     </div>
     
-    <!-- Include the Quill library -->
-    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <!-- <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
         loadQuillEditors();
     });
-    </script>
+    </script> -->
   
 {% endblock %}

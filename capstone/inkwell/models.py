@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AbstractUser
+from django_quill.fields import QuillField
 from django.utils import timezone
 from django.db import models
 
@@ -61,7 +62,7 @@ class Ink(models.Model):
 class Chapter(models.Model):
     chapterNumber = models.PositiveIntegerField(default=1)
     chapterTitle = models.CharField(max_length=64)
-    chapterContents = models.TextField()
+    chapterContents = QuillField()
     chapterInkOrigin = models.ForeignKey(Ink, on_delete=models.CASCADE, related_name="chapterInkOrigin", default="")
 
     def __str__(self):

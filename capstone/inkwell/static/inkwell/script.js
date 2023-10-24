@@ -225,18 +225,18 @@ function checkTitleAvailability() {
     });
 }
 
-function loadQuillEditors() {
-    const editors = document.querySelectorAll(".editor");
-    for (var index = 0; index < editors.length; index++) {
-        var editorDiv = editors[index];
-        var contents = editorDiv.dataset.contents;
-        var initialDelta = [{insert: contents}];
-        var quill = new Quill('#editor-' + (index+1), {
-            theme: 'snow'
-        });
-        quill.setContents(initialDelta);
-    }
-}
+// function loadQuillEditors() {
+//     const editors = document.querySelectorAll(".editor");
+//     for (var index = 0; index < editors.length; index++) {
+//         var editorDiv = editors[index];
+//         var contents = editorDiv.dataset.contents;
+//         var initialDelta = [{insert: contents}];
+//         var quill = new Quill('#editor-' + (index+1), {
+//             theme: 'snow'
+//         });
+//         quill.setContents(initialDelta);
+//     }
+// }
 
 function addChapter () {
     document.querySelector("#addChapterBtn").style.display = 'none';

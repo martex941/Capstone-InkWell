@@ -1,5 +1,5 @@
 # inkwell/urls.py
-from django.urls import path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
@@ -18,6 +18,7 @@ urlpatterns = [
     path('checkNewInkTitle', views.checkNewInkTitle, name='checkNewInkTitle'),
     path('edit_ink/<int:inkID>', views.edit_ink, name='edit_ink'),
     path('addNewChapter/<int:newChapterNumber>/<int:inkId>', views.addNewChapter, name="addNewChapter"),
+    path('edit_chapter/<int:chapterID>/<int:inkID>', views.edit_chapter, name="edit_chapter"),
     path('sendChapterContents/<int:inkID>', views.sendChapterContents, name='sendChapterContents'),
     path('ink_view/<int:inkID>', views.ink_view, name='ink_view'),
     path('well/<str:username>', views.well, name="well"),
@@ -27,6 +28,7 @@ urlpatterns = [
     path('notifications/<int:page>', views.notifications, name='notificaitons'),
     path('well/<str:username>/follow', views.follow, name='follow'),
     path('well/<str:username>/unfollow', views.unfollow, name='unfollow')
+
 ]
 
 if settings.DEBUG:

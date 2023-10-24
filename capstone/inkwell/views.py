@@ -11,6 +11,7 @@ from django.core.paginator import Paginator
 import time, json
 
 from .helpers import email_validator
+from .forms import ChapterForm
 from .models import User, Ink, Notification, Well, Follow, Chapter
 
 def index(request):
@@ -143,7 +144,7 @@ def edit_ink(request, inkID):
     return render(request, "inkwell/edit_ink.html", {
         "editInk": editInk,
         "chapters": chapters,
-        "newChapterNum": (lastChapter + 1)
+        "newChapterNum": (lastChapter + 1),
     })
 
 @login_required
@@ -153,7 +154,28 @@ def addNewChapter(request, newChapterNumber, inkId):
         inkOrigin = Ink.objects.get(id=inkId)
         new_chapter = Chapter(chapterNumber=newChapterNumber, chapterTitle=newChapterTitle, chapterInkOrigin=inkOrigin)
         new_chapter.save()
-        return HttpResponseRedirect(reverse("edit_ink", kwargs={'inkID': inkId}))
+        time.sleep(1) # Necessary for the server to catch up making the new chapter model
+        return HttpResponseRedirect(reverse("edit_chapter", kwargs={'chapterID': new_chapter.id}))
+    
+@login_required
+def edit_chapter(request, chapterID, inkID):
+    chapterInfo = Chapter.objects.get(id=chapterID)
+    initial_data = {
+        "chapterTitle": chapterInfo.chapterTitle,
+        "chapterContents": chapterInfo.chapterContents
+    }
+    form = ChapterForm(initial=initial_data)
+    if request.method == "POST":
+        instance = chapterInfo
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse("edit_ink", kwargs={'inkID': inkID}))
+        
+    return render(request, "inkwell/edit_chapter.html", {
+        "chapterInfo": chapterInfo,
+        "inkID": inkID,
+        "form": form
+    })
 
 @login_required
 def sendChapterContents(request, inkID):
