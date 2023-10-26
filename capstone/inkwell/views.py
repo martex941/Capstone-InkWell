@@ -179,13 +179,6 @@ def edit_chapter(request, chapterID, inkID):
     })
 
 @login_required
-def sendChapterContents(request, inkID):
-    chapters = Chapter.objects.filter(chapterInkOrigin=inkID).order_by("-chapterNumber")
-    chapterContents = [{'contents': chapter.chapterContents}for chapter in chapters]
-
-    JsonResponse(chapterContents, safe=False)
-
-@login_required
 def well(request, username):
     wellOwner = User.objects.get(username=username)
     inks = Ink.objects.filter(inkOwner=wellOwner.pk)

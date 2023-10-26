@@ -19,7 +19,6 @@ urlpatterns = [
     path('edit_ink/<int:inkID>', views.edit_ink, name='edit_ink'),
     path('addNewChapter/<int:newChapterNumber>/<int:inkId>', views.addNewChapter, name="addNewChapter"),
     path('edit_chapter/<int:chapterID>/<int:inkID>', views.edit_chapter, name="edit_chapter"),
-    path('sendChapterContents/<int:inkID>', views.sendChapterContents, name='sendChapterContents'),
     path('ink_view/<int:inkID>', views.ink_view, name='ink_view'),
     path('well/<str:username>', views.well, name="well"),
     path('well/<str:username>/followers', views.followers, name='followers'),
