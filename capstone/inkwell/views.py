@@ -166,8 +166,9 @@ def edit_chapter(request, chapterID, inkID):
     }
     form = ChapterForm(initial=initial_data)
     if request.method == "POST":
-        instance = chapterInfo
+        form = ChapterForm(request.POST)
         if form.is_valid():
+            form = ChapterForm(request.POST, instance=chapterInfo)
             form.save()
             return HttpResponseRedirect(reverse("edit_ink", kwargs={'inkID': inkID}))
         
