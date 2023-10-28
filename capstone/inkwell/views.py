@@ -12,7 +12,7 @@ import time, json
 
 from .helpers import email_validator
 from .forms import ChapterForm
-from .models import User, Ink, Notification, Well, Follow, Chapter
+from .models import User, Ink, Notification, Well, Follow, Chapter, Post
 
 def index(request):
     users = User.objects.all()
@@ -30,7 +30,7 @@ def index(request):
 
 def timeline(request, page):
 
-    def serialize(inks):
+    def serializeInk(ink):
         serialized_inks = [
             {
                 'id': ink.id,
@@ -42,22 +42,23 @@ def timeline(request, page):
                 'coAuthors': [coauthor.username for coauthor in ink.coAuthors.all()],
                 'creation_date': ink.creation_date.strftime('%Y-%m-%d %H:%M:%S')
             }
-            for ink in inks.page(page).object_list
+            for ink in ink.page(page).object_list
         ]
         return serialized_inks
 
-    allInks = Ink.objects.filter(privateStatus=False).order_by('-creation_date')
-    allInksPag = Paginator(allInks, 20)
-    allInks_col = serialize(allInksPag)
+    allPosts = Post.objects.filter(referencedPostInk__privateStatus=False).order_by('-postCreationDate')
+    allPostsPag = Paginator(allPosts, 20)
+    allPosts_col = serializeInk(allPostsPag)
 
     followers = User.objects.filter(followee__follower=request.user)
-    followedInks = Ink.objects.filter(Q(inkOwner__in=followers), privateStatus=False).order_by('-creation_date')
-    followedInksPag = Paginator(followedInks, 20)
-    followedInks_col = serialize(followedInksPag)
+    followedInks = Ink.objects.filter(Q(inkOwner__in=followers), privateStatus=False)
+    followedPosts = Post.objects.filter(Q(referencedPostInk__in=followedInks))
+    followedPostsPag = Paginator(followedPosts, 20)
+    followedPosts_col = serializeInk(followedPostsPag)
 
     index_columns = {
-        'allInks': allInks_col,
-        'followedInks': followedInks_col,
+        'allInks': allPosts_col,
+        'followedInks': followedPosts_col,
     }
 
     return JsonResponse(index_columns, safe=False)
@@ -102,6 +103,8 @@ def newInk(request):
             content="", 
             )
         new_ink.save()
+
+
         time.sleep(1) # The page loads quicker than the server so it is held by 1 second for the server to catch up
         return HttpResponseRedirect(reverse("edit_ink") + f'?inkID={new_ink.id}')
 

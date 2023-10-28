@@ -73,3 +73,8 @@ class Notification(models.Model):
     contents = models.CharField(max_length=120, default="")
     date = models.DateTimeField(default=timezone.now, editable=False)
     url = models.CharField(max_length=120, default="")
+
+class Post(models.Model):
+    message = models.TextField()
+    referencedPostInk = models.ForeignKey(Ink, on_delete=models.CASCADE, related_name="referencedPostInk", default="")
+    postCreationDate = models.DateTimeField(default=timezone.now, editable=False)
