@@ -18,7 +18,7 @@ def index(request):
     users = User.objects.all()
     popularAuthors = sorted(users, key=lambda user: user.readers * user.followers, reverse=True)[:10]
     topAuthors = sorted(users, key=lambda user: user.letters * user.coAuthorRequests, reverse=True)[:10]
-    topCoAuthors = sorted(users, key=lambda user: user.acceptedRequests, reverse=True)[:10]
+    topCoAuthors = sorted(users, key=lambda user: user.acceptedCoAuthorRequests, reverse=True)[:10]
     discoverAuthors = User.objects.annotate(random_order=Random()).order_by('random_order')[:20]
 
     return render(request, 'inkwell/index.html', {
@@ -137,8 +137,10 @@ def checkNewInkTitle(request):
 
 def ink_view(request, inkID):
     viewedInk = Ink.objects.get(id=inkID)
+    chapters = Chapter.objects.filter(chapterInkOrigin=viewedInk).order_by("chapterNumber")
     return render(request, "inkwell/ink_view.html", {
-        "ink": viewedInk
+        "ink": viewedInk,
+        "chapters": chapters
     })
 
 @login_required
@@ -252,8 +254,8 @@ def unfollow(request, username):
 
 def followers(request, username):
     user = User.objects.get(username=username)
-    followers = User.objects.filter(follower__followee=user.pk)
-    # page that displays all followers of a given user after clicking on followers on a user's well profile
+    followers = User.objects.filter(follower__followee=user.pk).distinct()
+
     return render(request, "inkwell/followers.html", {
         "followers": followers
     })

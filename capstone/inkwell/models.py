@@ -7,10 +7,18 @@ class User(AbstractUser):
     about = models.CharField(max_length=250, default="")
     profilePicture = models.ImageField(upload_to='', blank=True, null=True)
 
-    followers = models.PositiveIntegerField(default=0)
     coAuthorRequests = models.PositiveIntegerField(default=0)
-    acceptedRequests = models.PositiveIntegerField(default=0)
 
+    @property
+    def acceptedCoAuthorRequests(self):
+        acar = Ink.objects.filter(inkOwner=self).values_list('coAuthors', flat=True)
+        return acar.count()
+
+    @property
+    def followers(self):
+        f = Follow.objects.filter(followee=self)
+        return f.count()
+    
     @property
     def readers(self):
         r = Ink.objects.filter(inkOwner=self).values_list('views', flat=True)
