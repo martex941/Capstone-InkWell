@@ -30,31 +30,32 @@ def index(request):
 
 def timeline(request, page):
 
-    def serializeInk(ink):
+    def serializeInks(posts):
         serialized_inks = [
             {
-                'id': ink.id,
-                'title': ink.title,
-                'description': ink.description,
-                'privateStatus': ink.privateStatus,
-                'updateStatus': ink.updateStatus,
-                'inkOwner': ink.inkOwner.username,
-                'coAuthors': [coauthor.username for coauthor in ink.coAuthors.all()],
-                'creation_date': ink.creation_date.strftime('%Y-%m-%d %H:%M:%S')
+                'postMessage': post.message,
+                'id': post.referencedPostInk.id,
+                'title': post.referencedPostInk.title,
+                'description': post.referencedPostInk.description,
+                'privateStatus': post.referencedPostInk.privateStatus,
+                'updateStatus': post.referencedPostInk.updateStatus,
+                'inkOwner': post.referencedPostInk.inkOwner.username,
+                'coAuthors': [coauthor.username for coauthor in post.referencedPostInk.coAuthors.all()],
+                'creation_date': post.postCreationDate.strftime('%Y-%m-%d %H:%M:%S')
             }
-            for ink in ink.page(page).object_list
+            for post in posts.page(page).object_list
         ]
         return serialized_inks
 
     allPosts = Post.objects.filter(referencedPostInk__privateStatus=False).order_by('-postCreationDate')
     allPostsPag = Paginator(allPosts, 20)
-    allPosts_col = serializeInk(allPostsPag)
+    allPosts_col = serializeInks(allPostsPag)
 
     followers = User.objects.filter(followee__follower=request.user)
     followedInks = Ink.objects.filter(Q(inkOwner__in=followers), privateStatus=False)
-    followedPosts = Post.objects.filter(Q(referencedPostInk__in=followedInks))
+    followedPosts = Post.objects.filter(Q(referencedPostInk__in=followedInks)).order_by('-postCreationDate')
     followedPostsPag = Paginator(followedPosts, 20)
-    followedPosts_col = serializeInk(followedPostsPag)
+    followedPosts_col = serializeInks(followedPostsPag)
 
     index_columns = {
         'allInks': allPosts_col,
@@ -104,6 +105,11 @@ def newInk(request):
             )
         new_ink.save()
 
+        time.sleep(1) # 1 second pause for the server to catch up with the newly created ink
+
+        if not privateStatus:
+            new_post = Post(message=f"{new_ink.inkOwner} created a new ink", referencedPostInk=new_ink)
+            new_post.save()
 
         time.sleep(1) # The page loads quicker than the server so it is held by 1 second for the server to catch up
         return HttpResponseRedirect(reverse("edit_ink") + f'?inkID={new_ink.id}')
@@ -163,6 +169,7 @@ def addNewChapter(request, newChapterNumber, inkId):
 @login_required
 def edit_chapter(request, chapterID, inkID):
     chapterInfo = Chapter.objects.get(id=chapterID)
+    inkInfo = Ink.objects.get(id=inkID)
     initial_data = {
         "chapterTitle": chapterInfo.chapterTitle,
         "chapterContents": chapterInfo.chapterContents
@@ -173,6 +180,10 @@ def edit_chapter(request, chapterID, inkID):
         if form.is_valid():
             form = ChapterForm(request.POST, instance=chapterInfo)
             form.save()
+            time.sleep(1)
+            if not inkInfo.privateStatus:
+                new_post = Post(message=f"{inkInfo.inkOwner} updated their ink", referencedPostInk=inkInfo)
+                new_post.save()
             return HttpResponseRedirect(reverse("edit_ink", kwargs={'inkID': inkID}))
         
     return render(request, "inkwell/edit_chapter.html", {
@@ -343,7 +354,6 @@ def edit_profile(request):
     description = current_user.about
 
     if request.method == "POST" and "new_profile_picture" in request.FILES:
-        print("image form submitted")
         newProfilePic = request.FILES.get("new_profile_picture")
         current_user.profilePicture = newProfilePic
         current_user.save()

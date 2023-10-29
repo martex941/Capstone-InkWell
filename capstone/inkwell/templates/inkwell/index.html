@@ -42,14 +42,14 @@
         overflow-y: auto;
         text-overflow: ellipsis;
     }
-    .profile-picture {
+    .author-profile-picture {
         border: 1px black solid;
         border-radius: 50%;
         width: 75px;
         height: 75px;
         overflow: hidden;
     }
-    .profile-picture img {
+    .author-profile-picture img {
         width: 100%;
         height: 100%;
         object-fit: cover;
@@ -69,17 +69,21 @@
         <div class="col-3" id="authors-col">
             <div class="underline-text popular-authors text-center" id="popularAuthors">
                 <h3>Most popular authors this week</h3>
-                <!-- authors that had the most new followers times amount of readers this week -->
+                <!-- authors that had the most new followers times the amount of their readers this week -->
                 {% for author in popularAuthors %}
-                <div class="popAuthors row">
-                    <div class="col-1">
-                        <img class="profile-picture lead" src="https://vectorified.com/images/no-profile-picture-icon-8.jpg">
+                    <div class="row">
+                        <div class="col-1">
+                            {% if author.profilePicture %}
+                                <img class="author-profile-picture" src="media/{{ author.profilePicture }}">
+                            {% else %}
+                                <img class="author-profile-picture" src="media/no-profile-picture-icon.jpg">
+                            {% endif %}
+                        </div>
+                        <div class="col">
+                            <a class="authorLink" href="{% url 'well' username=author.username %}"><h5 class="">{{author.username}}</h5></a>
+                            <h5 class="lead">followers</h5>
+                        </div>
                     </div>
-                    <div class="col">
-                        <a class="authorLink" href="{% url 'well' username=author.username %}"><h5 class="">{{author.username}}</h5></a>
-                        <h5 class="lead">followers</h5>
-                    </div>
-                </div>
                 {% endfor %}
             </div>
             
@@ -88,7 +92,19 @@
                 <!-- multiply amount of letters/words written in their inks
                 times amount of co-auhtor requests -->
                 {% for author in topAuthors %}
-                    <a class="authorLink" href="{% url 'well' username=author.username %}"><h5 class="lead">{{author.username}}</h5></a>
+                    <div class="row">
+                        <div class="col-1">
+                            {% if author.profilePicture %}
+                                <img class="author-profile-picture" src="media/{{ author.profilePicture }}">
+                            {% else %}
+                                <img class="author-profile-picture" src="media/no-profile-picture-icon.jpg">
+                            {% endif %}
+                        </div>
+                        <div class="col">
+                            <a class="authorLink" href="{% url 'well' username=author.username %}"><h5 class="">{{author.username}}</h5></a>
+                            <h5 class="lead">followers</h5>
+                        </div>
+                    </div>
                 {% endfor %}
             </div>
             
@@ -96,7 +112,19 @@
                 <h3>Top co-authors this week</h3>
                 <!-- co-authors that had the biggest amount of accepted edit requests -->
                 {% for author in topCoAuthors %}
-                    <a class="authorLink" href="{% url 'well' username=author.username %}"><h5 class="lead">{{author.username}}</h5></a>
+                    <div class="row">
+                        <div class="col-1">
+                            {% if author.profilePicture %}
+                                <img class="author-profile-picture" src="media/{{ author.profilePicture }}">
+                            {% else %}
+                                <img class="author-profile-picture" src="media/no-profile-picture-icon.jpg">
+                            {% endif %}
+                        </div>
+                        <div class="col">
+                            <a class="authorLink" href="{% url 'well' username=author.username %}"><h5 class="">{{author.username}}</h5></a>
+                            <h5 class="lead">followers</h5>
+                        </div>
+                    </div>
                 {% endfor %}
             </div>
             
@@ -104,7 +132,19 @@
                 <h3>Discover</h3>
                 <!-- 20 users are chosen at random -->
                 {% for author in discoverAuthors %}
-                    <a class="authorLink" href="{% url 'well' username=author.username %}"><h5 class="lead">{{author.username}}</h5></a>
+                    <div class="row">
+                        <div class="col-1">
+                            {% if author.profilePicture %}
+                                <img class="author-profile-picture" src="media/{{ author.profilePicture }}">
+                            {% else %}
+                                <img class="author-profile-picture" src="media/no-profile-picture-icon.jpg">
+                            {% endif %}
+                        </div>
+                        <div class="col">
+                            <a class="authorLink" href="{% url 'well' username=author.username %}"><h5 class="">{{author.username}}</h5></a>
+                            <h5 class="lead">followers</h5>
+                        </div>
+                    </div>
                 {% endfor %}
             </div>
             
