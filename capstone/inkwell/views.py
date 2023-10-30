@@ -150,6 +150,9 @@ def edit_ink(request, inkID):
     else:
         lastChapter = 0
 
+    if request.method == "POST":
+        
+
     return render(request, "inkwell/edit_ink.html", {
         "editInk": editInk,
         "chapters": chapters,
