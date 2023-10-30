@@ -2,9 +2,24 @@
 
 {% block body %}
 <h3>People who follow USERNAME</h3>
+<style>
+    .follower-reference {
+        margin: 1rem;
+        border: 1px black solid;
+        border-radius: 15px;
+        padding: 0.5rem;
+    }
+</style>
 <div class="container">
     {% for follower in followers %}
-        <h5>{{ follower.username }}</h5>
+        <div class="row follower-reference">
+            <div class="col">
+                {{ follower.username }}
+            </div>
+            <div class="col">
+                <a href="{% url 'well' username=follower.username %}"><button class="btn btn-primary">Go to {{ follower.username }}'s well</button></a>
+            </div>
+        </div>
     {% endfor %}
 </div>
 {% endblock %}

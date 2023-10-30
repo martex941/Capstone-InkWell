@@ -26,6 +26,9 @@
     .inkViewContents p {
         text-align: justify;
     }
+    .chapterTitle {
+        font-weight: bold;
+    }
 </style>
 <div class="container-flex inkViewContainer">
     <div class="row mt-5 d-flex justify-content-center upperRowInkView">
@@ -46,19 +49,25 @@
             <div class="container">
                 <h5 class="text-start">CHAPTERS</h5>
                 <ul>
-                    <li>Chapter 1</li>
+                    {% for chapter in chapters %}
+                        <a href="#anchorChapter{{ chapter.chapterNumber }}"><li>Chapter {{ chapter.chapterNumber }}: {{ chapter.chapterTitle }}</li></a>
+                    {% endfor %}
                 </ul>
             </div>
         </div>
         <div class="col-6 inkViewContents">
-            <p>
-                {{ ink.content }}
-            </p>
+            {% for chapter in chapters %}
+            <div id="anchorChapter{{chapter.chapterNumber}}">
+                <h5 class="text-center lead chapterTitle">Chapter {{ chapter.chapterNumber}}: {{chapter.chapterTitle}}</h5>
+                <p>
+                    {{chapter.chapterContents.html|safe}}
+                </p>
+            </div>
+            {% endfor %}
         </div>
         <div class="col-2 inkViewCommentsAndEditNotes">
             <h5 class="text-center">COMMENTS</h5>
         </div>
-
     </div>
 
 </div>

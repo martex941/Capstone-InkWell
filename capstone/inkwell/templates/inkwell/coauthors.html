@@ -2,9 +2,33 @@
 
 {% block body %}
 <h3>People who are co-authors to {{ user }}'s inks</h3>
+<style>
+    .co-author-reference {
+        margin: 1rem;
+        border: 1px black solid;
+        border-radius: 15px;
+        padding: 0.5rem;
+    }
+</style>
 <div class="container">
     {% for coauthor in coauthors %}
-        <h5>{{ coauthor.username }}</h5>
+        <div class="row co-author-reference">
+            <div class="col">
+                {{ coauthor.username }}
+            </div>
+            <div class="col">
+                {{ coauthor.acceptedCoAuthorRequests }}
+            </div>
+            <div class="col">
+                {{ coauthor.followers }} followers
+            </div>
+            <div class="col">
+                most prominent genres of writing
+            </div>
+            <div class="col">
+                <a href="{% url 'well' username=coauthor.username %}"><button class="btn btn-primary">Go to {{ coauthor.username }}'s well</button></a>
+            </div>
+        </div>
     {% endfor %}
 </div>
 {% endblock %}
