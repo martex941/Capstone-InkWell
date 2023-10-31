@@ -17,8 +17,7 @@
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // Your code here
-            checkTitleAvailability();
+            checkTitleAvailability("0/checkNewInkTitle", "messageNewInk", "createInk");
         });
     </script>
     
@@ -28,7 +27,12 @@
             <h5 class="text-center">Title:</h5>
             <input class="title form-label" id="title" type="text" name="title">
             <div class="messageNewInk" id="messageNewInk">
-
+                
+            </div>
+            <div id="djangoMessageNewInk">
+                {% for message in messages %}
+                    <h5>{{message}}</h5>
+                {% endfor %}
             </div>
 
             <label for="genre">Select a genre:</label>

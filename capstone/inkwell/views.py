@@ -90,6 +90,11 @@ def newInk(request):
 
         description = request.POST.get("description")
 
+        if title == "" or genre == "" or description == "":
+            return render(request, "inkwell/newInk.html", {
+                "messages": ["All fields must be filled."]
+            })
+
         current_user = User.objects.get(username=request.user)
         user_well = Well.objects.get(wellOwner=current_user.pk)
 
@@ -117,7 +122,7 @@ def newInk(request):
     return render(request, "inkwell/newInk.html")
 
 @login_required
-def checkNewInkTitle(request):
+def checkNewInkTitle(request, inkID): # requiring argument inkID is for pages that require it, otherwise it should be written as 0 Example: "0/checkNewInkTitle"
     data = json.loads(request.body)
     title = data.get("title", "")
     try:
@@ -153,6 +158,13 @@ def edit_ink(request, inkID):
         lastChapter = 0
 
     if request.method == "POST":
+        newInkTitle = request.POST.get("title")
+        newGenre = request.POST.get("genreEdit")
+        newDescription = request.POST.get("descriptionEdit")
+
+        allInkTitles = Ink.objects.all().values_list("title")
+        if newInkTitle in allInkTitles:
+            return render(request, )
         
 
     return render(request, "inkwell/edit_ink.html", {

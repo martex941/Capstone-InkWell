@@ -183,13 +183,13 @@ function displayMessage(messageDivID, message, color) {
     messageDiv.append(messageContent);
 }
 
-function checkTitleAvailability() {
+function checkTitleAvailability(fetchUrl, messageDivId, submitBtnId) {
     const title = document.getElementById("title");
     const csrftoken = getCsrf('csrftoken');
 
     title.addEventListener('input', () => {
         setTimeout(() => {
-            fetch("checkNewInkTitle", {
+            fetch(fetchUrl, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -202,15 +202,15 @@ function checkTitleAvailability() {
             .then(response => response.json())
             .then(data => {
                 if (title.value.trim() === "") {
-                    document.getElementById("messageNewInk").style.display = 'none';
+                    document.getElementById(messageDivId).style.display = 'none';
                 }
                 else {
-                    document.getElementById("messageNewInk").style.display = 'block';
-                    displayMessage("messageNewInk", data.message, data.color);
+                    document.getElementById(messageDivId).style.display = 'block';
+                    displayMessage(messageDivId, data.message, data.color);
                 }
 
                 // Disable the submit button if the title is taken
-                const submitButton = document.getElementById("createInk");
+                const submitButton = document.getElementById(submitBtnId);
                 if (data.color == "red") {
                     submitButton.disabled = true;
                 }
