@@ -159,13 +159,15 @@ def edit_ink(request, inkID):
 
     if request.method == "POST":
         newInkTitle = request.POST.get("title")
-        newGenre = request.POST.get("genreEdit")
+        newGenre = request.POST.get("genresEdit")
+        print(newGenre)
         newDescription = request.POST.get("descriptionEdit")
 
-        allInkTitles = Ink.objects.all().values_list("title")
-        if newInkTitle in allInkTitles:
-            return render(request, )
-        
+        editInk.title = newInkTitle
+        editInk.genre = newGenre
+        editInk.description = newDescription
+        editInk.save()
+        time.sleep(1)
 
     return render(request, "inkwell/edit_ink.html", {
         "editInk": editInk,
