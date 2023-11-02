@@ -23,6 +23,9 @@
                 Privacy settings
             </div>
             <div class="col">
+                <a href="{% url 'ink_view' inkID=ink.id %}"><button class="btn btn-secondary">VIEW INK</button></a>
+            </div>
+            <div class="col">
                 <a href="{% url 'edit_ink' inkID=ink.id %}"><button class="btn btn-primary" href="">EDIT INK</button></a>
             </div>
             <div class="col">

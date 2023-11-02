@@ -143,10 +143,48 @@ def checkNewInkTitle(request, inkID): # requiring argument inkID is for pages th
 def ink_view(request, inkID):
     viewedInk = Ink.objects.get(id=inkID)
     chapters = Chapter.objects.filter(chapterInkOrigin=viewedInk).order_by("chapterNumber")
+    current_user = User.objects.get(pk=request.user.pk)
+    following_check = False
+
+    try:
+        ink_followed = Ink.objects.get(ink_following=current_user)
+        if ink_followed:
+            following_check = True
+    except Ink.DoesNotExist:
+        print("Ink not followed by the user.")
+
+
     return render(request, "inkwell/ink_view.html", {
         "ink": viewedInk,
-        "chapters": chapters
+        "chapters": chapters,
+        "following_check": following_check
     })
+
+@login_required
+def followInk(request, inkID):
+    if request.method != "POST":
+        return JsonResponse({"error": "POST request required."}, status=400)
+
+    viewedInk = Ink.objects.get(id=inkID)
+    current_user = User.objects.get(pk=request.user.pk)
+    viewedInk.ink_following.add(current_user)
+    viewedInk.save()
+
+    return JsonResponse({"message": "Ink followed"}, status=201)
+        
+
+@login_required
+def unfollowInk(request, inkID):
+    if request.method != "POST":
+        return JsonResponse({"error": "POST request required."}, status=400)
+
+    viewedInk = Ink.objects.get(id=inkID)
+    current_user = User.objects.get(pk=request.user.pk)
+    viewedInk.ink_following.remove(current_user)
+    viewedInk.save()
+
+    return JsonResponse({"message": "Ink unfollowed"}, status=201)
+
 
 @login_required
 def edit_ink(request, inkID):

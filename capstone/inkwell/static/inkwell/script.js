@@ -130,7 +130,7 @@ function follow(command) {
     const csrftoken = getCsrf('csrftoken');
     const followee = document.querySelector("#well-username").dataset.name;
 
-    fetch(`${followee}/${command}`, {
+    fetch(`${followee}/${command}`, { // command argument is either "follow" or "unfollow"
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -150,6 +150,30 @@ function follow(command) {
     setTimeout(() => {
         location.reload();
     }, 50);
+}
+
+function followInk(command) {
+    const csrftoken = getCsrf('csrftoken');
+    const inkID = document.querySelector("#dataInkID").dataset.inkID;
+
+    fetch(`${inkID}/${command}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": csrftoken
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+    })
+    .catch(error => {
+        console.error(error);
+    });
+    setTimeout(() => {
+        location.reload();
+    }, 50);
+
 }
 
 // Changes the follow/unfollow button

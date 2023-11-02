@@ -30,6 +30,11 @@
         font-weight: bold;
     }
 </style>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        following_switch();
+    });
+</script>
 <div class="container-flex inkViewContainer">
     <div class="row mt-5 d-flex justify-content-center upperRowInkView">
         <div class="col-2">
@@ -41,7 +46,13 @@
         </div>
         <div class="col-2 inkViewButtonsColumn">
             <a href="{% url 'edit_ink' inkID=ink.id %}"><button class="btn btn-primary">EDIT INK</button></a>
-            <button class="btn btn-primary">FOLLOW INK</button>
+            <form class="form" action="{% url 'ink_view' inkID=ink.id %}" method="post">
+                {% csrf_token %}
+                <div id="dataInkID" data-inkID="{{ink.id}}"></div>
+                <div id="following-check" data-following="{{following_check}}"></div>
+                <button class="btn btn-danger" id="followBtn" type="submit" onclick="followInk('followInk')">UNFOLLOW INK</button>
+                <button class="btn btn-primary" id="unfollowBtn" type="submit" onclick="followInk('unfollowInk')">FOLLOW INK</button>
+            </form>
         </div>
     </div>
     <div class="row mt-2 d-flex justify-content-center lowerRowInkView">
