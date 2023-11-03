@@ -12,7 +12,7 @@ import time, json
 
 from .helpers import email_validator
 from .forms import ChapterForm
-from .models import User, Ink, Notification, Well, Follow, Chapter, Post, Comment
+from .models import User, Ink, Notification, Well, Follow, Chapter, Post, Comment, CoAuthorRequest
 
 def index(request):
     users = User.objects.all()
@@ -207,7 +207,6 @@ def edit_ink(request, inkID):
     if request.method == "POST":
         newInkTitle = request.POST.get("title")
         newGenre = request.POST.get("genresEdit")
-        print(newGenre)
         newDescription = request.POST.get("descriptionEdit")
 
         editInk.title = newInkTitle
@@ -241,16 +240,22 @@ def edit_chapter(request, chapterID, inkID):
         "chapterContents": chapterInfo.chapterContents
     }
     form = ChapterForm(initial=initial_data)
+    current_user = User.objects.get(pk=request.user.pk)
+
+
     if request.method == "POST":
-        form = ChapterForm(request.POST)
-        if form.is_valid():
-            form = ChapterForm(request.POST, instance=chapterInfo)
-            form.save()
-            time.sleep(1)
-            if not inkInfo.privateStatus:
-                new_post = Post(message=f"{inkInfo.inkOwner} updated their ink", referencedPostInk=inkInfo)
-                new_post.save()
-            return HttpResponseRedirect(reverse("edit_ink", kwargs={'inkID': inkID}))
+        # if current_user != inkInfo.inkOwner:
+        #     new_coAuthorRequest = CoAuthorRequest(coAuthor=current_user, requestedChapter=chapterInfo, requestedContentChange=)
+        # else:
+            form = ChapterForm(request.POST)
+            if form.is_valid():
+                form = ChapterForm(request.POST, instance=chapterInfo)
+                form.save()
+                time.sleep(1)
+                if not inkInfo.privateStatus:
+                    new_post = Post(message=f"{inkInfo.inkOwner} updated their ink", referencedPostInk=inkInfo)
+                    new_post.save()
+                return HttpResponseRedirect(reverse("edit_ink", kwargs={'inkID': inkID}))
         
     return render(request, "inkwell/edit_chapter.html", {
         "chapterInfo": chapterInfo,

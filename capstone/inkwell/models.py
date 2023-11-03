@@ -92,3 +92,12 @@ class Comment(models.Model):
     commentInkOrigin = models.ForeignKey(Ink, on_delete=models.CASCADE, related_name="commentInkOrigin", default="")
     commentAuthor = models.ForeignKey(User, on_delete=models.CASCADE, related_name="commentAuthor", default="")
     commentCreationDate = models.DateTimeField(default=timezone.now, editable=False)
+
+class CoAuthorRequest(models.Model):
+    coAuthor = models.ForeignKey(User, on_delete=models.CASCADE, related_name="coAuthor", default="")
+    requestedChapter = models.ForeignKey(Chapter, on_delete=models.CASCADE, related_name="requestedChapter", default="")
+    requestedContentChange = QuillField()
+    requestDate = models.DateTimeField(default=timezone.now, editable=False)
+
+    def __str__(self):
+        return f"{self.coAuthor} requesting to edit {self.requestedChapter}"
