@@ -86,3 +86,9 @@ class Post(models.Model):
     message = models.TextField()
     referencedPostInk = models.ForeignKey(Ink, on_delete=models.CASCADE, related_name="referencedPostInk", default="")
     postCreationDate = models.DateTimeField(default=timezone.now, editable=False)
+
+class Comment(models.Model):
+    content = models.TextField()
+    commentInkOrigin = models.ForeignKey(Ink, on_delete=models.CASCADE, related_name="commentInkOrigin", default="")
+    commentAuthor = models.ForeignKey(User, on_delete=models.CASCADE, related_name="commentAuthor", default="")
+    commentCreationDate = models.DateTimeField(default=timezone.now, editable=False)

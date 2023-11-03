@@ -12,7 +12,7 @@ import time, json
 
 from .helpers import email_validator
 from .forms import ChapterForm
-from .models import User, Ink, Notification, Well, Follow, Chapter, Post
+from .models import User, Ink, Notification, Well, Follow, Chapter, Post, Comment
 
 def index(request):
     users = User.objects.all()
@@ -151,13 +151,22 @@ def ink_view(request, inkID):
         if ink_followed:
             following_check = True
     except Ink.DoesNotExist:
-        print("Ink not followed by the user.")
+        pass
 
+    comments = Comment.objects.filter(commentInkOrigin=viewedInk)
+
+    if request.method == "POST":
+        if "commentContents" in request.POST:
+            commentContents = request.POST.get("commentContents")
+            new_comment = Comment(content=commentContents, commentInkOrigin=viewedInk, commentAuthor=current_user)
+            new_comment.save()
+            time.sleep(1)
 
     return render(request, "inkwell/ink_view.html", {
         "ink": viewedInk,
         "chapters": chapters,
-        "following_check": following_check
+        "following_check": following_check,
+        "comments": comments
     })
 
 @login_required

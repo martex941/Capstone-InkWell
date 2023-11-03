@@ -29,6 +29,9 @@
     .chapterTitle {
         font-weight: bold;
     }
+    .comment {
+        background-color: aliceblue;
+    }
 </style>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
@@ -46,13 +49,10 @@
         </div>
         <div class="col-2 inkViewButtonsColumn">
             <a href="{% url 'edit_ink' inkID=ink.id %}"><button class="btn btn-primary">EDIT INK</button></a>
-            <form class="form" action="{% url 'ink_view' inkID=ink.id %}" method="post">
-                {% csrf_token %}
-                <div id="dataInkID" data-inkID="{{ink.id}}"></div>
-                <div id="following-check" data-following="{{following_check}}"></div>
-                <button class="btn btn-danger" id="followBtn" type="submit" onclick="followInk('followInk')">UNFOLLOW INK</button>
-                <button class="btn btn-primary" id="unfollowBtn" type="submit" onclick="followInk('unfollowInk')">FOLLOW INK</button>
-            </form>
+            <div id="dataInkID" data-inkid="{{ink.id}}"></div>
+            <div id="following-check" data-following="{{following_check}}"></div>
+            <button class="btn btn-primary" id="followBtn" type="submit" onclick="followInk('followInk')">FOLLOW INK</button>
+            <button class="btn btn-danger" id="unfollowBtn" type="submit" onclick="followInk('unfollowInk')">UNFOLLOW INK</button>
         </div>
     </div>
     <div class="row mt-2 d-flex justify-content-center lowerRowInkView">
@@ -78,6 +78,19 @@
         </div>
         <div class="col-2 inkViewCommentsAndEditNotes">
             <h5 class="text-center">COMMENTS</h5>
+            <form class="form" action="{% url 'ink_view' inkID=ink.id %}" method="post" name="commentForm">
+                {% csrf_token %}
+                <h5 class="lead">Write a comment</h5>
+                <textarea class="commentContents" rows="4" cols="50" name="commentContents"></textarea>
+                <button class="btn btn-primary" type="submit">Comment</button>
+            </form>
+            <div class="comments-section">
+                {% for comment in comments %}
+                    <div class="comment">
+                        <p>{{ comment.content }}</p>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 

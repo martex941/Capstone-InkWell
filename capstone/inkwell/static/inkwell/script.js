@@ -154,7 +154,7 @@ function follow(command) {
 
 function followInk(command) {
     const csrftoken = getCsrf('csrftoken');
-    const inkID = document.querySelector("#dataInkID").dataset.inkID;
+    const inkID = document.querySelector("#dataInkID").dataset.inkid;
 
     fetch(`${inkID}/${command}`, {
         method: "POST",
