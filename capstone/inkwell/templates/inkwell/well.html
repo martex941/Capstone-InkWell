@@ -8,6 +8,14 @@
     });
 </script>
 
+<style>
+    .well {
+        height: 700px;
+        border: 2px black solid;
+        border-radius: 75%;
+    }
+</style>
+
 <div class="container">
     {% if wellOwner == request.user %}
         <h5>Your well</h5>
@@ -35,9 +43,9 @@
 
 <div class="container">
     <div id="well" class="well">
-        <!-- {% for ink in inks %}
-            <h5>{ ink.title }</h5>
-        {% endfor %} -->
+        {% for ink in inks %}
+            <a href="{% url 'ink_view' inkID=ink.id %}">{{ink.title}}</a>
+        {% endfor %}
     </div>
 </div>
 

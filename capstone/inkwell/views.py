@@ -11,7 +11,7 @@ from django.core.paginator import Paginator
 import time, json
 
 from .helpers import email_validator
-from .forms import ChapterForm
+from .forms import ChapterForm, CoAuthorRequestForm
 from .models import User, Ink, Notification, Well, Follow, Chapter, Post, Comment, CoAuthorRequest
 
 def index(request):
@@ -204,6 +204,11 @@ def edit_ink(request, inkID):
     else:
         lastChapter = 0
 
+    current_user = User.objects.get(pk=request.user.pk)
+    editingAsCoAuthor = False
+    if current_user != editInk.inkOwner:
+        editingAsCoAuthor = True
+
     if request.method == "POST":
         newInkTitle = request.POST.get("title")
         newGenre = request.POST.get("genresEdit")
@@ -219,6 +224,7 @@ def edit_ink(request, inkID):
         "editInk": editInk,
         "chapters": chapters,
         "newChapterNum": (lastChapter + 1),
+        "editingAsCoAuthor": editingAsCoAuthor
     })
 
 @login_required
@@ -241,12 +247,20 @@ def edit_chapter(request, chapterID, inkID):
     }
     form = ChapterForm(initial=initial_data)
     current_user = User.objects.get(pk=request.user.pk)
-
+    editingAsCoAuthor = False
+    if current_user != inkInfo.inkOwner:
+        editingAsCoAuthor = True
 
     if request.method == "POST":
-        # if current_user != inkInfo.inkOwner:
-        #     new_coAuthorRequest = CoAuthorRequest(coAuthor=current_user, requestedChapter=chapterInfo, requestedContentChange=)
-        # else:
+        if editingAsCoAuthor:
+            new_coAuthorRequest = CoAuthorRequest(coAuthor=current_user, requestedChapter=chapterInfo)
+            new_coAuthorRequest.save()
+            time.sleep(1)
+            if form.is_valid():
+                form = CoAuthorRequestForm(request.POST, instance=new_coAuthorRequest)
+                form.save()
+                time.sleep(1)
+        else:
             form = ChapterForm(request.POST)
             if form.is_valid():
                 form = ChapterForm(request.POST, instance=chapterInfo)

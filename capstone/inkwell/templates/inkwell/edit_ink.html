@@ -48,7 +48,11 @@
                     {% endfor %}
                 </ul>
                 <div class="d-flex justify-content-center">
-                    <button class="btn btn-primary" id="addChapterBtn" onclick="addChapter()">Add Chapter {{ newChapterNum }}</button>
+                    {% if editingAsCoAuthor %}
+                        <button class="btn btn-primary" id="addChapterBtn" onclick="addChapter()" disabled>Add Chapter {{ newChapterNum }}</button>
+                    {% else %}
+                        <button class="btn btn-primary" id="addChapterBtn" onclick="addChapter()">Add Chapter {{ newChapterNum }}</button>
+                    {% endif %}
                     <button class="btn btn-danger" id="cancelAddingNewChapter" onclick="cancelAddingNewChapter()" style="display: none;">Cancel</button>
                     <form class="form" id="addChapterForm" style="display: none;" method="post" action="{% url 'addNewChapter' newChapterNumber=newChapterNum inkId=editInk.id %}">
                         {% csrf_token %}
@@ -62,27 +66,48 @@
             <div class="col-6 inkEditMainColumn">
                 <div class="row mb-3 mt-3 d-flex justify-content-center">
                     <div id="dataInkID" data-ink="6"></div>
+                    {% if editingAsCoAuthor %}
+                        <h5 class="text-center">YOU ARE EDITING THIS INK AS CO-AUTHOR</h5>
+                    {% endif %}
 
                     <form class="form " action="" method="post">
                         <div class="messageEditInk" id="messageEditInk">
-
                         </div>
                         {% csrf_token %}
-                        <h5 class="">Change title:</h5>
-                        <input class="form-label title" type="text" id="title" name="title" value="{{ editInk.title }}">
-                        <div class="genresEdit">
-                            <label for="genresEdit">Change genre (current genre: {{ editInk.genre }}):</label>
-                            <select class="form-label" id="genresEdit" name="genresEdit">
-                                <option value="Horror">Horror</option>
-                                <option value="Fantasy">Fantasy</option>
-                                <option value="Romance">Romance</option>
-                            </select>
-                        </div>
-                        <div class="col">
-                            <h5>Edit description:</h5>
-                            <textarea class="form-label descriptionEdit" rows="4" cols="100" name="descriptionEdit">{{ editInk.description }}</textarea>
-                        </div>
-                        <button class="btn btn-primary" id="saveAllChapterChangesBtn">SAVE CHANGES</button>
+                        
+                        {% if editingAsCoAuthor %}
+                            <h5 class="">Change title:</h5>
+                            <input class="form-label title" type="text" id="title" name="title" value="{{ editInk.title }}" disabled>
+                            <div class="genresEdit">
+                                <label for="genresEdit">Change genre (current genre: {{ editInk.genre }}):</label>
+                                <select class="form-label" id="genresEdit" name="genresEdit" disabled>
+                                    <option value="Horror">Horror</option>
+                                    <option value="Fantasy">Fantasy</option>
+                                    <option value="Romance">Romance</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <h5>Edit description:</h5>
+                                <textarea class="form-label descriptionEdit" rows="4" cols="100" name="descriptionEdit" disabled>{{ editInk.description }}</textarea>
+                            </div>
+                            <button class="btn btn-primary" id="saveAllChapterChangesBtn" disabled>SAVE CHANGES</button>
+                        {% else %}
+                            <h5 class="">Change title:</h5>
+                            <input class="form-label title" type="text" id="title" name="title" value="{{ editInk.title }}">
+                            <div class="genresEdit">
+                                <label for="genresEdit">Change genre (current genre: {{ editInk.genre }}):</label>
+                                <select class="form-label" id="genresEdit" name="genresEdit">
+                                    <option value="Horror">Horror</option>
+                                    <option value="Fantasy">Fantasy</option>
+                                    <option value="Romance">Romance</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <h5>Edit description:</h5>
+                                <textarea class="form-label descriptionEdit" rows="4" cols="100" name="descriptionEdit">{{ editInk.description }}</textarea>
+                            </div>
+                            <button class="btn btn-primary" id="saveAllChapterChangesBtn">SAVE CHANGES</button>
+                        {% endif %}
                     </form>
                 </div>
 
