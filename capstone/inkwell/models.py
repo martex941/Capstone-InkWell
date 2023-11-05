@@ -100,4 +100,4 @@ class CoAuthorRequest(models.Model):
     requestDate = models.DateTimeField(default=timezone.now, editable=False)
 
     def __str__(self):
-        return f"{self.coAuthor} requesting to edit {self.requestedChapter}"
+        return f"{self.coAuthor} is requesting to edit {self.requestedChapter}"

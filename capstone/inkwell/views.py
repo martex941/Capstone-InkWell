@@ -253,13 +253,20 @@ def edit_chapter(request, chapterID, inkID):
 
     if request.method == "POST":
         if editingAsCoAuthor:
-            new_coAuthorRequest = CoAuthorRequest(coAuthor=current_user, requestedChapter=chapterInfo)
-            new_coAuthorRequest.save()
-            time.sleep(1)
             if form.is_valid():
+                # Create new co-author request
+                new_coAuthorRequest = CoAuthorRequest(coAuthor=current_user, requestedChapter=chapterInfo)
+                new_coAuthorRequest.save()
+                time.sleep(1)
+
+                # Update the new co-author request using the form
                 form = CoAuthorRequestForm(request.POST, instance=new_coAuthorRequest)
                 form.save()
                 time.sleep(1)
+
+                # Create a notification for the author
+                new_notification = Notification(notifiedUser=inkInfo.inkOwner, contents=f"New co-author request from {current_user} regarding Chapter {chapterInfo.chapterNumber}: {chapterInfo.chapterTitle} of ink titled {inkInfo.title}", url=f"co_author_request/{chapterInfo.id}")
+                new_notification.save()
         else:
             form = ChapterForm(request.POST)
             if form.is_valid():
@@ -275,6 +282,13 @@ def edit_chapter(request, chapterID, inkID):
         "chapterInfo": chapterInfo,
         "inkID": inkID,
         "form": form
+    })
+
+@login_required
+def coAuthorRequest(request, chapterID):
+    requestedChapter = Chapter.objects.get(id=chapterID)
+    return render(request, "inkwell.co_author_request.html", {
+        "requestedChapter": requestedChapter
     })
 
 @login_required
@@ -311,8 +325,14 @@ def follow(request, username):
 
     # If user isn't following themselves create a new Follow object and save it
     if current_user != followed_user:
+        # Create a new follow linking the users
         new_follow = Follow(follower=current_user, followee=followed_user)
         new_follow.save()
+        time.sleep(1)
+
+        # Create a notification for the followed user
+        new_notification = Notification(notifiedUser=followed_user, contents=f"{current_user} followed you.", url="")
+        new_notification.save()
 
     return JsonResponse({"message": "Followed"}, status=201)
 
