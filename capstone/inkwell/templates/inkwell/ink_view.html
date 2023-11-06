@@ -1,43 +1,13 @@
 {% extends "inkwell/layout.html" %}
 
 {% block body %}
-<style>
-    .inkViewContainer .row {
-        margin: 0;
-    }
-    .inkViewTitleColumn {
-        display: flex;
-        flex-direction: column;
-    }
-    .inkViewButtonsColumn {
-        gap: 10px;
-    }
-    .inkViewButtonsColumn .btn {
-        width: 117px;
-        height: 35px;
-        margin: 0.5rem;
-    }
-    .upperRowInkView {
-        background-color: aqua;
-    }
-    .lowerRowInkView {
-        background-color: antiquewhite;
-    }
-    .inkViewContents p {
-        text-align: justify;
-    }
-    .chapterTitle {
-        font-weight: bold;
-    }
-    .comment {
-        background-color: aqua;
-    }
-</style>
+
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         following_switch();
     });
 </script>
+
 <div class="container-flex inkViewContainer">
     <div class="row mt-5 d-flex justify-content-center upperRowInkView">
         <div class="col-2">

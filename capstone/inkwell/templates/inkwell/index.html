@@ -1,60 +1,6 @@
 {% extends "inkwell/layout.html" %}
 
 {% block body %}
-<style>
-    .col-5 {
-        border: black 2px solid;
-        border-radius: 5%;
-        margin: 1rem;
-    }
-    .col-3 {
-        border: black 2px solid;
-        border-radius: 5%;
-        margin: 1rem;
-    }
-    .index.container-fluid {
-        padding: 0;
-        margin: 0;
-    }
-    .row {
-        padding: 1rem;
-    }
-    .line {
-        border-bottom: 1px black solid;
-        border-width: 50%;
-    }
-    .underline-text {
-        border-top: 1px black solid;
-    }
-    .genre-buttons {
-        padding: 1rem;
-    }
-    .genre-buttons button, .filtering button {
-        margin: 0.25rem;
-    }
-
-    .inkDiv, .notiDiv {
-        border: 1px black solid;
-    }
-
-    .notifications-col-style {
-        height: 50vh;
-        overflow-y: auto;
-        text-overflow: ellipsis;
-    }
-    .author-profile-picture {
-        border: 1px black solid;
-        border-radius: 50%;
-        width: 75px;
-        height: 75px;
-        overflow: hidden;
-    }
-    .author-profile-picture img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-</style>
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {

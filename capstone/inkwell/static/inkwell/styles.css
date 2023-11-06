@@ -1,7 +1,229 @@
+:root {
+    /* BLACK AND GREEN SHADES */
+    --black: #020202ff;
+    --dark-green: #0d2818ff;
+    --pakistan-green: #04471cff;
+    --sea-green: #058c42ff;
+    --malachite: #16db65ff;
+
+    /* ORANGE WHITE BLACK */
+    --coquelicot: #f15025ff;
+    --white: #ffffffff;
+    --platinum: #e6e8e6ff;
+    --timberwolf: #ced0ceff;
+    --eerie-black: #191919ff;
+
+    --gunmetal: #223843ff;
+    --antiflash-white: #eff1f3ff;
+    --timberwolf: #dbd3d8ff;
+    --desert-sand: #d8b4a0ff;
+    --burnt-sienna: #d77a61ff;
+
+    --primary-color: var(--antiflash-white);
+    --secondary-color: var(--antiflash-white);
+    --text-color: var(--gunmetal);
+    --border-color: var(--gunmetal);
+}
+
 .navbar-brand, .nav-logo {
     margin-left: 1rem;
 }
 
+.navbar {
+    border-bottom: 2px var(--border-color) solid;
+}
+
 .nav-right {
     margin-right: 1rem;
+}
+
+p, a, h1, h2, h3, h4, h5, span {
+    color: var(--text-color);
+}
+
+body {
+    background-color: var(--primary-color);
+}
+
+/* coauthors.html ||||||||||||||||||||||||||*/
+.co-author-reference {
+    margin: 1rem;
+    border: 1px var(--border-color) solid;
+    border-radius: 15px;
+    padding: 0.5rem;
+}
+
+/* edit_ink.html ||||||||||||||||||||||||||*/
+.chapterEditorDiv {
+    margin-top: 1rem;
+}
+
+.chaptersListEdit, .chaptersNotesEdit {
+    background-color: var(--primary-color);
+}
+
+.editChapterAnchor {
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+.editChapterAnchor:hover {
+    opacity: 50%;
+}
+
+.inkEditContainer .row {
+    margin: 0;
+}
+
+.inkEditMainColumn {
+    background-color: var(--secondary-color);
+    border: 1px var(--border-color) solid;
+}
+
+/* ink_view.html ||||||||||||||||||||||||||*/
+.inkViewContainer .row {
+    margin: 0;
+}
+
+.inkViewTitleColumn {
+    display: flex;
+    flex-direction: column;
+}
+
+.inkViewButtonsColumn {
+    gap: 10px;
+}
+
+.inkViewButtonsColumn .btn {
+    width: 117px;
+    height: 35px;
+    margin: 0.5rem;
+}
+
+.inkViewContents p {
+    text-align: justify;
+}
+
+.inkViewContents {
+    background-color: var(--secondary-color);
+    border: 1px var(--border-color) solid;
+}
+
+.chapterTitle {
+    font-weight: bold;
+}
+
+.comment {
+    background-color: var(--secondary-color);
+}
+
+/* edit_profile.html ||||||||||||||||||||||||||*/
+.profile-picture-edit {
+    border: 1px var(--border-color) solid;
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+}
+
+.profile-picture-edit img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+/* !!!!!!!!!!!!!! IF FORM ON EDIT_PROFILE ACTS FUNNY THEN ITS BECAUSE OF THE EDIT-PROFILE-FORM CLASS HERE !!!!!!!!!!!!! */
+.edit-profile-form form { 
+    margin: 1rem;
+}
+
+/* followers.html ||||||||||||||||||||||||||*/
+.follower-reference {
+    margin: 1rem;
+    border: 1px var(--border-color) solid;
+    border-radius: 15px;
+    padding: 0.5rem;
+}
+
+/* index.html ||||||||||||||||||||||||||*/
+.col-5 {
+    border: var(--border-color) 2px solid;
+    border-radius: 5%;
+    margin: 1rem;
+}
+
+.col-3 {
+    border: var(--border-color) 2px solid;
+    border-radius: 5%;
+    margin: 1rem;
+}
+
+.index.container-fluid {
+    padding: 0;
+    margin: 0;
+}
+
+.row {
+    padding: 1rem;
+}
+
+/* .underline-text {
+    border-top: 1px black solid;
+} */
+
+.inkDiv, .notiDiv {
+    border: 1px var(--border-color) solid;
+}
+
+.notifications-col-style {
+    height: 50vh;
+    overflow-y: auto;
+    text-overflow: ellipsis;
+}
+
+.author-profile-picture {
+    border: 1px var(--border-color) solid;
+    border-radius: 50%;
+    width: 75px;
+    height: 75px;
+    overflow: hidden;
+}
+
+.author-profile-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ink_settings.html ||||||||||||||||||||||*/
+.inkSettingRow {
+    margin: 1rem;
+    border: 1px black solid;
+    border-radius: 15px;
+    padding: 0.5rem;
+}
+
+/* login.html and register.html |||||||||||||||||||||*/
+.login-container .container, .register-container .container {
+    border: none;
+    width: 25%;
+}
+
+/* newInk.html ||||||||||||||||||||*/
+.newInkInfo {
+    flex-direction: column;
+}
+
+.form-label {
+    border: 1.5px var(--border-color) solid;
+}
+
+.form-check-input {
+    border: 1.5px var(--border-color) solid;
+}
+
+/* well.html ||||||||||||||||||||*/
+.well {
+    height: 700px;
+    border: 2px var(--border-color) solid;
+    border-radius: 75%;
 }

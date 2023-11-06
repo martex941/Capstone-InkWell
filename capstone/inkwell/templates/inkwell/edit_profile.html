@@ -1,28 +1,12 @@
 {% extends "inkwell/layout.html" %}
 
 {% block body%}
-<style>
-    .profile-picture-edit {
-        border: 1px black solid;
-        border-radius: 50%;
-        width: 200px;
-        height: 200px;
-        overflow: hidden;
-    }
-    .profile-picture-edit img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-    form {
-        margin: 1rem;
-    }
-</style>
+
 <div class="container d-flex justify-content-center mt-5">
 
         <img class="profile-picture-edit" src="media/{{ profile_picture }}">
 
-        <form method="post" enctype="multipart/form-data" action="{% url 'edit_profile' %}">
+        <form class="edit-profile-form" method="post" enctype="multipart/form-data" action="{% url 'edit_profile' %}">
             <h4>Set your profile picture</h4>
             {% csrf_token %}
             <div class="form-label">

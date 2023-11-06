@@ -1,15 +1,9 @@
 {% extends "inkwell/layout.html" %}
 
 {% block body %}
+
 <h3>People who are co-authors to {{ user }}'s inks</h3>
-<style>
-    .co-author-reference {
-        margin: 1rem;
-        border: 1px black solid;
-        border-radius: 15px;
-        padding: 0.5rem;
-    }
-</style>
+
 <div class="container">
     {% for coauthor in coauthors %}
         <div class="row co-author-reference">
