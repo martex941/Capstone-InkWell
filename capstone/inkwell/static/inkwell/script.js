@@ -8,13 +8,14 @@ function timeline() {
 
     document.querySelector("#mainTimelineBtn").style.display = 'none';
 
-    // Clear the timeline feed
-    document.querySelector("#timeline").innerHTML = '';
-
     // Declare the page
     let page = 1;
     
     function load(page, timeline) {
+
+        // Clear the timeline feed
+        document.querySelector("#timeline").innerHTML = '';
+
         fetch(`timeline/${page}`)
         .then(response => response.json())
         .then(data => {
@@ -51,32 +52,38 @@ function timeline() {
                 document.querySelector("#timeline").append(ink_div);
             });
         })
-    }
 
-    load(page, "allInks");
-
-    function infiniteScroll (timeline) {
-        window.onscroll = () => {
-            if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        const timelineCol = document.querySelector("#timeline");
+        timelineCol.onscroll = () => {
+            if (timelineCol.clientHeight + timelineCol.scrollTop >= timelineCol.scrollHeight) {
                 load(page, timeline);
                 page++;
             }
         };
     }
 
+    // function infiniteScroll (timeline) {
+    //     window.onscroll = () => {
+    //         if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+    //             load(page, timeline);
+    //             page++;
+    //         }
+    //     };
+    // }
+
+    load(page, "allInks");
+
     function mainTimelineBtn () {
-        page = 1;
-        document.querySelector("#mainTimelineBtn").style.display = 'block';
-        document.querySelector("#followingTimelineBtn").style.display = 'none';
-        load(page, "allInks");
-        infiniteScroll("allInks");
-    }
-    function followingTimelineBtn () {
         page = 1;
         document.querySelector("#mainTimelineBtn").style.display = 'none';
         document.querySelector("#followingTimelineBtn").style.display = 'block';
+        load(page, "allInks");
+    }
+    function followingTimelineBtn () {
+        page = 1;
+        document.querySelector("#mainTimelineBtn").style.display = 'block';
+        document.querySelector("#followingTimelineBtn").style.display = 'none';
         load(page, "followedInks");
-        infiniteScroll("followedInks");
     }
     document.querySelector("#mainTimelineBtn").addEventListener('click', mainTimelineBtn);
     document.querySelector("#followingTimelineBtn").addEventListener('click', followingTimelineBtn);
