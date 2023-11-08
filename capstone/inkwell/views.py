@@ -113,7 +113,7 @@ def newInk(request):
         time.sleep(1) # 1 second pause for the server to catch up with the newly created ink
 
         if not privateStatus:
-            new_post = Post(message=f"{new_ink.inkOwner} created a new ink", referencedPostInk=new_ink)
+            new_post = Post(message="created a new ink", referencedPostInk=new_ink)
             new_post.save()
 
         time.sleep(1) # The page loads quicker than the server so it is held by 1 second for the server to catch up
@@ -235,7 +235,7 @@ def addNewChapter(request, newChapterNumber, inkId):
         new_chapter = Chapter(chapterNumber=newChapterNumber, chapterTitle=newChapterTitle, chapterInkOrigin=inkOrigin)
         new_chapter.save()
         time.sleep(1) # Necessary for the server to catch up making the new chapter model
-        return HttpResponseRedirect(reverse("edit_chapter", kwargs={'chapterID': new_chapter.id}))
+        return HttpResponseRedirect(reverse("edit_chapter", kwargs={'chapterID': new_chapter.id, 'inkID': inkOrigin.id}))
     
 @login_required
 def edit_chapter(request, chapterID, inkID):
@@ -253,20 +253,28 @@ def edit_chapter(request, chapterID, inkID):
 
     if request.method == "POST":
         if editingAsCoAuthor:
+            form = CoAuthorRequestForm(request.POST)
             if form.is_valid():
                 # Create new co-author request
                 new_coAuthorRequest = CoAuthorRequest(coAuthor=current_user, requestedChapter=chapterInfo)
+                print("co author request created")
                 new_coAuthorRequest.save()
                 time.sleep(1)
 
                 # Update the new co-author request using the form
                 form = CoAuthorRequestForm(request.POST, instance=new_coAuthorRequest)
+                print("co author request form updated")
                 form.save()
                 time.sleep(1)
 
                 # Create a notification for the author
                 new_notification = Notification(notifiedUser=inkInfo.inkOwner, contents=f"New co-author request from {current_user} regarding Chapter {chapterInfo.chapterNumber}: {chapterInfo.chapterTitle} of ink titled {inkInfo.title}", url=f"co_author_request/{chapterInfo.id}")
+                print("new notification created")
                 new_notification.save()
+
+                return HttpResponseRedirect(reverse("edit_ink", kwargs={'inkID': inkID}))
+            else:
+                print(form.errors)
         else:
             form = ChapterForm(request.POST)
             if form.is_valid():
@@ -274,20 +282,32 @@ def edit_chapter(request, chapterID, inkID):
                 form.save()
                 time.sleep(1)
                 if not inkInfo.privateStatus:
-                    new_post = Post(message=f"{inkInfo.inkOwner} updated their ink", referencedPostInk=inkInfo)
+                    new_post = Post(message="updated their ink", referencedPostInk=inkInfo)
                     new_post.save()
                 return HttpResponseRedirect(reverse("edit_ink", kwargs={'inkID': inkID}))
         
     return render(request, "inkwell/edit_chapter.html", {
         "chapterInfo": chapterInfo,
         "inkID": inkID,
-        "form": form
+        "form": form,
+        "editingAsCoAuthor": editingAsCoAuthor
+    })
+
+@login_required
+def coAuthorRequestsList(request):
+    current_user = User.objects.get(pk=request.user.pk)
+    inks = Ink.objects.filter(inkOwner=current_user.id)
+    chapters = Chapter.objects.filter(chapterInkOrigin__in=inks)
+    requests = CoAuthorRequest.objects.filter(requestedChapter__in=chapters)
+
+    return render(request, "inkwell/coAuthorRequestsList.html", {
+        "requests": requests
     })
 
 @login_required
 def coAuthorRequest(request, chapterID):
     requestedChapter = Chapter.objects.get(id=chapterID)
-    return render(request, "inkwell.co_author_request.html", {
+    return render(request, "inkwell/co_author_request.html", {
         "requestedChapter": requestedChapter
     })
 

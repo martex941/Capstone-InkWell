@@ -10,10 +10,17 @@
             {% csrf_token %}
             {{form.media}}
             <div>
-                <h5>Editing Chapter {{ chapterInfo.chapterNumber }}: {{form.chapterTitle}}</h5>
+                {% if editingAsCoAuthor %}
+                    <h5>Editing Chapter {{ chapterInfo.chapterNumber }}: {{chapterInfo.chapterTitle}}</h5>
+                {% else %}
+                    <h5>Editing Chapter {{ chapterInfo.chapterNumber }}: {{form.chapterTitle}}</h5>
+                {% endif %}
             </div>
             <div>
                 {{form.chapterContents}}
+                {% if editingAsCoAuthor %}
+                    {{form.requestedContentChange}}
+                {% endif %}
             </div>
             <div>
                 <button class="btn btn-primary" type="submit">Save Changes</button>

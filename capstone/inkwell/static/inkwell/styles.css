@@ -203,7 +203,7 @@ body {
 }
 
 /* login.html and register.html |||||||||||||||||||||*/
-.login-container .container, .register-container .container {
+.login-container.container, .register-container.container {
     border: none;
     width: 25%;
 }

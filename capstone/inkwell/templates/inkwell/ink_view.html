@@ -29,7 +29,7 @@
         <div class="col-2">
             <div class="container">
                 <h5 class="text-start">CHAPTERS</h5>
-                <ul>
+                <ul class="chapter-list">
                     {% for chapter in chapters %}
                         <a href="#anchorChapter{{ chapter.chapterNumber }}"><li>Chapter {{ chapter.chapterNumber }}: {{ chapter.chapterTitle }}</li></a>
                     {% endfor %}

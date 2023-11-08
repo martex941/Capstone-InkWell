@@ -20,13 +20,11 @@
     </div>
     <h5><a href="{% url 'followers' username=wellOwner %}">Followers</a>: {{ followers }}</h5>
     <h5><a href="{% url 'coauthors' username=wellOwner %}">Co-authors</a>: {{ coAuthors }}</h5>
+    <div id="following-check" data-following="{{ followCheck }}"></div>
     <h5>Available inks: {{ ink_number }}</h5>
     {% if wellOwner == request.user %}
         <a href="{% url 'ink_settings' %}">Manage your inks</a>
-    {% endif %}
-    <div id="following-check" data-following="{{ followCheck }}"></div>
-    {% if wellOwner == request.user %}
-    <!-- Do not generate a follow button -->
+        <a href="{% url 'coAuthorRequestsList' %}">View your Co-Author Requests</a>
     {% else %}
         <button class="btn btn-primary" id="followBtn" onclick="follow('follow')">Follow</button>
         <button class="btn btn-primary" id="unfollowBtn" onclick="follow('unfollow')">Unfollow</button>

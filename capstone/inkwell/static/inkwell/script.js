@@ -26,7 +26,7 @@ function timeline() {
 
                 const statusSpan = document.createElement('span');
                 if (!element.updateStatus) {
-                    statusSpan.innerHTML = `<a href="well/${element.inkOwner}">${element.inkOwner}</a> posted a new Ink`;
+                    statusSpan.innerHTML = `<a href="well/${element.inkOwner}">${element.inkOwner}</a> ${element.postMessage}`;
                 }
                 else {
                     statusSpan.innerHTML = `<a href="well/${element.inkOwner}">${element.inkOwner}</a> updated ${element.title}`;

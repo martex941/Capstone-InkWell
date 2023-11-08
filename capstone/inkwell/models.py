@@ -96,7 +96,7 @@ class Comment(models.Model):
 class CoAuthorRequest(models.Model):
     coAuthor = models.ForeignKey(User, on_delete=models.CASCADE, related_name="coAuthor", default="")
     requestedChapter = models.ForeignKey(Chapter, on_delete=models.CASCADE, related_name="requestedChapter", default="")
-    requestedContentChange = QuillField()
+    chapterContents = QuillField()
     requestDate = models.DateTimeField(default=timezone.now, editable=False)
 
     def __str__(self):

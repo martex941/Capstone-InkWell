@@ -1,0 +1,16 @@
+{% extends "inkwell/layout.html" %}
+
+{% block body %}
+<div class="coAuthorRequestsList">
+    {% for request in requests %}
+    <div class="row">
+        <div class="col">
+            Name: {{request.coAuthor}}
+        </div>
+        <div class="col">
+            {{request.requestDate}}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -2,6 +2,7 @@
 from django import forms
 from .models import Chapter, CoAuthorRequest
 from django_quill.widgets import QuillWidget
+from django_quill.fields import QuillField
 
 class ChapterForm(forms.ModelForm):
     class Meta:
@@ -14,7 +15,7 @@ class ChapterForm(forms.ModelForm):
 class CoAuthorRequestForm(forms.ModelForm):
     class Meta:
         model = CoAuthorRequest
-        fields = ('requestedContentChange',)
+        fields = ('chapterContents',)
         widgets = {
-            'requestedContentChange': QuillWidget(),
+            'chapterContents': QuillWidget(),
         }
