@@ -307,7 +307,7 @@ def coAuthorRequestsList(request):
 @login_required
 def coAuthorRequest(request, chapterID):
     requestedChapter = Chapter.objects.get(id=chapterID)
-    return render(request, "inkwell/co_author_request.html", {
+    return render(request, "inkwell/coAuthorRequest.html", {
         "requestedChapter": requestedChapter
     })
 

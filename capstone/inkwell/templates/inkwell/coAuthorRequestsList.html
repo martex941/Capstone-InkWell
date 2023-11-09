@@ -1,13 +1,19 @@
 {% extends "inkwell/layout.html" %}
 
 {% block body %}
-<div class="coAuthorRequestsList">
+<div class="coAuthorRequestsList d-flex justify-content-center">
     {% for request in requests %}
-    <div class="row">
-        <div class="col">
-            Name: {{request.coAuthor}}
+    <div class="container row">
+        <div class="col-2">
+            Request from: {{request.coAuthor}}
         </div>
         <div class="col">
+            Request: change contents of Chapter {{request.requestedChapter.chapterNumber}}: {{request.requestedChapter.chapterTitle}} in <a href="{% url 'ink_view' inkID=request.requestedChapter.chapterInkOrigin.id %}">{{request.requestedChapter.chapterInkOrigin.title}}</a>
+        </div>
+        <div class="col-2">
+            <a href="{% url 'coAuthorRequest' chapterID=request.requestedChapter.id %}"><button>View changes</button></a>
+        </div>
+        <div class="col-2">
             {{request.requestDate}}
         </div>
     </div>
