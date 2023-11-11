@@ -268,7 +268,7 @@ def edit_chapter(request, chapterID, inkID):
                 time.sleep(1)
 
                 # Create a notification for the author
-                new_notification = Notification(notifiedUser=inkInfo.inkOwner, contents=f"New co-author request from {current_user} regarding Chapter {chapterInfo.chapterNumber}: {chapterInfo.chapterTitle} of ink titled {inkInfo.title}", url=f"co_author_request/{chapterInfo.id}")
+                new_notification = Notification(notifiedUser=inkInfo.inkOwner, contents=f"New co-author request from {current_user} regarding Chapter {chapterInfo.chapterNumber}: {chapterInfo.chapterTitle} of ink titled {inkInfo.title}", url=f"coAuthorRequest/{chapterInfo.id}")
                 print("new notification created")
                 new_notification.save()
 

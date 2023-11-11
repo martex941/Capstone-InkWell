@@ -1,7 +1,47 @@
 {% extends "inkwell/layout.html" %}
 
 {% block body %}
+<script>
+    // Function to highlight added content
+    function highlightAddedContent() {
+        var originalText = document.getElementById("originalText").innerText;
+        var modifiedText = document.getElementById("modifiedText").innerText;
+
+        var result = "";
+        for (var i = 0; i < modifiedText.length; i++) {
+            if (modifiedText[i] !== originalText[i]) {
+                result += '<span class="added">' + modifiedText[i] + '</span>';
+            } else {
+                result += modifiedText[i];
+            }
+        }
+
+        document.getElementById("modifiedText").innerHTML = result;
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        // Call the function to highlight added content
+        highlightAddedContent();
+    });
+    
+</script>
+
+<style>
+    .added {
+        background-color: #aaffaa;  /* Light green */
+    }
+</style>
+
 <div class="container">
+    <div id="originalText">
+        <!-- Your original text here -->
+        {{originalChapter.chapterContents.html|safe}}
+    </div>
+    <div id="modifiedText">
+        <!-- Your modified text here -->
+        {{newChapterContent.chapterContents.html|safe}}
+    </div>
+
     
 </div>
 {% endblock %}
