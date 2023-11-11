@@ -6,17 +6,30 @@
     function highlightAddedContent() {
         var originalText = document.getElementById("originalText").innerText;
         var modifiedText = document.getElementById("modifiedText").innerText;
+        var deletedText = document.getElementById("whatWasDeleted").innerText;
 
         var result = "";
+        
         for (var i = 0; i < modifiedText.length; i++) {
             if (modifiedText[i] !== originalText[i]) {
                 result += '<span class="added">' + modifiedText[i] + '</span>';
-            } else {
+            }
+            else {
                 result += modifiedText[i];
             }
         }
-
         document.getElementById("modifiedText").innerHTML = result;
+
+        var deletedHighlight = "";
+        for (var i = 0; i < deletedText.length; i++) {
+            if (deletedText[i] !== modifiedText[i]) {
+                deletedHighlight += '<span class="deleted">' + deletedText[i] + '</span>';
+            }
+            else {
+                deletedHighlight += deletedText[i];
+            }
+        }
+        document.getElementById("whatWasDeleted").innerHTML = deletedHighlight;
     }
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -30,6 +43,11 @@
     .added {
         background-color: #aaffaa;  /* Light green */
     }
+    
+    .deleted {
+            background-color: #ffaaaa;  /* Light red */
+    }
+    
 </style>
 
 <div class="container">
@@ -40,6 +58,9 @@
     <div id="modifiedText">
         <!-- Your modified text here -->
         {{newChapterContent.chapterContents.html|safe}}
+    </div>
+    <div id="whatWasDeleted">
+        {{originalChapter.chapterContents.html|safe}}
     </div>
 
     
