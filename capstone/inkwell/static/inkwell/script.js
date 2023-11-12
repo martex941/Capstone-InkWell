@@ -267,3 +267,32 @@ function cancelAddingNewChapter() {
     document.querySelector("#cancelAddingNewChapter").style.display = 'none';
     document.querySelector("#addChapterForm").style.display = 'none';
 }
+
+function coAuthorRequestHighlight() {
+    var originalText = document.getElementById("originalText").innerText;
+    var modifiedText = document.getElementById("modifiedText").innerText;
+    var deletedText = document.getElementById("whatWasDeleted").innerText;
+
+    var result = "";
+    
+    for (var i = 0; i < modifiedText.length; i++) {
+        if (modifiedText[i] !== originalText[i]) {
+            result += '<span class="added">' + modifiedText[i] + '</span>';
+        }
+        else {
+            result += modifiedText[i];
+        }
+    }
+    document.getElementById("modifiedText").innerHTML = result;
+
+    var deletedHighlight = "";
+    for (var i = 0; i < deletedText.length; i++) {
+        if (deletedText[i] !== modifiedText[i]) {
+            deletedHighlight += '<span class="deleted">' + deletedText[i] + '</span>';
+        }
+        else {
+            deletedHighlight += deletedText[i];
+        }
+    }
+    document.getElementById("whatWasDeleted").innerHTML = deletedHighlight;
+}
