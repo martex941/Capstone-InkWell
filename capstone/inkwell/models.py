@@ -7,10 +7,10 @@ class User(AbstractUser):
     about = models.CharField(max_length=250, default="")
     profilePicture = models.ImageField(upload_to='', blank=True, null=True)
 
-    coAuthorRequests = models.PositiveIntegerField(default=0)
+    coAuthorRequests = models.PositiveIntegerField(default=0) # Amount of co-author requests the author gets from other authors
 
     @property
-    def acceptedCoAuthorRequests(self):
+    def acceptedCoAuthorRequests(self): # Amount of co-author requests the author made to other inks
         acar = Ink.objects.filter(inkOwner=self).values_list('coAuthors', flat=True)
         return acar.count()
 

@@ -309,6 +309,12 @@ def coAuthorRequest(request, chapterID):
     originalChapter = Chapter.objects.get(id=chapterID)
     newChapterContent = CoAuthorRequest.objects.get(requestedChapter=originalChapter)
 
+    # if request.method == "POST":
+    #     if "requestAccepted" in request.POST:
+
+
+
+
     return render(request, "inkwell/coAuthorRequest.html", {
         "originalChapter": originalChapter,
         "newChapterContent": newChapterContent
