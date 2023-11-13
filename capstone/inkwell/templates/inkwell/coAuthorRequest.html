@@ -16,21 +16,32 @@
     .deleted {
             background-color: #ffaaaa;
     }
+
+    .texts {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
 </style>
 
-<div class="container">
-    <div id="originalText">
+<div class="container-flex texts">
+    <div class="" id="originalText">
         <!-- Your original text here -->
         {{originalChapter.chapterContents.html|safe}}
     </div>
-    <div id="modifiedText">
+    <div class="" id="modifiedText">
         <!-- Your modified text here -->
         {{newChapterContent.chapterContents.html|safe}}
     </div>
-    <div id="whatWasDeleted">
+    <div class="" id="whatWasDeleted">
         {{originalChapter.chapterContents.html|safe}}
     </div>
 
+    <form class="form" action="" method="post">
+        {% csrf_token %}
+        <button class="btn btn-primary">ACCEPT REQUEST</button>
+        <button class="btn btn-danger">DECLINE REQUEST</button>
+    </form>
     
 </div>
 {% endblock %}
