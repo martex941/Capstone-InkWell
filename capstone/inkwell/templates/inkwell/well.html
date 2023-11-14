@@ -24,7 +24,8 @@
     <h5>Available inks: {{ ink_number }}</h5>
     {% if wellOwner == request.user %}
         <a href="{% url 'ink_settings' %}">Manage your inks</a>
-        <a href="{% url 'coAuthorRequestsList' %}">View your Co-Author Requests</a>
+        <a href="{% url 'coAuthorRequestsList' %}">View requests from co-authors</a>
+        <a href="">View your pending co-author requests</a>
     {% else %}
         <button class="btn btn-primary" id="followBtn" onclick="follow('follow')">Follow</button>
         <button class="btn btn-primary" id="unfollowBtn" onclick="follow('unfollow')">Unfollow</button>

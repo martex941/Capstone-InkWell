@@ -98,6 +98,8 @@ class CoAuthorRequest(models.Model):
     requestedChapter = models.ForeignKey(Chapter, on_delete=models.CASCADE, related_name="requestedChapter", default="")
     chapterContents = QuillField()
     requestDate = models.DateTimeField(default=timezone.now, editable=False)
+    acceptedStatus = models.BooleanField(default=False)
+    declinedMessage = models.TextField(default="")
 
     def __str__(self):
         return f"{self.coAuthor} is requesting to edit {self.requestedChapter}"

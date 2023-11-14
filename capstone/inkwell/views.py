@@ -272,6 +272,11 @@ def edit_chapter(request, chapterID, inkID):
                 print("new notification created")
                 new_notification.save()
 
+                # Update requests counter for the user whp os the author
+                inkAuthor = inkInfo.inkOwner
+                inkAuthor.coAuthorRequests += 1
+                inkAuthor.save()
+
                 return HttpResponseRedirect(reverse("edit_ink", kwargs={'inkID': inkID}))
             else:
                 print(form.errors)
@@ -307,17 +312,31 @@ def coAuthorRequestsList(request):
 @login_required
 def coAuthorRequest(request, chapterID):
     originalChapter = Chapter.objects.get(id=chapterID)
-    newChapterContent = CoAuthorRequest.objects.get(requestedChapter=originalChapter)
+    relatedRequest = CoAuthorRequest.objects.get(requestedChapter=originalChapter)
 
-    # if request.method == "POST":
-    #     if "requestAccepted" in request.POST:
+    if request.method == "POST":
+        if "requestAccepted" in request.POST:
+            relatedRequest.acceptedStatus = True
 
+            relatedInk = originalChapter.chapterInkOrigin
+            relatedInk.coAuthors.add(relatedRequest.coAuthor)
+            relatedInk.save()
 
-
+            originalChapter.chapterContents = relatedRequest.chapterContents
+            originalChapter.save()
+            time.sleep(1)
+            
+            return HttpResponseRedirect(reverse("edit_ink", kwargs={'inkID': relatedInk.id}))
+        elif "requestDeclined" in request.POST:
+            declineReason = request.POST.get("declineReason")
+            relatedRequest.declinedMessage = declineReason
+            relatedRequest.save()
+            time.sleep(1)
+            return HttpResponseRedirect(reverse("coAuthorRequestsList"))
 
     return render(request, "inkwell/coAuthorRequest.html", {
         "originalChapter": originalChapter,
-        "newChapterContent": newChapterContent
+        "newChapterContent": relatedRequest
     })
 
 @login_required
