@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django_quill.fields import QuillField
 from django.utils import timezone
+from bs4 import BeautifulSoup
 from django.db import models
 
 class User(AbstractUser):
@@ -61,8 +62,20 @@ class Ink(models.Model):
     title = models.CharField(max_length=64, default="")
     content = models.TextField()
     views = models.PositiveBigIntegerField(default=0)
-    letterCount = models.PositiveBigIntegerField(default=0)
     creation_date = models.DateTimeField(default=timezone.now, editable=False)
+
+    @property
+    def letterCount(self):
+        allChapters = Chapter.objects.filter(chapterInkOrigin=self)
+        total_letter_count = 0
+
+        for chapter in allChapters:
+            soup = BeautifulSoup(chapter.chapterContents, 'html.parser')
+            text_content = soup.get_text()
+            letter_count = len([char for char in text_content if char.isalpha()])
+            total_letter_count += letter_count
+
+        return total_letter_count
 
     def __str__(self):
         return f"{self.title} by {self.inkOwner}"
