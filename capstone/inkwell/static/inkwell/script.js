@@ -296,3 +296,17 @@ function coAuthorRequestHighlight() {
     }
     document.getElementById("whatWasDeleted").innerHTML = deletedHighlight;
 }
+
+function declineRequest() {
+    document.querySelector("#confirmDeclineBtn").style.display = 'block';
+    document.querySelector("#declineMessageTextArea").style.display = 'block';
+    document.querySelector("#go-backBtn").style.display = 'block';
+    document.querySelector("#declineBtn").style.display = 'none';
+}
+
+function goBackBtn() {
+    document.querySelector("#confirmDeclineBtn").style.display = 'none';
+    document.querySelector("#declineMessageTextArea").style.display = 'none';
+    document.querySelector("#go-backBtn").style.display = 'none';
+    document.querySelector("#declineBtn").style.display = 'block';
+}

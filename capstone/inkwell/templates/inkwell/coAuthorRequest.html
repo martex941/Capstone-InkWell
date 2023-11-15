@@ -16,15 +16,9 @@
     .deleted {
             background-color: #ffaaaa;
     }
-
-    .texts {
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-    }
 </style>
 
-<div class="container-flex texts">
+<div class="container texts">
     <div class="" id="originalText">
         <!-- Your original text here -->
         {{originalChapter.chapterContents.html|safe}}
@@ -39,8 +33,11 @@
 
     <form class="form" action="" method="post">
         {% csrf_token %}
-        <button class="btn btn-primary">ACCEPT REQUEST</button>
-        <button class="btn btn-danger">DECLINE REQUEST</button>
+        <button class="btn btn-success" type="submit">ACCEPT REQUEST</button>
+        <button class="btn btn-danger" id="declineBtn" onclick="declineRequest()" type="button">DECLINE REQUEST</button>
+        <button class="btn btn-primary" id="go-backBtn" style="display: none;" onclick="goBackBtn()" type="button">GO BACK</button>
+        <button class="btn btn-danger" id="confirmDeclineBtn" style="display: none;" type="submit">CONFIRM DECLINE</button>
+        <textarea style="display: none;" id="declineMessageTextArea" placeholder="Provide a reason for declining the request..." rows="4" cols="50"></textarea>
     </form>
     
 </div>
