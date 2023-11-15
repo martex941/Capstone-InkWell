@@ -28,8 +28,9 @@ class User(AbstractUser):
     
     @property
     def letters(self):
-        l = Ink.objects.filter(inkOwner=self).values_list('letterCount', flat=True)
-        l = sum(l)
+        # l = Ink.objects.filter(inkOwner=self).values_list('letterCount', flat=True)
+        # l = sum(l)
+        l = 1
         return l
     
     def __str__(self):
@@ -68,11 +69,9 @@ class Ink(models.Model):
     def letterCount(self):
         allChapters = Chapter.objects.filter(chapterInkOrigin=self)
         total_letter_count = 0
-
+    
         for chapter in allChapters:
-            soup = BeautifulSoup(chapter.chapterContents, 'html.parser')
-            text_content = soup.get_text()
-            letter_count = len([char for char in text_content if char.isalpha()])
+            letter_count = len([char for char in chapter.chapterContents.html if char.isalpha()])
             total_letter_count += letter_count
 
         return total_letter_count

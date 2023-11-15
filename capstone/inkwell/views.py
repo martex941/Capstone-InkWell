@@ -9,6 +9,7 @@ from django.db import IntegrityError
 from django.db.models.functions import Random
 from django.core.paginator import Paginator
 import time, json
+from bs4 import BeautifulSoup
 
 from .helpers import email_validator
 from .forms import ChapterForm, CoAuthorRequestForm
@@ -161,6 +162,16 @@ def ink_view(request, inkID):
             new_comment = Comment(content=commentContents, commentInkOrigin=viewedInk, commentAuthor=current_user)
             new_comment.save()
             time.sleep(1)
+
+
+    allChapters = Chapter.objects.filter(chapterInkOrigin=viewedInk)
+    total_letter_count = 0
+    
+    for chapter in allChapters:
+        letter_count = len([char for char in chapter.chapterContents.html if char.isalpha()])
+        total_letter_count += letter_count
+
+    print(total_letter_count)
 
     return render(request, "inkwell/ink_view.html", {
         "ink": viewedInk,
@@ -332,6 +343,7 @@ def coAuthorRequest(request, chapterID):
             relatedRequest.declinedMessage = declineReason
             relatedRequest.save()
             time.sleep(1)
+            
             return HttpResponseRedirect(reverse("coAuthorRequestsList"))
 
     return render(request, "inkwell/coAuthorRequest.html", {
