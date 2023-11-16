@@ -9,7 +9,6 @@ from django.db import IntegrityError
 from django.db.models.functions import Random
 from django.core.paginator import Paginator
 import time, json
-from bs4 import BeautifulSoup
 
 from .helpers import email_validator
 from .forms import ChapterForm, CoAuthorRequestForm
@@ -318,6 +317,7 @@ def coAuthorRequest(request, chapterID):
     if request.method == "POST":
         if "requestAccepted" in request.POST:
             relatedRequest.acceptedStatus = True
+            relatedRequest.save()
 
             relatedInk = originalChapter.chapterInkOrigin
             relatedInk.coAuthors.add(relatedRequest.coAuthor)

@@ -1,7 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django_quill.fields import QuillField
 from django.utils import timezone
-from bs4 import BeautifulSoup
 from django.db import models
 
 class User(AbstractUser):
