@@ -31,14 +31,17 @@
         {{originalChapter.chapterContents.html|safe}}
     </div>
 
-    <form class="form" action="" method="post">
-        {% csrf_token %}
-        <button class="btn btn-success" type="submit" name="requestAccepted">ACCEPT REQUEST</button>
-        <button class="btn btn-danger" id="declineBtn" onclick="declineRequest()" type="button">DECLINE REQUEST</button>
-        <button class="btn btn-primary" id="go-backBtn" style="display: none;" onclick="goBackBtn()" type="button">GO BACK</button>
-        <button class="btn btn-danger" id="confirmDeclineBtn" style="display: none;" type="submit" name="requestDeclined">CONFIRM DECLINE</button>
-        <textarea style="display: none;" id="declineMessageTextArea" placeholder="Provide a reason for declining the request..." rows="4" cols="50"></textarea>
-    </form>
-    
+    {% if newChapterContent.acceptedStatus %}
+        THIS REQUEST HAS ALREADY BEEN ACCEPTED
+    {% else %}
+        <form class="form" action="" method="post">
+            {% csrf_token %}
+            <button class="btn btn-success" type="submit" name="requestAccepted">ACCEPT REQUEST</button>
+            <button class="btn btn-danger" id="declineBtn" onclick="declineRequest()" type="button">DECLINE REQUEST</button>
+            <button class="btn btn-primary" id="go-backBtn" style="display: none;" onclick="goBackBtn()" type="button">GO BACK</button>
+            <button class="btn btn-danger" id="confirmDeclineBtn" style="display: none;" type="submit" name="requestDeclined">CONFIRM DECLINE</button>
+            <textarea style="display: none;" id="declineMessageTextArea" placeholder="Provide a reason for declining the request..." rows="4" cols="50"></textarea>
+        </form>
+    {% endif %}    
 </div>
 {% endblock %}
