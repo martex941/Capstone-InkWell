@@ -303,7 +303,7 @@ def coAuthorRequestsList(request):
     current_user = User.objects.get(pk=request.user.pk)
     inks = Ink.objects.filter(inkOwner=current_user.id)
     chapters = Chapter.objects.filter(chapterInkOrigin__in=inks)
-    requests = CoAuthorRequest.objects.filter(requestedChapter__in=chapters)
+    requests = CoAuthorRequest.objects.filter(requestedChapter__in=chapters, acceptedStatus=False)
 
     return render(request, "inkwell/coAuthorRequestsList.html", {
         "requests": requests
@@ -330,6 +330,7 @@ def coAuthorRequest(request, chapterID):
             return HttpResponseRedirect(reverse("edit_ink", kwargs={'inkID': relatedInk.id}))
         elif "requestDeclined" in request.POST:
             declineReason = request.POST.get("declineReason")
+            print(declineReason)
             relatedRequest.declinedMessage = declineReason
             relatedRequest.save()
             time.sleep(1)

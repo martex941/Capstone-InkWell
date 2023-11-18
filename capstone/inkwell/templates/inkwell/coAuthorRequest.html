@@ -19,20 +19,25 @@
 </style>
 
 <div class="container texts">
-    <div class="" id="originalText">
+    <h5>ORIGINAL TEXT</h5>
+    <div class="request-review-text" id="originalText">
         <!-- Your original text here -->
         {{originalChapter.chapterContents.html|safe}}
     </div>
-    <div class="" id="modifiedText">
+    <h5>MODIFIED TEXT</h5>
+    <div class="request-review-text" id="modifiedText">
         <!-- Your modified text here -->
         {{newChapterContent.chapterContents.html|safe}}
     </div>
-    <div class="" id="whatWasDeleted">
+    <h5>DELETED TEXT</h5>
+    <div class="request-review-text" id="whatWasDeleted">
         {{originalChapter.chapterContents.html|safe}}
     </div>
 
     {% if newChapterContent.acceptedStatus %}
         THIS REQUEST HAS ALREADY BEEN ACCEPTED
+    {% elif newChapterContent.declinedMessage != "" %}
+        THIS REQUEST HAS ALREADY BEEN DECLINED
     {% else %}
         <form class="form" action="" method="post">
             {% csrf_token %}
@@ -40,7 +45,7 @@
             <button class="btn btn-danger" id="declineBtn" onclick="declineRequest()" type="button">DECLINE REQUEST</button>
             <button class="btn btn-primary" id="go-backBtn" style="display: none;" onclick="goBackBtn()" type="button">GO BACK</button>
             <button class="btn btn-danger" id="confirmDeclineBtn" style="display: none;" type="submit" name="requestDeclined">CONFIRM DECLINE</button>
-            <textarea style="display: none;" id="declineMessageTextArea" placeholder="Provide a reason for declining the request..." rows="4" cols="50"></textarea>
+            <textarea style="display: none;" id="declineMessageTextArea" placeholder="Provide a reason for declining the request..." rows="4" cols="50" name="declineReason"></textarea>
         </form>
     {% endif %}    
 </div>

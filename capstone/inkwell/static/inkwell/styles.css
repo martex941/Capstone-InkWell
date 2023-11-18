@@ -227,3 +227,11 @@ body {
     border: 2px var(--border-color) solid;
     border-radius: 75%;
 }
+
+/* coAuthorRequest.html ||||||||||||||||||||| */
+
+.request-review-text {
+    border: var(--border-color) 2px solid;
+    margin: 1rem;
+    padding: 1rem;
+}
