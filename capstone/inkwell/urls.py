@@ -20,6 +20,7 @@ urlpatterns = [
     path('edit_ink/<int:inkID>', views.edit_ink, name='edit_ink'),
     path('addNewChapter/<int:newChapterNumber>/<int:inkId>', views.addNewChapter, name='addNewChapter'),
     path('edit_chapter/<int:chapterID>/<int:inkID>', views.edit_chapter, name='edit_chapter'),
+    path('yourCoAuthorRequests', views.yourCoAuthorRequests, name="yourCoAuthorRequests"),
     path('coAuthorRequestsList', views.coAuthorRequestsList, name="coAuthorRequestsList"),
     path('coAuthorRequest/<int:chapterID>', views.coAuthorRequest, name='coAuthorRequest'),
     path('ink_view/<int:inkID>', views.ink_view, name='ink_view'),

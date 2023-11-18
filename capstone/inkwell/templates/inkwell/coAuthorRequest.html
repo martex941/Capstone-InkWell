@@ -24,29 +24,42 @@
         <!-- Your original text here -->
         {{originalChapter.chapterContents.html|safe}}
     </div>
-    <h5>MODIFIED TEXT</h5>
+    <h5>NEW CONTENT (highlighted in green)</h5>
     <div class="request-review-text" id="modifiedText">
         <!-- Your modified text here -->
         {{newChapterContent.chapterContents.html|safe}}
     </div>
-    <h5>DELETED TEXT</h5>
+    <h5>DELETED CONTENT (highlighted in red)</h5>
     <div class="request-review-text" id="whatWasDeleted">
         {{originalChapter.chapterContents.html|safe}}
     </div>
 
-    {% if newChapterContent.acceptedStatus %}
-        THIS REQUEST HAS ALREADY BEEN ACCEPTED
-    {% elif newChapterContent.declinedMessage != "" %}
-        THIS REQUEST HAS ALREADY BEEN DECLINED
+    {% if newChapterContent.relatedChapter.chapterInkOrigin.inkOwner.pk == request.user.pk %} <!-- if current user is the author -->
+        {% if newChapterContent.acceptedStatus %}
+            THIS REQUEST HAS ALREADY BEEN ACCEPTED
+        {% elif newChapterContent.declinedMessage != "" %}
+            THIS REQUEST HAS ALREADY BEEN DECLINED
+        {% else %}
+            <form class="form" action="" method="post">
+                {% csrf_token %}
+                <button class="btn btn-success" type="submit" name="requestAccepted">ACCEPT REQUEST</button>
+                <button class="btn btn-danger" id="declineBtn" onclick="declineRequest()" type="button">DECLINE REQUEST</button>
+                <button class="btn btn-primary" id="go-backBtn" style="display: none;" onclick="goBackBtn()" type="button">GO BACK</button>
+                <button class="btn btn-danger" id="confirmDeclineBtn" style="display: none;" type="submit" name="requestDeclined">CONFIRM DECLINE</button>
+                <textarea style="display: none;" id="declineMessageTextArea" placeholder="Provide a reason for declining the request..." rows="4" cols="50" name="declineReason"></textarea>
+            </form>
+        {% endif %}
     {% else %}
-        <form class="form" action="" method="post">
-            {% csrf_token %}
-            <button class="btn btn-success" type="submit" name="requestAccepted">ACCEPT REQUEST</button>
-            <button class="btn btn-danger" id="declineBtn" onclick="declineRequest()" type="button">DECLINE REQUEST</button>
-            <button class="btn btn-primary" id="go-backBtn" style="display: none;" onclick="goBackBtn()" type="button">GO BACK</button>
-            <button class="btn btn-danger" id="confirmDeclineBtn" style="display: none;" type="submit" name="requestDeclined">CONFIRM DECLINE</button>
-            <textarea style="display: none;" id="declineMessageTextArea" placeholder="Provide a reason for declining the request..." rows="4" cols="50" name="declineReason"></textarea>
-        </form>
-    {% endif %}    
+        {% if newChapterContent.acceptedStatus %}
+            YOUR REQUEST HAS BEEN ACCEPTED <a href="{% url 'ink_view' inkID=originalChapter.chapterInkOrigin.id %}">Go to Ink</a>
+        {% elif newChapterContent.declinedMessage != "" %}
+            YOUR REQUEST HAS BEEN DECLINED
+            Reason:
+            <p class="request-review-text">{{newChapterContent.declinedMessage}}</p>
+        {% else %}
+            YOUR REQUEST IS STILL PENDING
+        {% endif %}
+        
+    {% endif %}
 </div>
 {% endblock %}

@@ -310,6 +310,15 @@ def coAuthorRequestsList(request):
     })
 
 @login_required
+def yourCoAuthorRequests(request):
+    current_user = User.objects.get(pk=request.user.pk)
+    yourRequests = CoAuthorRequest.objects.filter(coAuthor=current_user)
+
+    return render(request, "inkwell/yourCoAuthorRequests.html", {
+        "yourRequests": yourRequests
+    })
+
+@login_required
 def coAuthorRequest(request, chapterID):
     originalChapter = Chapter.objects.get(id=chapterID)
     relatedRequest = CoAuthorRequest.objects.get(requestedChapter=originalChapter)
