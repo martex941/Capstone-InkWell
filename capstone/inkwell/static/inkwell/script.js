@@ -25,12 +25,7 @@ function timeline() {
                 ink_div.className = 'inkDiv';
 
                 const statusSpan = document.createElement('span');
-                if (!element.updateStatus) {
-                    statusSpan.innerHTML = `<a href="well/${element.inkOwner}">${element.inkOwner}</a> ${element.postMessage}`;
-                }
-                else {
-                    statusSpan.innerHTML = `<a href="well/${element.inkOwner}">${element.inkOwner}</a> updated ${element.title}`;
-                }
+                statusSpan.innerHTML = `<a href="well/${element.inkOwner}">${element.inkOwner}</a> ${element.postMessage}`;
                 ink_div.append(statusSpan);
                 
                 const inkLink = document.createElement('a');
