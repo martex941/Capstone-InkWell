@@ -281,6 +281,10 @@ def edit_chapter(request, chapterID, inkID):
             else:
                 print(form.errors)
         else:
+            if "deleteChapter" in request.POST:
+                    chapterInfo.delete()
+                    time.sleep(1)
+                    return HttpResponseRedirect(reverse("edit_ink", kwargs={'inkID': inkID}))
             form = ChapterForm(request.POST)
             if form.is_valid():
                 form = ChapterForm(request.POST, instance=chapterInfo)
