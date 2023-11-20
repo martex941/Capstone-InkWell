@@ -11,7 +11,8 @@
     </script>
 
     <div class="container-flex inkEditContainer">
-        <div class="row d-flex justify-content-center">
+        <a href="{% url 'ink_view' inkID=editInk.id %}"><button class="btn btn-primary backToInkView">Back to Ink</button></a>
+        <div class="row">
             <div class="col-2 chaptersListEdit">
                 <h5>CHAPTERS</h5>
                 <ul>
@@ -35,7 +36,7 @@
                 </div>
             </div>
     
-            <div class="col-6 inkEditMainColumn">
+            <div class="col-10 inkEditMainColumn">
                 <div class="row mb-3 mt-3 d-flex justify-content-center">
                     <div id="dataInkID" data-ink="6"></div>
                     {% if editingAsCoAuthor %}
@@ -60,7 +61,7 @@
                             </div>
                             <div class="col">
                                 <h5>Edit description:</h5>
-                                <textarea class="form-label descriptionEdit" rows="4" cols="100" name="descriptionEdit" disabled>{{ editInk.description }}</textarea>
+                                <textarea class="form-label descriptionEdit" name="descriptionEdit" disabled>{{ editInk.description }}</textarea>
                             </div>
                             <button class="btn btn-primary" id="saveAllChapterChangesBtn" disabled>SAVE CHANGES</button>
                         {% else %}
@@ -94,12 +95,6 @@
                     </div>
                 {% endfor %}
             </div>
-    
-            <div class="col-2 chaptersNotesEdit">
-                <h5>Notes</h5>
-
-            </div>
-
         </div>
     </div>
   

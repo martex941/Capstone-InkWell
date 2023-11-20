@@ -58,8 +58,8 @@ body {
     margin-top: 1rem;
 }
 
-.chaptersListEdit, .chaptersNotesEdit {
-    background-color: var(--primary-color);
+.chaptersListEdit {
+    width: 242.66px;
 }
 
 .editChapterAnchor {
@@ -78,6 +78,12 @@ body {
 .inkEditMainColumn {
     background-color: var(--secondary-color);
     border: 1px var(--border-color) solid;
+}
+
+.descriptionEdit {
+    width: 100%; 
+    box-sizing: border-box; 
+    resize: vertical; 
 }
 
 /* ink_view.html ||||||||||||||||||||||||||*/
@@ -113,8 +119,22 @@ body {
     font-weight: bold;
 }
 
+.chapterListView {
+    width: 242.66px;
+}
+
+.backToInkView {
+    margin: 0.5rem;
+}
+
 .comment {
     background-color: var(--secondary-color);
+}
+
+.commentContents {
+    width: 100%; 
+    box-sizing: border-box; 
+    resize: vertical; 
 }
 
 /* edit_profile.html ||||||||||||||||||||||||||*/
