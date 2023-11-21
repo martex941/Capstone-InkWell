@@ -22,7 +22,7 @@ urlpatterns = [
     path('edit_chapter/<int:chapterID>/<int:inkID>', views.edit_chapter, name='edit_chapter'),
     path('yourCoAuthorRequests', views.yourCoAuthorRequests, name="yourCoAuthorRequests"),
     path('coAuthorRequestsList', views.coAuthorRequestsList, name="coAuthorRequestsList"),
-    path('coAuthorRequest/<int:chapterID>', views.coAuthorRequest, name='coAuthorRequest'),
+    path('coAuthorRequest/<int:chapterID>/<int:requestID>', views.coAuthorRequest, name='coAuthorRequest'),
     path('ink_view/<int:inkID>', views.ink_view, name='ink_view'),
     path('ink_view/<int:inkID>/followInk', views.followInk, name='followInk'),
     path('ink_view/<int:inkID>/unfollowInk', views.unfollowInk, name='unfollowInk'),
@@ -33,7 +33,6 @@ urlpatterns = [
     path('notifications/<int:page>', views.notifications, name='notificaitons'),
     path('well/<str:username>/follow', views.follow, name='follow'),
     path('well/<str:username>/unfollow', views.unfollow, name='unfollow')
-
 ]
 
 if settings.DEBUG:

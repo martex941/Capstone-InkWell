@@ -34,7 +34,7 @@
         {{originalChapter.chapterContents.html|safe}}
     </div>
 
-    {% if newChapterContent.relatedChapter.chapterInkOrigin.inkOwner.pk == request.user.pk %} <!-- if current user is the author -->
+    {% if newChapterContent.requestedChapter.chapterInkOrigin.inkOwner.pk == request.user.pk %} <!-- if current user is the author -->
         {% if newChapterContent.acceptedStatus %}
             THIS REQUEST HAS ALREADY BEEN ACCEPTED
         {% elif newChapterContent.declinedMessage != "" %}

@@ -1,16 +1,9 @@
 {% extends "inkwell/layout.html" %}
 
 {% block body %}
-<h3>People who follow USERNAME</h3>
-<style>
-    .follower-reference {
-        margin: 1rem;
-        border: 1px black solid;
-        border-radius: 15px;
-        padding: 0.5rem;
-    }
-</style>
+
 <div class="container">
+    <h3>People who follow {{ followed_user.username }}</h3>
     {% for follower in followers %}
         <div class="row follower-reference">
             <div class="col">

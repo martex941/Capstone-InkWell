@@ -3,12 +3,14 @@
 
 {% block body %}
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const inkID = document.querySelector("#dataInkID").dataset.ink;
-            checkTitleAvailability(`${inkID}/checkNewInkTitle`, "messageEditInk", "saveAllChapterChangesBtn");
-        })
-    </script>
+    {% if not editingAsCoAuthor %}
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const inkID = document.querySelector("#dataInkID").dataset.ink;
+                checkTitleAvailability(`${inkID}/checkNewInkTitle`, "messageEditInk", "saveAllChapterChangesBtn");
+            })
+        </script>
+    {% endif %}
 
     <div class="container-flex inkEditContainer">
         <a href="{% url 'ink_view' inkID=editInk.id %}"><button class="btn btn-primary backToInkView">Back to Ink</button></a>
@@ -21,18 +23,15 @@
                     {% endfor %}
                 </ul>
                 <div class="d-flex justify-content-center">
-                    {% if editingAsCoAuthor %}
-                        <button class="btn btn-primary" id="addChapterBtn" onclick="addChapter()" disabled>Add Chapter {{ newChapterNum }}</button>
-                    {% else %}
+                    {% if not editingAsCoAuthor %}
                         <button class="btn btn-primary" id="addChapterBtn" onclick="addChapter()">Add Chapter {{ newChapterNum }}</button>
-                    {% endif %}
-                    <button class="btn btn-danger" id="cancelAddingNewChapter" onclick="cancelAddingNewChapter()" style="display: none;">Cancel</button>
-                    <form class="form" id="addChapterForm" style="display: none;" method="post" action="{% url 'addNewChapter' newChapterNumber=newChapterNum inkId=editInk.id %}">
-                        {% csrf_token %}
-                        <input class="form-label" type="text" name="newChapterTitle" placeholder="Title">
-                        <button class="btn btn-primary" type="submit" id="saveNewChapter">Save chapter</button>
-                    </form>
-                    
+                        <button class="btn btn-danger" id="cancelAddingNewChapter" onclick="cancelAddingNewChapter()" style="display: none;">Cancel</button>
+                        <form class="form" id="addChapterForm" style="display: none;" method="post" action="{% url 'addNewChapter' newChapterNumber=newChapterNum inkId=editInk.id %}">
+                            {% csrf_token %}
+                            <input class="form-label" type="text" name="newChapterTitle" placeholder="Title">
+                            <button class="btn btn-primary" type="submit" id="saveNewChapter">Save chapter</button>
+                        </form>
+                    {% endif %} 
                 </div>
             </div>
     
@@ -49,21 +48,12 @@
                         {% csrf_token %}
                         
                         {% if editingAsCoAuthor %}
-                            <h5 class="">Change title:</h5>
-                            <input class="form-label title" type="text" id="title" name="title" value="{{ editInk.title }}" disabled>
-                            <div class="genresEdit">
-                                <label for="genresEdit">Change genre (current genre: {{ editInk.genre }}):</label>
-                                <select class="form-label" id="genresEdit" name="genresEdit" disabled>
-                                    <option value="Horror">Horror</option>
-                                    <option value="Fantasy">Fantasy</option>
-                                    <option value="Romance">Romance</option>
-                                </select>
+                            <div class="inkInfoAsCoAuthor">
+                                <h5>Change title: {{ editInk.title }}</h5>
+                                <h5>Genre: {{ editInk.genre }}</h5>
+                                <h5>Description:</h5>
+                                <p>{{ editInk.description }}</p>
                             </div>
-                            <div class="col">
-                                <h5>Edit description:</h5>
-                                <textarea class="form-label descriptionEdit" name="descriptionEdit" disabled>{{ editInk.description }}</textarea>
-                            </div>
-                            <button class="btn btn-primary" id="saveAllChapterChangesBtn" disabled>SAVE CHANGES</button>
                         {% else %}
                             <h5 class="">Change title:</h5>
                             <input class="form-label title" type="text" id="title" name="title" value="{{ editInk.title }}">

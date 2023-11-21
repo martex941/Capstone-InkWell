@@ -6,11 +6,10 @@ from django.db import models
 class User(AbstractUser):
     about = models.CharField(max_length=250, default="")
     profilePicture = models.ImageField(upload_to='', blank=True, null=True)
-
-    coAuthorRequests = models.PositiveIntegerField(default=0) # Amount of co-author requests the author gets from other authors
+    YourCoAuthorRequests = models.PositiveIntegerField(default=0) # Amount of co-author requests the author made to other inks
 
     @property
-    def acceptedCoAuthorRequests(self): # Amount of co-author requests the author made to other inks
+    def acceptedCoAuthorRequests(self): # Amount of accepted co-author requests the author got from other authors
         acar = Ink.objects.filter(inkOwner=self).values_list('coAuthors', flat=True)
         return acar.count()
 
@@ -77,7 +76,7 @@ class Ink(models.Model):
 
     def __str__(self):
         return f"{self.title} by {self.inkOwner}"
-    
+
 class Chapter(models.Model):
     chapterNumber = models.PositiveIntegerField(default=1)
     chapterTitle = models.CharField(max_length=64)

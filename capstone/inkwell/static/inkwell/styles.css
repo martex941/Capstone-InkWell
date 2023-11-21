@@ -113,6 +113,7 @@ body {
 .inkViewContents {
     background-color: var(--secondary-color);
     border: 1px var(--border-color) solid;
+    font-family: 'American Typewriter', monospace;
 }
 
 .chapterTitle {

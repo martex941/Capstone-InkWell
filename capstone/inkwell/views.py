@@ -17,7 +17,7 @@ from .models import User, Ink, Notification, Well, Follow, Chapter, Post, Commen
 def index(request):
     users = User.objects.all()
     popularAuthors = sorted(users, key=lambda user: user.readers * user.followers, reverse=True)[:10]
-    topAuthors = sorted(users, key=lambda user: user.letters * user.coAuthorRequests, reverse=True)[:10]
+    topAuthors = sorted(users, key=lambda user: user.letters * user.acceptedCoAuthorRequests, reverse=True)[:10]
     topCoAuthors = sorted(users, key=lambda user: user.acceptedCoAuthorRequests, reverse=True)[:10]
     discoverAuthors = User.objects.annotate(random_order=Random()).order_by('random_order')[:20]
 
@@ -146,6 +146,10 @@ def ink_view(request, inkID):
     current_user = User.objects.get(pk=request.user.pk)
     following_check = False
 
+    # Every time an Ink view is opened, update the view count
+    viewedInk.views += 1
+    viewedInk.save()
+
     try:
         ink_followed = Ink.objects.get(ink_following=current_user)
         if ink_followed:
@@ -269,15 +273,18 @@ def edit_chapter(request, chapterID, inkID):
                 time.sleep(1)
 
                 # Create a notification for the author
-                new_notification = Notification(notifiedUser=inkInfo.inkOwner, contents=f"New co-author request from {current_user} regarding Chapter {chapterInfo.chapterNumber}: {chapterInfo.chapterTitle} of ink titled {inkInfo.title}", url=f"coAuthorRequest/{chapterInfo.id}")
+                new_notification = Notification(
+                    notifiedUser=inkInfo.inkOwner, 
+                    contents=f"New co-author request from {current_user} regarding Chapter {chapterInfo.chapterNumber}: {chapterInfo.chapterTitle} of ink titled {inkInfo.title}", 
+                    url=f"coAuthorRequest/{chapterInfo.id}/{new_coAuthorRequest.id}")
                 new_notification.save()
 
-                # Update requests counter for the user whp os the author
+                # Update requests counter for the user who is the author
                 inkAuthor = inkInfo.inkOwner
-                inkAuthor.coAuthorRequests += 1
+                inkAuthor.YourCoAuthorRequests += 1
                 inkAuthor.save()
 
-                return HttpResponseRedirect(reverse("edit_ink", kwargs={'inkID': inkID}))
+                return HttpResponseRedirect(reverse("coAuthorRequest", kwargs={'chapterID': chapterInfo.id, 'requestID': new_coAuthorRequest.id}))
             else:
                 print(form.errors)
         else:
@@ -326,16 +333,16 @@ def yourCoAuthorRequests(request):
     })
 
 @login_required
-def coAuthorRequest(request, chapterID):
+def coAuthorRequest(request, chapterID, requestID):
     originalChapter = Chapter.objects.get(id=chapterID)
-    relatedRequest = CoAuthorRequest.objects.get(requestedChapter=originalChapter)
+    relatedRequest = CoAuthorRequest.objects.get(id=requestID)
+    relatedInk = originalChapter.chapterInkOrigin
 
     if request.method == "POST":
         if "requestAccepted" in request.POST:
             relatedRequest.acceptedStatus = True
             relatedRequest.save()
 
-            relatedInk = originalChapter.chapterInkOrigin
             relatedInk.coAuthors.add(relatedRequest.coAuthor)
             relatedInk.save()
 
@@ -345,6 +352,12 @@ def coAuthorRequest(request, chapterID):
             if relatedInk.privateStatus != False:
                 new_post = Post(message=f"{relatedRequest.coAuthor.username} updated {relatedInk.inkOwner.username}'s ink: {relatedInk.title}", referencedPostInk=relatedInk)
                 new_post.save()
+
+            new_notification = Notification(
+                notifiedUser=relatedRequest.coAuthor, 
+                contents=f"Your Co-Author request to {relatedInk.title} has been accepted.", 
+                url=f"coAuthorRequest/{chapterID}/{requestID}")
+            new_notification.save()
             time.sleep(1)
             
             return HttpResponseRedirect(reverse("edit_ink", kwargs={'inkID': relatedInk.id}))
@@ -352,6 +365,12 @@ def coAuthorRequest(request, chapterID):
             declineReason = request.POST.get("declineReason")
             relatedRequest.declinedMessage = declineReason
             relatedRequest.save()
+
+            new_notification = Notification(
+                notifiedUser=relatedRequest.coAuthor, 
+                contents=f"Your Co-Author request to {relatedInk.title} has been declined.", 
+                url=f"ink_view/{relatedInk.id}")
+            new_notification.save()
             time.sleep(1)
             
             return HttpResponseRedirect(reverse("coAuthorRequestsList"))
@@ -367,7 +386,7 @@ def well(request, username):
     wellOwner = User.objects.get(username=username)
     inks = Ink.objects.filter(inkOwner=wellOwner.pk)
     followers = wellOwner.followers
-    co_authors = wellOwner.coAuthorRequests
+    co_authors = wellOwner.acceptedCoAuthorRequests
     followCheck = False
     if Follow.objects.filter(follower=current_user, followee=wellOwner):
         followCheck = True
@@ -402,7 +421,10 @@ def follow(request, username):
         time.sleep(1)
 
         # Create a notification for the followed user
-        new_notification = Notification(notifiedUser=followed_user, contents=f"{current_user} followed you.", url="")
+        new_notification = Notification(
+            notifiedUser=followed_user, 
+            contents=f"{current_user} followed you.", 
+            url=f"well/{followed_user.username}/followers")
         new_notification.save()
 
     return JsonResponse({"message": "Followed"}, status=201)
@@ -431,7 +453,8 @@ def followers(request, username):
     followers = User.objects.filter(follower__followee=user.pk).distinct()
 
     return render(request, "inkwell/followers.html", {
-        "followers": followers
+        "followers": followers,
+        "followed_user": user
     })
 
 def coauthors(request, username):
