@@ -30,7 +30,7 @@
         </div>
         
         <div class="col-2 inkViewComments inkViewButtonsColumn">
-            <a href="{% url 'edit_ink' inkID=ink.id %}"><button class="btn btn-primary">EDIT INK</button></a>
+            <a href="{% url 'edit_ink' inkID=ink.id %}"><button>EDIT INK</button></a>
             <div id="dataInkID" data-inkid="{{ink.id}}"></div>
             {% if following_check %}
                 <button class="btn btn-danger" id="unfollowBtn" type="submit" onclick="followInk('unfollowInk')">UNFOLLOW INK</button>

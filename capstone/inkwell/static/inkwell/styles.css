@@ -22,7 +22,7 @@
     --primary-color: var(--antiflash-white);
     --secondary-color: var(--antiflash-white);
     --text-color: var(--gunmetal);
-    --border-color: var(--gunmetal);
+    --border-color: #888888;
 }
 
 .navbar-brand, .nav-logo {
@@ -78,6 +78,7 @@ body {
 .inkEditMainColumn {
     background-color: var(--secondary-color);
     border: 1px var(--border-color) solid;
+    box-shadow: 5px 5px 5px #888888;
 }
 
 .descriptionEdit {
@@ -115,6 +116,7 @@ body {
     border: 1px var(--border-color) solid;
     font-family: 'American Typewriter', monospace;
     padding: 1rem;
+    box-shadow: 3px 3px 5px #888888;
 }
 
 .chapterTitle {
@@ -168,7 +170,7 @@ body {
 
 /* index.html ||||||||||||||||||||||||||*/
 .col-5 {
-    border: var(--border-color) 2px solid;
+    border: var(--border-color) 1px solid;
     border-radius: 15%;
     margin: 1rem;
 }
@@ -192,7 +194,7 @@ body {
     height: 50vh;
     overflow-y: auto;
     text-overflow: ellipsis;
-    border: var(--border-color) 2px solid;
+    border: var(--border-color) 1px solid;
     border-radius: 5%;
     margin: 1rem;
 }
@@ -270,7 +272,7 @@ body {
 /* coAuthorRequest.html ||||||||||||||||||||| */
 
 .request-review-text {
-    border: var(--border-color) 2px solid;
+    border: var(--border-color) 1px solid;
     margin: 1rem;
     padding: 1rem;
 }

@@ -13,7 +13,7 @@
     {% endif %}
 
     <div class="container-flex inkEditContainer">
-        <a href="{% url 'ink_view' inkID=editInk.id %}"><button class="btn btn-primary backToInkView">Back to Ink</button></a>
+        <a href="{% url 'ink_view' inkID=editInk.id %}"><button class="backToInkView">Back to Ink</button></a>
         <div class="row">
             <div class="col-2 chaptersListEdit">
                 <h5>CHAPTERS</h5>
@@ -69,7 +69,7 @@
                                 <h5>Edit description:</h5>
                                 <textarea class="form-label descriptionEdit" rows="4" cols="100" name="descriptionEdit">{{ editInk.description }}</textarea>
                             </div>
-                            <button class="btn btn-primary" id="saveAllChapterChangesBtn">SAVE CHANGES</button>
+                            <button id="saveAllChapterChangesBtn">SAVE CHANGES</button>
                         {% endif %}
                     </form>
                 </div>
