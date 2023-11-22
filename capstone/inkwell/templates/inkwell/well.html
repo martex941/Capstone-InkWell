@@ -9,22 +9,28 @@
 </script>
 
 <div class="container">
+
     {% if wellOwner == request.user %}
         <h5>Your well</h5>
     {% else %}
         <h5 id="well-username" data-name="{{ wellOwner }}">{{ wellOwner }}'s well</h5>
     {% endif %}
+
     <div class="profileAboutMe">
         <h5>About {{ wellOwner }}:</h5>
         <p>{{ wellOwner.about }}</p>
     </div>
+
     <h5><a href="{% url 'followers' username=wellOwner %}">Followers</a>: {{ followers }}</h5>
     <h5><a href="{% url 'coauthors' username=wellOwner %}">Co-authors</a>: {{ coAuthors }}</h5>
     <h5>Available inks: {{ ink_number }}</h5>
+
     {% if wellOwner == request.user %}
-        <a href="{% url 'ink_settings' %}">Manage your inks</a>
-        <a href="{% url 'coAuthorRequestsList' %}">View requests from co-authors</a>
-        <a href="{% url 'yourCoAuthorRequests' %}">View your pending co-author requests</a>
+        <div class="well-management">
+            <a href="{% url 'ink_settings' %}">Manage your inks</a>
+            <a href="{% url 'coAuthorRequestsList' %}">View requests from co-authors</a>
+            <a href="{% url 'yourCoAuthorRequests' %}">View your pending co-author requests</a>    
+        </div>
     {% else %}
         {% if followCheck %}
             <button class="btn btn-primary" id="unfollowBtn" onclick="follow('unfollow')">Unfollow</button>

@@ -114,6 +114,7 @@ body {
     background-color: var(--secondary-color);
     border: 1px var(--border-color) solid;
     font-family: 'American Typewriter', monospace;
+    padding: 1rem;
 }
 
 .chapterTitle {
@@ -224,6 +225,19 @@ body {
     width: 25%;
 }
 
+/* settings.html |||||||||||||||||||||||||| */
+.settings-buttons {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.settings-button {
+    margin: 0.5rem;
+    width: 216px;
+}
+
 /* newInk.html ||||||||||||||||||||*/
 .newInkInfo {
     flex-direction: column;
@@ -239,9 +253,18 @@ body {
 
 /* well.html ||||||||||||||||||||*/
 .well {
-    height: 700px;
+    height: 300px;
+    width: auto;
     border: 2px var(--border-color) solid;
     border-radius: 75%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.well-management {
+    display: flex;
+    flex-direction: column;
 }
 
 /* coAuthorRequest.html ||||||||||||||||||||| */

@@ -1,20 +1,6 @@
 {% extends "inkwell/layout.html" %}
 
 {% block body %}
-    <style>
-        .newInkInfo {
-            flex-direction: column;
-        }
-
-        .form-label {
-            border: 1.5px black solid;
-        }
-
-        .form-check-input {
-            border: 1.5px black solid;
-        }
-
-    </style>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             checkTitleAvailability("0/checkNewInkTitle", "messageNewInk", "createInk");
@@ -52,7 +38,7 @@
             </div>
 
             <div class="d-flex justify-content-center mb-3 mt-3">
-                <button class="btn btn-primary" type="submit" id="createInk">Create Ink</button>                
+                <button type="submit" id="createInk">Create Ink</button>                
             </div>
         </form> 
     </div>
