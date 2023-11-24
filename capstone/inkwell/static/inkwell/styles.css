@@ -29,6 +29,10 @@
     margin-left: 1rem;
 }
 
+.loggedInAs {
+    font-weight: bold;
+}
+
 .navbar {
     border-bottom: 2px var(--border-color) solid;
 }
@@ -78,7 +82,6 @@ body {
 .inkEditMainColumn {
     background-color: var(--secondary-color);
     border: 1px var(--border-color) solid;
-    box-shadow: 5px 5px 5px #888888;
 }
 
 .descriptionEdit {
@@ -192,6 +195,7 @@ body {
 
 .notifications-col-style {
     height: 50vh;
+    width: 338px;
     overflow-y: auto;
     text-overflow: ellipsis;
     border: var(--border-color) 1px solid;

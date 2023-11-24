@@ -11,9 +11,9 @@
 <div class="container">
 
     {% if wellOwner == request.user %}
-        <h5>Your well</h5>
+        <h5>Your InkWell</h5>
     {% else %}
-        <h5 id="well-username" data-name="{{ wellOwner }}">{{ wellOwner }}'s well</h5>
+        <h5 id="well-username" data-name="{{ wellOwner }}">{{ wellOwner }}'s InkWell</h5>
     {% endif %}
 
     <div class="profileAboutMe">
@@ -33,7 +33,7 @@
         </div>
     {% else %}
         {% if followCheck %}
-            <button class="btn btn-primary" id="unfollowBtn" onclick="follow('unfollow')">Unfollow</button>
+            <button class="btn btn-danger" id="unfollowBtn" onclick="follow('unfollow')">Unfollow</button>
         {% else %}
             <button class="btn btn-primary" id="followBtn" onclick="follow('follow')">Follow</button>
         {% endif %}

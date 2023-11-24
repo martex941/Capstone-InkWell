@@ -25,7 +25,8 @@ def index(request):
         'popularAuthors': popularAuthors,
         'topAuthors': topAuthors,
         'topCoAuthors': topCoAuthors,
-        'discoverAuthors': discoverAuthors
+        'discoverAuthors': discoverAuthors,
+        'title': "InkWell"
     })
 
 def timeline(request, page):
@@ -119,7 +120,9 @@ def newInk(request):
         time.sleep(1) # The page loads quicker than the server so it is held by 1 second for the server to catch up
         return HttpResponseRedirect(reverse("edit_ink") + f'?inkID={new_ink.id}')
 
-    return render(request, "inkwell/newInk.html")
+    return render(request, "inkwell/newInk.html", {
+        "title": "New Ink"
+    })
 
 @login_required
 def checkNewInkTitle(request, inkID): # requiring argument inkID is for pages that require it, otherwise it should be written as 0 Example: "0/checkNewInkTitle"
@@ -231,7 +234,8 @@ def edit_ink(request, inkID):
         "editInk": editInk,
         "chapters": chapters,
         "newChapterNum": (lastChapter + 1),
-        "editingAsCoAuthor": editingAsCoAuthor
+        "editingAsCoAuthor": editingAsCoAuthor,
+        "title": "Editing Ink"
     })
 
 @login_required
@@ -309,7 +313,8 @@ def edit_chapter(request, chapterID, inkID):
         "chapterInfo": chapterInfo,
         "inkID": inkID,
         "form": form,
-        "editingAsCoAuthor": editingAsCoAuthor
+        "editingAsCoAuthor": editingAsCoAuthor,
+        "title": "Editing chapter"
     })
 
 @login_required
@@ -320,7 +325,8 @@ def coAuthorRequestsList(request):
     requests = CoAuthorRequest.objects.filter(requestedChapter__in=chapters, acceptedStatus=False)
 
     return render(request, "inkwell/coAuthorRequestsList.html", {
-        "requests": requests
+        "requests": requests,
+        "title": "Co-author requests"
     })
 
 @login_required
@@ -329,7 +335,8 @@ def yourCoAuthorRequests(request):
     yourRequests = CoAuthorRequest.objects.filter(coAuthor=current_user)
 
     return render(request, "inkwell/yourCoAuthorRequests.html", {
-        "yourRequests": yourRequests
+        "yourRequests": yourRequests,
+        "title": "Your co-author requests"
     })
 
 @login_required
@@ -377,7 +384,8 @@ def coAuthorRequest(request, chapterID, requestID):
 
     return render(request, "inkwell/coAuthorRequest.html", {
         "originalChapter": originalChapter,
-        "newChapterContent": relatedRequest
+        "newChapterContent": relatedRequest,
+        "title": "Request review"
     })
 
 @login_required
@@ -397,7 +405,8 @@ def well(request, username):
         "followers": followers,
         "ink_number": len(inks),
         "coAuthors": co_authors,
-        "followCheck": followCheck
+        "followCheck": followCheck,
+        "title": f"{wellOwner}'s InkWell"
     })
 
 @login_required
