@@ -117,7 +117,7 @@ body {
 .inkViewContents {
     background-color: var(--secondary-color);
     border: 1px var(--border-color) solid;
-    font-family: 'American Typewriter', monospace;
+    font-family: 'Courier New', Courier, monospace;
     padding: 1rem;
     box-shadow: 3px 3px 5px #888888;
 }
