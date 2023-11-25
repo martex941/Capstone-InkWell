@@ -305,3 +305,11 @@ function goBackBtn() {
     document.querySelector("#go-backBtn").style.display = 'none';
     document.querySelector("#declineBtn").style.display = 'block';
 }
+
+function notificationsBtn() {
+
+}
+
+function authorsBtn() {
+    
+}

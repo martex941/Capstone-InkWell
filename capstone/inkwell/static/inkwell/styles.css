@@ -21,6 +21,7 @@
 
     --primary-color: var(--antiflash-white);
     --secondary-color: var(--antiflash-white);
+    --background-color: var(--platinum);
     --text-color: var(--gunmetal);
     --border-color: #888888;
 }
@@ -172,20 +173,23 @@ body {
 }
 
 /* index.html ||||||||||||||||||||||||||*/
-.col-5 {
+.indexTimeline {
     border: var(--border-color) 1px solid;
-    border-radius: 15%;
     margin: 1rem;
 }
-
 
 .index.container-fluid {
     padding: 0;
     margin: 0;
 }
 
+.index-main-col-btns button {
+    margin: 0.2rem;
+}
+
 .row {
     padding: 1rem;
+    margin: 0;
 }
 
 .inkDiv, .notiDiv {
@@ -195,12 +199,16 @@ body {
 
 .notifications-col-style {
     height: 50vh;
-    width: 338px;
+    width: 300px;
     overflow-y: auto;
     text-overflow: ellipsis;
     border: var(--border-color) 1px solid;
     border-radius: 5%;
     margin: 1rem;
+}
+
+.notifications-btn {
+    float: right;
 }
 
 .author-profile-picture {
@@ -215,6 +223,31 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.authors-col {
+    margin: 1rem;
+    width: 315px;
+}
+
+.authors-btn, .notifications-btn {
+    display: none;
+}
+
+@media only screen and (max-width: 1300px) {
+    .authors-btn, .notifications-btn {
+        display: block;
+    }
+
+    .notifications-style, .authors-style {
+        display: none;
+    }
+
+    .notifications-col-style, .authors-col {
+        border: none;
+        width: auto;
+    }
+
 }
 
 /* ink_settings.html ||||||||||||||||||||||*/

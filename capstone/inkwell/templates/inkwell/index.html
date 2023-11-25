@@ -9,125 +9,128 @@
     });
 </script>
 
-<div class="index container-fluid">
     <div class="row">
-
-        <div class="col-2" id="authors-col">
-            <div class="underline-text popular-authors text-center" id="popularAuthors">
-                <h3>Most popular authors this week</h3>
-                <!-- authors that had the most new followers times the amount of their readers this week -->
-                {% for author in popularAuthors %}
-                    <div class="row">
-                        <div class="col-1">
-                            {% if author.profilePicture %}
-                                <img class="author-profile-picture" src="media/{{ author.profilePicture }}">
-                            {% else %}
-                                <img class="author-profile-picture" src="media/no-profile-picture-icon.jpg">
-                            {% endif %}
+        <div class="col-2 authors-col">
+            <div class="authors-style">
+                <div class="underline-text popular-authors text-center" id="popularAuthors">
+                    <h3>Most popular authors this week</h3>
+                    <!-- authors that had the most new followers times the amount of their readers this week -->
+                    {% for author in popularAuthors %}
+                        <div class="row">
+                            <div class="col-1">
+                                {% if author.profilePicture %}
+                                    <img class="author-profile-picture" src="media/{{ author.profilePicture }}">
+                                {% else %}
+                                    <img class="author-profile-picture" src="media/no-profile-picture-icon.jpg">
+                                {% endif %}
+                            </div>
+                            <div class="col">
+                                <a class="authorLink" href="{% url 'well' username=author.username %}"><h5 class="">{{author.username}}</h5></a>
+                                {% if author.followers == 1 %}
+                                    <h5 class="lead">{{ author.followers }} follower</h5>
+                                {% else %}
+                                    <h5 class="lead">{{ author.followers }} followers</h5>
+                                {% endif %}
+                            </div>
                         </div>
-                        <div class="col">
-                            <a class="authorLink" href="{% url 'well' username=author.username %}"><h5 class="">{{author.username}}</h5></a>
-                            {% if author.followers == 1 %}
-                                <h5 class="lead">{{ author.followers }} follower</h5>
-                            {% else %}
-                                <h5 class="lead">{{ author.followers }} followers</h5>
-                            {% endif %}
+                    {% endfor %}
+                </div>
+                
+                <div class="underline-text top-authors text-center" id="topAuthors">
+                    <h3>Top authors this week</h3>
+                    <!-- multiply amount of letters written in their inks times amount of accepted co-auhtor requests -->
+                    {% for author in topAuthors %}
+                        <div class="row">
+                            <div class="col-1">
+                                {% if author.profilePicture %}
+                                    <img class="author-profile-picture" src="media/{{ author.profilePicture }}">
+                                {% else %}
+                                    <img class="author-profile-picture" src="media/no-profile-picture-icon.jpg">
+                                {% endif %}
+                            </div>
+                            <div class="col">
+                                <a class="authorLink" href="{% url 'well' username=author.username %}"><h5 class="">{{author.username}}</h5></a>
+                                {% if author.followers == 1 %}
+                                    <h5 class="lead">{{ author.followers }} follower</h5>
+                                {% else %}
+                                    <h5 class="lead">{{ author.followers }} followers</h5>
+                                {% endif %}
+                            </div>
                         </div>
-                    </div>
-                {% endfor %}
+                    {% endfor %}
+                </div>
+                
+                <div class="underline-text top-co-authors text-center" id="topCoAuthors">
+                    <h3>Top co-authors this week</h3>
+                    <!-- co-authors that had the biggest amount of accepted edit requests -->
+                    {% for author in topCoAuthors %}
+                        <div class="row">
+                            <div class="col-1">
+                                {% if author.profilePicture %}
+                                    <img class="author-profile-picture" src="media/{{ author.profilePicture }}">
+                                {% else %}
+                                    <img class="author-profile-picture" src="media/no-profile-picture-icon.jpg">
+                                {% endif %}
+                            </div>
+                            <div class="col">
+                                <a class="authorLink" href="{% url 'well' username=author.username %}"><h5 class="">{{author.username}}</h5></a>
+                                {% if author.followers == 1 %}
+                                    <h5 class="lead">{{ author.followers }} follower</h5>
+                                {% else %}
+                                    <h5 class="lead">{{ author.followers }} followers</h5>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                
+                <div class="underline-text discover-authors text-center">
+                    <h3>Discover</h3>
+                    <!-- 20 users are chosen at random -->
+                    {% for author in discoverAuthors %}
+                        <div class="row">
+                            <div class="col-1">
+                                {% if author.profilePicture %}
+                                    <img class="author-profile-picture" src="media/{{ author.profilePicture }}">
+                                {% else %}
+                                    <img class="author-profile-picture" src="media/no-profile-picture-icon.jpg">
+                                {% endif %}
+                            </div>
+                            <div class="col">
+                                <a class="authorLink" href="{% url 'well' username=author.username %}"><h5 class="">{{author.username}}</h5></a>
+                                {% if author.followers == 1 %}
+                                    <h5 class="lead">{{ author.followers }} follower</h5>
+                                {% else %}
+                                    <h5 class="lead">{{ author.followers }} followers</h5>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
-            
-            <div class="underline-text top-authors text-center" id="topAuthors">
-                <h3>Top authors this week</h3>
-                <!-- multiply amount of letters written in their inks times amount of accepted co-auhtor requests -->
-                {% for author in topAuthors %}
-                    <div class="row">
-                        <div class="col-1">
-                            {% if author.profilePicture %}
-                                <img class="author-profile-picture" src="media/{{ author.profilePicture }}">
-                            {% else %}
-                                <img class="author-profile-picture" src="media/no-profile-picture-icon.jpg">
-                            {% endif %}
-                        </div>
-                        <div class="col">
-                            <a class="authorLink" href="{% url 'well' username=author.username %}"><h5 class="">{{author.username}}</h5></a>
-                            {% if author.followers == 1 %}
-                                <h5 class="lead">{{ author.followers }} follower</h5>
-                            {% else %}
-                                <h5 class="lead">{{ author.followers }} followers</h5>
-                            {% endif %}
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-            
-            <div class="underline-text top-co-authors text-center" id="topCoAuthors">
-                <h3>Top co-authors this week</h3>
-                <!-- co-authors that had the biggest amount of accepted edit requests -->
-                {% for author in topCoAuthors %}
-                    <div class="row">
-                        <div class="col-1">
-                            {% if author.profilePicture %}
-                                <img class="author-profile-picture" src="media/{{ author.profilePicture }}">
-                            {% else %}
-                                <img class="author-profile-picture" src="media/no-profile-picture-icon.jpg">
-                            {% endif %}
-                        </div>
-                        <div class="col">
-                            <a class="authorLink" href="{% url 'well' username=author.username %}"><h5 class="">{{author.username}}</h5></a>
-                            {% if author.followers == 1 %}
-                                <h5 class="lead">{{ author.followers }} follower</h5>
-                            {% else %}
-                                <h5 class="lead">{{ author.followers }} followers</h5>
-                            {% endif %}
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-            
-            <div class="underline-text discover-authors text-center">
-                <h3>Discover</h3>
-                <!-- 20 users are chosen at random -->
-                {% for author in discoverAuthors %}
-                    <div class="row">
-                        <div class="col-1">
-                            {% if author.profilePicture %}
-                                <img class="author-profile-picture" src="media/{{ author.profilePicture }}">
-                            {% else %}
-                                <img class="author-profile-picture" src="media/no-profile-picture-icon.jpg">
-                            {% endif %}
-                        </div>
-                        <div class="col">
-                            <a class="authorLink" href="{% url 'well' username=author.username %}"><h5 class="">{{author.username}}</h5></a>
-                            {% if author.followers == 1 %}
-                                <h5 class="lead">{{ author.followers }} follower</h5>
-                            {% else %}
-                                <h5 class="lead">{{ author.followers }} followers</h5>
-                            {% endif %}
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-            
         </div>
 
-        <div class="col">
-            <div class="container d-flex justify-content-center filtering mt-2">
+        <div class="col indexTimeline">
+            <div class="d-flex justify-content-center filtering mt-2 index-main-col-btns">
+                <button class="authors-btn">Authors</button>
                 <button class="" id="mainTimelineBtn">Main Timeline</button>
                 <button class="" id="followingTimelineBtn">Following</button>
+                <button class="notifications-btn">Notifications</button>
             </div>
-            <div class="container" id="timeline">
+            <div class="" id="timeline">
+                <!-- Posts generate here -->
             </div>
         </div>
 
         <div class="notifications-col-style col-2" id="notifications_col">
-            <h5 class="text-center mt-2">NOTIFICATIONS</h5>
-            <div class="container" id="notifications">
-
+            <div class="notifications-style">
+                <h5 class="text-center mt-2">NOTIFICATIONS</h5>
+                <div class="" id="notifications">
+                    <!-- Notifications generate here -->
+                </div>    
             </div>
         </div>
 
     </div>
-</div>
 
 {% endblock %}
