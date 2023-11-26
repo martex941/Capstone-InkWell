@@ -24,12 +24,12 @@
                 </ul>
                 <div class="d-flex justify-content-center">
                     {% if not editingAsCoAuthor %}
-                        <button class="btn btn-primary" id="addChapterBtn" onclick="addChapter()">Add Chapter {{ newChapterNum }}</button>
-                        <button class="btn btn-danger" id="cancelAddingNewChapter" onclick="cancelAddingNewChapter()" style="display: none;">Cancel</button>
+                        <button class="" id="addChapterBtn" onclick="addChapter()">Add Chapter {{ newChapterNum }}</button>
+                        <button class="" id="cancelAddingNewChapter" onclick="cancelAddingNewChapter()" style="display: none;">Cancel</button>
                         <form class="form" id="addChapterForm" style="display: none;" method="post" action="{% url 'addNewChapter' newChapterNumber=newChapterNum inkId=editInk.id %}">
                             {% csrf_token %}
                             <input class="form-label" type="text" name="newChapterTitle" placeholder="Title">
-                            <button class="btn btn-primary" type="submit" id="saveNewChapter">Save chapter</button>
+                            <button class="" type="submit" id="saveNewChapter">Save chapter</button>
                         </form>
                     {% endif %} 
                 </div>

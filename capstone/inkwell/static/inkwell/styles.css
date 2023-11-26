@@ -50,6 +50,40 @@ body {
     background-color: var(--primary-color);
 }
 
+.follow-btn {
+    background-color: #007FFF;
+    color: var(--secondary-color);
+}
+
+/* .unfollow-btn {
+    background-color: #FF1B1C;
+    color: var(--secondary-color);
+} */
+
+/* Style for the circular typewriter button
+.typewriter-button {
+    display: inline-block;
+    width: 100px; 
+    height: 100px; 
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    line-height: 40px; 
+    border: 2px solid #333;
+    background-color: #f5f5f5;
+    color: #333;
+    cursor: pointer;
+    border-radius: 50%; 
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  /* Hover effect for the circular typewriter button */
+  /* .typewriter-button:hover {
+    background-color: var(--text-color);
+    color: var(--secondary-color);
+  }  */
+
 /* coauthors.html ||||||||||||||||||||||||||*/
 .co-author-reference {
     margin: 1rem;
@@ -105,8 +139,8 @@ body {
     gap: 10px;
 }
 
-.inkViewButtonsColumn .btn {
-    width: 117px;
+.inkViewButtonsColumn button {
+    width: 130px;
     height: 35px;
     margin: 0.5rem;
 }

@@ -32,11 +32,13 @@
         <div class="col-2 inkViewComments inkViewButtonsColumn">
             <a href="{% url 'edit_ink' inkID=ink.id %}"><button>EDIT INK</button></a>
             <div id="dataInkID" data-inkid="{{ink.id}}"></div>
-            {% if following_check %}
-                <button class="btn btn-danger" id="unfollowBtn" type="submit" onclick="followInk('unfollowInk')">UNFOLLOW INK</button>
-            {% else %}
-                <button class="btn btn-primary" id="followBtn" type="submit" onclick="followInk('followInk')">FOLLOW INK</button>
-            {% endif %}
+            {% if request.user.id == viewedInk.inkOwner.id %}
+                {% if following_check %}
+                    <button class="unfollow-btn" id="unfollowBtn" type="submit" onclick="followInk('unfollowInk')">UNFOLLOW INK</button>
+                {% else %}
+                    <button class="follow-btn" id="followBtn" type="submit" onclick="followInk('followInk')">FOLLOW INK</button>
+                {% endif %}
+            {% endif%}
             <h5 class="text-center">COMMENTS</h5>
             <form class="form" action="{% url 'ink_view' inkID=ink.id %}" method="post" name="commentForm">
                 {% csrf_token %}
