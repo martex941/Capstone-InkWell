@@ -3,14 +3,9 @@
 {% block body %}
 
 <div class="container-flex inkViewContainer">
-    <div class="mt-3 d-flex justify-content-center upperRowInkView">
-        <div class="inkViewTitleColumn">
-            <h1 class="text-center title">{{ ink.title }}</h1>
-            <span class="author-credit text-center">by {{ ink.inkOwner }}</span>
-        </div>
-    </div>
-    <div class="row mt-2 d-flex justify-content-center lowerRowInkView">
-        <div class="col-2">
+
+    <div class="row mt-2">
+        <div class="col-3 chapterListCol">
             <div class="chaptersListView">
                 <h5 class="text-start">CHAPTERS</h5>
                 <ul class="chapter-list">
@@ -21,6 +16,11 @@
             </div>
         </div>
         <div class="col-7 inkViewContents">
+            <div class="inkViewTitleColumn">
+                <h1 class="text-center title">{{ ink.title }}</h1>
+                <span class="author-credit text-center">by {{ ink.inkOwner }}</span>
+                <hr>
+            </div>
             {% for chapter in chapters %}
             <div id="anchorChapter{{chapter.chapterNumber}}">
                 <h5 class="text-center lead chapterTitle">Chapter {{ chapter.chapterNumber}}: {{chapter.chapterTitle}}</h5>
@@ -29,8 +29,8 @@
             {% endfor %}
         </div>
         
-        <div class="col-2 inkViewComments inkViewButtonsColumn">
-            <a href="{% url 'edit_ink' inkID=ink.id %}"><button>EDIT INK</button></a>
+        <div class="col-3 inkViewCommentsNButtonsColumn">
+            <a href="{% url 'edit_ink' inkID=ink.id %}" class="edit-ink-btn"><button>EDIT INK</button></a>
             <div id="dataInkID" data-inkid="{{ink.id}}"></div>
             {% if request.user.id == viewedInk.inkOwner.id %}
                 {% if following_check %}

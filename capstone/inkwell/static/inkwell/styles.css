@@ -126,8 +126,25 @@ body {
 }
 
 /* ink_view.html ||||||||||||||||||||||||||*/
+@media only screen and (max-width: 1296px) {
+    .inkViewCommentsNButtonsColumn {
+        width: 100%;
+        flex-direction: column;
+        display: flex;
+        align-items: center;
+        margin-top: 1rem;
+    }
+
+}
+
+.chapterListCol {
+    width: 211px;
+}
+
 .inkViewContainer .row {
     margin: 0;
+    display: flex;
+    justify-content: center;
 }
 
 .inkViewTitleColumn {
@@ -135,11 +152,11 @@ body {
     flex-direction: column;
 }
 
-.inkViewButtonsColumn {
+.inkViewCommentsNButtonsColumn {
     gap: 10px;
 }
 
-.inkViewButtonsColumn button {
+.inkViewCommentsNButtonsColumn button {
     width: 130px;
     height: 35px;
     margin: 0.5rem;
