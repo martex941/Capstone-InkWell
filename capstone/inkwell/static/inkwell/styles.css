@@ -180,7 +180,13 @@ body {
 }
 
 .comment {
-    background-color: var(--secondary-color);
+    background-color: white;
+    margin-bottom: 1rem;
+    padding: 1rem;
+}
+
+.comment p {
+    margin: 1rem;
 }
 
 .commentContents {

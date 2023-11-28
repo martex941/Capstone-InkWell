@@ -57,7 +57,10 @@
                 <h5 class="text-center">COMMENTS</h5>
                 {% for comment in comments %}
                     <div class="comment">
+                        <span>{{ comment.commentAuthor }}:</span>
                         <p>{{ comment.content }}</p>
+                        <hr>
+                        <span>{{ comment.commentCreationDate }}</span>
                     </div>
                 {% endfor %}
             </div>

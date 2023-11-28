@@ -164,7 +164,7 @@ def ink_view(request, inkID):
     except Ink.DoesNotExist:
         pass
 
-    comments = Comment.objects.filter(commentInkOrigin=viewedInk)
+    comments = Comment.objects.filter(commentInkOrigin=viewedInk).order_by("-commentCreationDate")
 
     if request.method == "POST":
         if "commentContents" in request.POST:
