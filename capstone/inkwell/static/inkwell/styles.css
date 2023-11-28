@@ -93,6 +93,10 @@ body {
 }
 
 /* edit_ink.html ||||||||||||||||||||||||||*/
+.backToInkView {
+    margin: 0.5rem;
+}
+
 .chapterEditorDiv {
     margin-top: 1rem;
 }
@@ -126,37 +130,16 @@ body {
 }
 
 /* ink_view.html ||||||||||||||||||||||||||*/
-@media only screen and (max-width: 1296px) {
-    .inkViewCommentsNButtonsColumn {
-        width: 100%;
-        flex-direction: column;
-        display: flex;
-        align-items: center;
-        margin-top: 1rem;
-    }
-
-}
-
 .chapterListCol {
-    width: 211px;
+    width: 19rem;
 }
 
-.inkViewContainer .row {
-    margin: 0;
-    display: flex;
-    justify-content: center;
+.chaptersListView {
+    position: sticky;
+    top: 0px;
 }
 
-.inkViewTitleColumn {
-    display: flex;
-    flex-direction: column;
-}
-
-.inkViewCommentsNButtonsColumn {
-    gap: 10px;
-}
-
-.inkViewCommentsNButtonsColumn button {
+.chaptersListView button {
     width: 130px;
     height: 35px;
     margin: 0.5rem;
@@ -164,6 +147,11 @@ body {
 
 .inkViewContents p {
     text-align: justify;
+}
+
+.inkViewTitleColumn {
+    display: flex;
+    flex-direction: column;
 }
 
 .inkViewContents {
@@ -178,12 +166,17 @@ body {
     font-weight: bold;
 }
 
-.chapterListView {
-    width: 242.66px;
+.inkViewButtons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.backToInkView {
-    margin: 0.5rem;
+.inkViewComments {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
 }
 
 .comment {

@@ -5,8 +5,20 @@
 <div class="container-flex inkViewContainer">
 
     <div class="row mt-2">
+
         <div class="col-3 chapterListCol">
             <div class="chaptersListView">
+                <div class="inkViewButtons">
+                    <a href="{% url 'edit_ink' inkID=ink.id %}" class="edit-ink-btn"><button>EDIT INK</button></a>
+                    <div id="dataInkID" data-inkid="{{ink.id}}"></div>
+                    {% if not viewingAsAuthor %}
+                        {% if following_check %}
+                            <button class="unfollow-btn" id="unfollowBtn" type="submit" onclick="followInk('unfollowInk')">UNFOLLOW INK</button>
+                        {% else %}
+                            <button class="follow-btn" id="followBtn" type="submit" onclick="followInk('followInk')">FOLLOW INK</button>
+                        {% endif %}
+                    {% endif%}
+                </div>
                 <h5 class="text-start">CHAPTERS</h5>
                 <ul class="chapter-list">
                     {% for chapter in chapters %}
@@ -15,7 +27,8 @@
                 </ul>
             </div>
         </div>
-        <div class="col-7 inkViewContents">
+
+        <div class="col-8 inkViewContents">
             <div class="inkViewTitleColumn">
                 <h1 class="text-center title">{{ ink.title }}</h1>
                 <span class="author-credit text-center">by {{ ink.inkOwner }}</span>
@@ -28,26 +41,20 @@
             </div>
             {% endfor %}
         </div>
-        
-        <div class="col-3 inkViewCommentsNButtonsColumn">
-            <a href="{% url 'edit_ink' inkID=ink.id %}" class="edit-ink-btn"><button>EDIT INK</button></a>
-            <div id="dataInkID" data-inkid="{{ink.id}}"></div>
-            {% if request.user.id == viewedInk.inkOwner.id %}
-                {% if following_check %}
-                    <button class="unfollow-btn" id="unfollowBtn" type="submit" onclick="followInk('unfollowInk')">UNFOLLOW INK</button>
-                {% else %}
-                    <button class="follow-btn" id="followBtn" type="submit" onclick="followInk('followInk')">FOLLOW INK</button>
-                {% endif %}
-            {% endif%}
-            <h5 class="text-center">COMMENTS</h5>
+
+    </div>
+
+    <div class="row inkViewComments">
+        <hr>
+        <div class="col-8">
             <form class="form" action="{% url 'ink_view' inkID=ink.id %}" method="post" name="commentForm">
                 {% csrf_token %}
                 <h5 class="lead">Write a comment</h5>
-                <textarea class="commentContents" rows="4" cols="50" name="commentContents"></textarea>
+                <textarea class="commentContents" rows="4" name="commentContents"></textarea>
                 <button type="submit">Comment</button>
             </form>
-            
             <div class="comments-section">
+                <h5 class="text-center">COMMENTS</h5>
                 {% for comment in comments %}
                     <div class="comment">
                         <p>{{ comment.content }}</p>

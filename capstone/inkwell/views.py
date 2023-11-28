@@ -149,6 +149,10 @@ def ink_view(request, inkID):
     current_user = User.objects.get(pk=request.user.pk)
     following_check = False
 
+    viewingAsAuthor = False
+    if current_user == viewedInk.inkOwner:
+        viewingAsAuthor = True
+
     # Every time an Ink view is opened, update the view count
     viewedInk.views += 1
     viewedInk.save()
@@ -173,6 +177,7 @@ def ink_view(request, inkID):
         "ink": viewedInk,
         "chapters": chapters,
         "following_check": following_check,
+        "viewingAsAuthor": viewingAsAuthor,
         "comments": comments
     })
 
