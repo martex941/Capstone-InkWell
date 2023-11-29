@@ -36,6 +36,7 @@
 
 .navbar {
     border-bottom: 2px var(--border-color) solid;
+    width: auto;
 }
 
 .nav-right {
@@ -48,6 +49,37 @@ p, a, h1, h2, h3, h4, h5, span {
 
 body {
     background-color: var(--primary-color);
+    margin: 0;
+}
+
+@media (max-width: 943px) {
+    /* ink_view.html ||||||||||||||||||||||||||*/
+    .chapterListCol {
+        display: none;
+    }
+
+    .inkViewContents {
+        width: auto;
+    }
+
+    .inkViewComments .col-8 {
+        width: auto;
+    }
+
+}
+
+@media (max-width: 642px){
+    /* ink_view.html ||||||||||||||||||||||||||*/
+    .inkTitleCard {
+        display: flex;
+        justify-content: center;
+    }
+    .inkTitleCard .col {
+        display: none;
+    }
+    .inkViewTitleColumn {
+        width: auto;
+    }
 }
 
 .follow-btn {
@@ -59,30 +91,6 @@ body {
     background-color: #FF1B1C;
     color: var(--secondary-color);
 } */
-
-/* Style for the circular typewriter button
-.typewriter-button {
-    display: inline-block;
-    width: 100px; 
-    height: 100px; 
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 16px;
-    text-align: center;
-    text-decoration: none;
-    line-height: 40px; 
-    border: 2px solid #333;
-    background-color: #f5f5f5;
-    color: #333;
-    cursor: pointer;
-    border-radius: 50%; 
-    transition: background-color 0.3s, color 0.3s;
-  }
-
-  /* Hover effect for the circular typewriter button */
-  /* .typewriter-button:hover {
-    background-color: var(--text-color);
-    color: var(--secondary-color);
-  }  */
 
 /* coauthors.html ||||||||||||||||||||||||||*/
 .co-author-reference {
@@ -149,7 +157,7 @@ body {
     text-align: justify;
 }
 
-.inkViewTitleColumn {
+.displayDirectionCol {
     display: flex;
     flex-direction: column;
 }
@@ -160,10 +168,6 @@ body {
     font-family: 'Courier New', Courier, monospace;
     padding: 1rem;
     box-shadow: 3px 3px 5px #888888;
-}
-
-.chapterTitle {
-    font-weight: bold;
 }
 
 .inkViewButtons {
@@ -341,7 +345,7 @@ body {
 }
 
 /* well.html ||||||||||||||||||||*/
-.well {
+/* .well {
     height: 300px;
     width: auto;
     border: 2px var(--border-color) solid;
@@ -349,12 +353,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.well-management {
-    display: flex;
-    flex-direction: column;
-}
+} */
 
 /* coAuthorRequest.html ||||||||||||||||||||| */
 

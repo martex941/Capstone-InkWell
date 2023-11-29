@@ -9,6 +9,7 @@
         <div class="col-3 chapterListCol">
             <div class="chaptersListView">
                 <div class="inkViewButtons">
+                    <button>HIDE CHAPTERS</button>
                     <a href="{% url 'edit_ink' inkID=ink.id %}" class="edit-ink-btn"><button>EDIT INK</button></a>
                     <div id="dataInkID" data-inkid="{{ink.id}}"></div>
                     {% if not viewingAsAuthor %}
@@ -29,14 +30,26 @@
         </div>
 
         <div class="col-8 inkViewContents">
-            <div class="inkViewTitleColumn">
-                <h1 class="text-center title">{{ ink.title }}</h1>
-                <span class="author-credit text-center">by {{ ink.inkOwner }}</span>
-                <hr>
+            <div class="row inkTitleCard">
+                <div class="col inkTitleCardInfo displayDirectionCol">
+                    <span>Genre: {{ ink.genre }}</span>
+                    <span>Views: {{ ink.views }}</span>
+                </div>
+                <div class="col-5 inkViewTitleColumn displayDirectionCol">
+                    <h1 class="text-center title">{{ ink.title }}</h1>
+                    {% if ink.coAuthors %}
+                        <span class="author-credit text-center">by {{ ink.inkOwner }} <a href="{% url 'inkCoAuthors' inkID=ink.id %}" style="text-decoration: underline; color: blue;">and {{ ink.coAuthors.count }} others</a></span>
+                    {% else %}
+                        <span class="author-credit text-center">by {{ ink.inkOwner }}</span>
+                    {% endif %}
+                </div>
+                <div class="col">
+                </div>
             </div>
+            <hr>
             {% for chapter in chapters %}
             <div id="anchorChapter{{chapter.chapterNumber}}">
-                <h5 class="text-center lead chapterTitle">Chapter {{ chapter.chapterNumber}}: {{chapter.chapterTitle}}</h5>
+                <h5 class="text-center fw-bold chapterTitle">Chapter {{ chapter.chapterNumber}}: {{chapter.chapterTitle}}</h5>
                 <p>{{chapter.chapterContents.html|safe}}</p>
             </div>
             {% endfor %}

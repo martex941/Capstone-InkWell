@@ -26,7 +26,7 @@
     <h5>Available inks: {{ ink_number }}</h5>
 
     {% if wellOwner == request.user %}
-        <div class="well-management">
+        <div class="well-management displayDirectionCol">
             <a href="{% url 'ink_settings' %}">Manage your inks</a>
             <a href="{% url 'coAuthorRequestsList' %}">View requests from co-authors</a>
             <a href="{% url 'yourCoAuthorRequests' %}">View your pending co-author requests</a>    

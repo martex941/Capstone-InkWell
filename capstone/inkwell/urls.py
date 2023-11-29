@@ -26,6 +26,7 @@ urlpatterns = [
     path('ink_view/<int:inkID>', views.ink_view, name='ink_view'),
     path('ink_view/<int:inkID>/followInk', views.followInk, name='followInk'),
     path('ink_view/<int:inkID>/unfollowInk', views.unfollowInk, name='unfollowInk'),
+    path('inkCoAuthors<int:inkID>', views.inkCoAuthors, name="inkCoAuthors"),
     path('well/<str:username>', views.well, name="well"),
     path('well/<str:username>/followers', views.followers, name='followers'),
     path('well/<str:username>/coauthors', views.coauthors, name='coauthors'),

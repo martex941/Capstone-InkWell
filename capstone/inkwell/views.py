@@ -181,6 +181,13 @@ def ink_view(request, inkID):
         "comments": comments
     })
 
+def inkCoAuthors(request, inkID):
+    coauthors = Ink.objects.get(id=inkID).coAuthors.all()    
+    return render(request, "inkwell/inkCoAuthors.html", {
+        "coauthors": coauthors,
+        "inkID": inkID
+    })
+
 @login_required
 def followInk(request, inkID):
     if request.method != "POST":

@@ -1,0 +1,20 @@
+{% extends "inkwell/layout.html" %}
+
+{% block body %}
+
+<a href="{% url 'ink_view' inkID=inkID %}"><button class="backToInkView">Back to Ink</button></a>
+<h3>People who are co-authors to {{ user }}'s inks</h3>
+
+<div class="container">
+    {% for coauthor in coauthors %}
+        <div class="row co-author-reference">
+            <div class="col">
+                {{ coauthor.username }}
+            </div>
+            <div class="col">
+                <a href="{% url 'well' username=coauthor.username %}"><button class="btn btn-primary">Go to {{ coauthor.username }}'s InkWell</button></a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
