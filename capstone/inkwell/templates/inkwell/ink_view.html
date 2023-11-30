@@ -4,12 +4,39 @@
 
 <div class="container-flex inkViewContainer">
 
+    <div class="hiddenChaptersAndInfo disFdirColAliCen">
+        <div class="col-3 chapterListCol">
+            <div class="chaptersListView">
+                <div class="inkViewButtons disFdirColAliCen">
+                    <a href="{% url 'edit_ink' inkID=ink.id %}" class="edit-ink-btn"><button>EDIT INK</button></a>
+                    <div id="dataInkID" data-inkid="{{ink.id}}"></div>
+                    {% if not viewingAsAuthor %}
+                        {% if following_check %}
+                            <button class="unfollow-btn" id="unfollowBtn" type="submit" onclick="followInk('unfollowInk')">UNFOLLOW INK</button>
+                        {% else %}
+                            <button class="follow-btn" id="followBtn" type="submit" onclick="followInk('followInk')">FOLLOW INK</button>
+                        {% endif %}
+                    {% endif%}
+                </div>
+                <h5 class="text-start">CHAPTERS</h5>
+                <ul class="chapter-list">
+                    {% for chapter in chapters %}
+                        <a href="#anchorChapter{{ chapter.chapterNumber }}"><li>Chapter {{ chapter.chapterNumber }}: {{ chapter.chapterTitle }}</li></a>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="col inkTitleCardInfo displayDirectionCol">
+            <span>Genre: {{ ink.genre }}</span>
+            <span>Views: {{ ink.views }}</span>
+        </div>
+    </div>
+
     <div class="row mt-2">
 
         <div class="col-3 chapterListCol">
             <div class="chaptersListView">
-                <div class="inkViewButtons">
-                    <button>HIDE CHAPTERS</button>
+                <div class="inkViewButtons disFdirColAliCen">
                     <a href="{% url 'edit_ink' inkID=ink.id %}" class="edit-ink-btn"><button>EDIT INK</button></a>
                     <div id="dataInkID" data-inkid="{{ink.id}}"></div>
                     {% if not viewingAsAuthor %}
@@ -57,7 +84,7 @@
 
     </div>
 
-    <div class="row inkViewComments">
+    <div class="row inkViewComments disFdirColAliCen">
         <hr>
         <div class="col-8">
             <form class="form" action="{% url 'ink_view' inkID=ink.id %}" method="post" name="commentForm">

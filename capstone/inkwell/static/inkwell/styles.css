@@ -52,20 +52,56 @@ body {
     margin: 0;
 }
 
+.displayDirectionCol {
+    display: flex;
+    flex-direction: column;
+}
+
+.disFdirColAliCen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@media (min-width: 943px) {
+    .hiddenChaptersAndInfo .chapterListCol {
+        display: none;
+    }
+}
+
 @media (max-width: 943px) {
     /* ink_view.html ||||||||||||||||||||||||||*/
     .chapterListCol {
         display: none;
     }
-
+    .hiddenChaptersAndInfo .chapterListCol {
+        display: block;
+    }
     .inkViewContents {
         width: auto;
     }
-
     .inkViewComments .col-8 {
         width: auto;
     }
+}
 
+@media (max-width: 991px) {
+    .navbar-collapse {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nav-right .nav-item {
+        margin-left: 1rem;
+        text-align: center;
+    }
+}
+
+@media (min-width: 642px) {
+    .hiddenChaptersAndInfo .inkTitleCardInfo {
+        display: none;
+    }
 }
 
 @media (max-width: 642px){
@@ -157,9 +193,9 @@ body {
     text-align: justify;
 }
 
-.displayDirectionCol {
+.inkViewContainer .row {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
 }
 
 .inkViewContents {
@@ -170,16 +206,7 @@ body {
     box-shadow: 3px 3px 5px #888888;
 }
 
-.inkViewButtons {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 .inkViewComments {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     margin: 0;
 }
 
@@ -321,9 +348,6 @@ body {
 /* settings.html |||||||||||||||||||||||||| */
 .settings-buttons {
     margin-top: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
 .settings-button {
@@ -356,7 +380,6 @@ body {
 } */
 
 /* coAuthorRequest.html ||||||||||||||||||||| */
-
 .request-review-text {
     border: var(--border-color) 1px solid;
     margin: 1rem;

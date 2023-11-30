@@ -2,7 +2,7 @@
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.urls import reverse
 from django.db import IntegrityError
@@ -166,12 +166,12 @@ def ink_view(request, inkID):
 
     comments = Comment.objects.filter(commentInkOrigin=viewedInk).order_by("-commentCreationDate")
 
-    if request.method == "POST":
-        if "commentContents" in request.POST:
-            commentContents = request.POST.get("commentContents")
-            new_comment = Comment(content=commentContents, commentInkOrigin=viewedInk, commentAuthor=current_user)
-            new_comment.save()
-            time.sleep(1)
+    if request.method == "POST" and "commentContents" in request.POST:
+        commentContents = request.POST.get("commentContents")
+        new_comment = Comment(content=commentContents, commentInkOrigin=viewedInk, commentAuthor=current_user)
+        new_comment.save()
+        time.sleep(1)
+        return redirect('ink_view', inkID=viewedInk.id)
 
     return render(request, "inkwell/ink_view.html", {
         "ink": viewedInk,
