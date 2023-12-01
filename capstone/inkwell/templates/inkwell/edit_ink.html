@@ -16,33 +16,35 @@
         <a href="{% url 'ink_view' inkID=editInk.id %}"><button class="backToInkView">Back to Ink</button></a>
         <div class="row">
             <div class="col-2 chaptersListEdit">
-                <h5>CHAPTERS</h5>
-                <ul>
-                    {% for chapter in chapters %}
-                        <a href="#anchorChapter{{ chapter.chapterNumber }}"><li>Chapter {{ chapter.chapterNumber }}: {{ chapter.chapterTitle }}</li></a>
-                    {% endfor %}
-                </ul>
-                <div class="d-flex justify-content-center">
-                    {% if not editingAsCoAuthor %}
-                        <button class="" id="addChapterBtn" onclick="addChapter()">Add Chapter {{ newChapterNum }}</button>
-                        <button class="" id="cancelAddingNewChapter" onclick="cancelAddingNewChapter()" style="display: none;">Cancel</button>
-                        <form class="form" id="addChapterForm" style="display: none;" method="post" action="{% url 'addNewChapter' newChapterNumber=newChapterNum inkId=editInk.id %}">
-                            {% csrf_token %}
-                            <input class="form-label" type="text" name="newChapterTitle" placeholder="Title">
-                            <button class="" type="submit" id="saveNewChapter">Save chapter</button>
-                        </form>
-                    {% endif %} 
+                <div class="chaptersViewEdit">
+                    <h5>CHAPTERS</h5>
+                    <ul>
+                        {% for chapter in chapters %}
+                            <a href="#anchorChapter{{ chapter.chapterNumber }}"><li>Chapter {{ chapter.chapterNumber }}: {{ chapter.chapterTitle }}</li></a>
+                        {% endfor %}
+                    </ul>
+                    <div class="d-flex justify-content-center">
+                        {% if not editingAsCoAuthor %}
+                            <button class="" id="addChapterBtn" onclick="addChapter()">Add Chapter {{ newChapterNum }}</button>
+                            <button class="" id="cancelAddingNewChapter" onclick="cancelAddingNewChapter()" style="display: none;">Cancel</button>
+                            <form class="form" id="addChapterForm" style="display: none;" method="post" action="{% url 'addNewChapter' newChapterNumber=newChapterNum inkId=editInk.id %}">
+                                {% csrf_token %}
+                                <input class="form-label" type="text" name="newChapterTitle" placeholder="Title">
+                                <button class="" type="submit" id="saveNewChapter">Save chapter</button>
+                            </form>
+                        {% endif %} 
+                    </div>
                 </div>
             </div>
     
-            <div class="col-10 inkEditMainColumn">
+            <div class="col-8 inkEditMainCol">
                 <div class="row mb-3 mt-3 d-flex justify-content-center">
                     <div id="dataInkID" data-ink="6"></div>
                     {% if editingAsCoAuthor %}
                         <h5 class="text-center">YOU ARE EDITING THIS INK AS CO-AUTHOR</h5>
                     {% endif %}
 
-                    <form class="form " action="" method="post">
+                    <form class="form disFdirColAliCen" action="" method="post">
                         <div class="messageEditInk" id="messageEditInk">
                         </div>
                         {% csrf_token %}
@@ -78,7 +80,7 @@
                     <div class="chapterEditorDiv" id="anchorChapter{{ chapter.chapterNumber }}">
                         <a class="editChapterAnchor" href="{% url 'edit_chapter' chapterID=chapter.id inkID=editInk.id %}">
                             <h5 class="text-center">Chapter {{ chapter.chapterNumber }}: {{ chapter.chapterTitle }}</h5>
-                            <div id="chapterID" data-chapterID="{{ chapter.id }}">
+                            <div class="justify-text" id="chapterID" data-chapterID="{{ chapter.id }}">
                                 {{ chapter.chapterContents.html|safe }}
                             </div>
                         </a>

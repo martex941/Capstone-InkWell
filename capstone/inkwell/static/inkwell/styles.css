@@ -63,6 +63,10 @@ body {
     align-items: center;
 }
 
+.justify-text {
+    text-align: justify;
+}
+
 @media (min-width: 943px) {
     .hiddenChaptersAndInfo .chapterListCol {
         display: none;
@@ -81,6 +85,11 @@ body {
         width: auto;
     }
     .inkViewComments .col-8 {
+        width: auto;
+    }
+
+    /* edit_ink.html \\\\\\\\\\\\\\\\\\\\\\\\\\\ */
+    .col-8 {
         width: auto;
     }
 }
@@ -141,12 +150,22 @@ body {
     margin: 0.5rem;
 }
 
+.inkEditContainer .row {
+    display: flex;
+    justify-content: center;
+}
+
 .chapterEditorDiv {
     margin-top: 1rem;
 }
 
 .chaptersListEdit {
-    width: 242.66px;
+    width: 19rem;
+}
+
+.chaptersViewEdit {
+    position: sticky;
+    top: 2%;
 }
 
 .editChapterAnchor {
@@ -162,7 +181,7 @@ body {
     margin: 0;
 }
 
-.inkEditMainColumn {
+.inkEditMainCol {
     background-color: var(--secondary-color);
     border: 1px var(--border-color) solid;
 }
@@ -187,10 +206,6 @@ body {
     width: 130px;
     height: 35px;
     margin: 0.5rem;
-}
-
-.inkViewContents p {
-    text-align: justify;
 }
 
 .inkViewContainer .row {
