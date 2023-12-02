@@ -50,6 +50,7 @@ p, a, h1, h2, h3, h4, h5, span {
 body {
     background-color: var(--primary-color);
     margin: 0;
+    z-index: 0;
 }
 
 .displayDirectionCol {
@@ -130,6 +131,30 @@ body {
     }
 }
 
+@media (max-width: 530px) {
+    /* well.html \\\\\\\\\\\\\\\\\\\\ */
+    .well-banner, .well {
+        width: 95vw;
+    }
+    .wellUnderBanner {
+        width: 83vw;
+    }
+}
+
+@media (min-width: 531px) {
+    /* well.html \\\\\\\\\\\\\\\\\\\\ */
+    .well-banner, .well {
+        width: 530px;
+    }
+    .wellUnderBanner {
+        width: 450px;
+    }
+}
+
+.backToInkView, .backToInkWell {
+    margin: 0.5rem;
+}
+
 .follow-btn {
     background-color: #007FFF;
     color: var(--secondary-color);
@@ -149,9 +174,6 @@ body {
 }
 
 /* edit_ink.html ||||||||||||||||||||||||||*/
-.backToInkView {
-    margin: 0.5rem;
-}
 
 .inkEditContainer .row {
     display: flex;
@@ -387,28 +409,35 @@ body {
 }
 
 /* well.html ||||||||||||||||||||*/
+.well-col{
+    width: auto;
+}
 .well-banner {
     height: auto;
     border: 1.5px var(--border-color) solid;
-    padding-left: 7rem;
-    padding-right: 7rem;
+    border-radius: 10px;
 }
-.wellUnderBanned {
+
+.wellUnderBanner {
     height: auto;
-    padding-left: 5rem;
-    padding-right: 5rem;
     border-left: 3px var(--border-color) solid;
     border-right: 3px var(--border-color) solid;
 }
-/* .well {
-    height: 300px;
-    width: auto;
-    border: 2px var(--border-color) solid;
-    border-radius: 75%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-} */
+
+.buttonsInUnderBanner {
+    padding: 1rem;
+}
+
+.buttonsInUnderBanner button {
+    margin: 3px;
+    width: 212px;
+}
+
+.well {
+    height: 250px;
+    border: 2px solid #333;
+    border-radius: 50%;
+}
 
 /* coAuthorRequest.html ||||||||||||||||||||| */
 .request-review-text {

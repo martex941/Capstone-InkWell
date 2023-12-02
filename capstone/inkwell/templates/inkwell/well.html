@@ -8,14 +8,10 @@
     });
 </script>
 
-<div class="disFdirColAliCen">
+<div class="well-col disFdirColAliCen mt-5">
 
-    <div class="well-banner">
-        {% if wellOwner == request.user %}
-            <h2 class="text-center">Your InkWell</h2>
-        {% else %}
-            <h2 class="text-center" id="well-username" data-name="{{ wellOwner }}">{{ wellOwner }}'s InkWell</h2>
-        {% endif %}
+    <div class="well-banner disFdirColAliCen">
+        <h2 class="text-center" id="well-username" data-name="{{ wellOwner }}">{{ wellOwner }}'s InkWell</h2>
 
         <div class="profileAboutMe">
             <h5>About {{ wellOwner }}:</h5>
@@ -25,31 +21,32 @@
         <h5><a href="{% url 'followers' username=wellOwner %}">Followers</a>: {{ followers }}</h5>
         <h5><a href="{% url 'coauthors' username=wellOwner %}">Co-authors</a>: {{ coAuthors }}</h5>
         <h5>Available inks: {{ ink_number }}</h5>
-
-        
     </div>
 
-    <div class="wellUnderBanned">
-        {% if wellOwner == request.user %}
-            <div class="well-management displayDirectionCol">
-                <a href="{% url 'ink_settings' %}">Manage your inks</a>
-                <a href="{% url 'coAuthorRequestsList' %}">View requests from co-authors</a>
-                <a href="{% url 'yourCoAuthorRequests' %}">View your pending co-author requests</a>    
+    <div class="wellUnderBanner disFdirColAliCen">
+        <div class="buttonsInUnderBanner">
+            {% if wellOwner == request.user %}
+            <div class="well-management disFdirColAliCen">
+                <a href="{% url 'ink_settings' %}"><button>Manage your inks</button></a>
+                <a href="{% url 'coAuthorRequestsList' %}"><button>Requests from co-authors</button></a>
+                <a href="{% url 'yourCoAuthorRequests' %}"><button>Pending co-author requests</button></a>    
             </div>
-        {% else %}
-            {% if followCheck %}
-                <button class="btn btn-danger" id="unfollowBtn" onclick="follow('unfollow')">Unfollow</button>
             {% else %}
-                <button class="btn btn-primary" id="followBtn" onclick="follow('follow')">Follow</button>
+                {% if followCheck %}
+                    <button class="btn btn-danger" id="unfollowBtn" onclick="follow('unfollow')">Unfollow</button>
+                {% else %}
+                    <button class="btn btn-primary" id="followBtn" onclick="follow('follow')">Follow</button>
+                {% endif %}
             {% endif %}
-        {% endif %}
+        </div>
     </div>
     
-
     <div class="well" id="well">
-        {% for ink in inks %}
-            <a href="{% url 'ink_view' inkID=ink.id %}">{{ink.title}}</a>
-        {% endfor %}
+        <div class="inksInWell disFdirColAliCen">
+            {% for ink in inks %}
+                <a href="{% url 'ink_view' inkID=ink.id %}">{{ink.title}}</a>
+            {% endfor %}
+        </div>
     </div>
 </div>
 
