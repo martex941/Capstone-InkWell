@@ -89,8 +89,11 @@ body {
     }
 
     /* edit_ink.html \\\\\\\\\\\\\\\\\\\\\\\\\\\ */
-    .col-8 {
+    .inkEditContainer .col-8 {
         width: auto;
+    }
+    .chaptersListEdit {
+        margin-bottom: 1rem;
     }
 }
 
@@ -384,6 +387,19 @@ body {
 }
 
 /* well.html ||||||||||||||||||||*/
+.well-banner {
+    height: auto;
+    border: 1.5px var(--border-color) solid;
+    padding-left: 7rem;
+    padding-right: 7rem;
+}
+.wellUnderBanned {
+    height: auto;
+    padding-left: 5rem;
+    padding-right: 5rem;
+    border-left: 3px var(--border-color) solid;
+    border-right: 3px var(--border-color) solid;
+}
 /* .well {
     height: 300px;
     width: auto;
