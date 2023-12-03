@@ -297,6 +297,7 @@ body {
 .indexTimeline {
     border: var(--border-color) 1px solid;
     margin: 1rem;
+    width: 43%
 }
 
 .index.container-fluid {
@@ -313,7 +314,12 @@ body {
     margin: 0;
 }
 
-.inkDiv, .notiDiv {
+.inkPostDiv {
+    width: 100%;
+    overflow-wrap: break-word;
+}
+
+.inkPostDiv, .notiDiv {
     border: 1px var(--border-color) solid;
     padding: 0.5rem;
 }

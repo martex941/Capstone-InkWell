@@ -2,7 +2,7 @@
 
 {% block body %}
 <a href="{% url 'well' username=request.user.username %}"><button class="backToInkWell">Back to InkWell</button></a>
-<div class="coAuthorRequestsList d-flex justify-content-center">
+<div class="coAuthorRequestsList disFdirColAliCen">
     {% for request in requests %}
     <div class="container row">
         <div class="col-2">

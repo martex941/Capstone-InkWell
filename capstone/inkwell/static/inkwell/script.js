@@ -22,7 +22,7 @@ function timeline() {
             console.log(data);
             data[timeline].forEach(element => {
                 const ink_div = document.createElement('div');
-                ink_div.className = 'inkDiv';
+                ink_div.className = 'inkPostDiv';
 
                 const statusSpan = document.createElement('span');
                 statusSpan.innerHTML = `<a href="well/${element.inkOwner}">${element.inkOwner}</a> ${element.postMessage}`;

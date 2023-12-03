@@ -12,6 +12,11 @@ class User(AbstractUser):
     def acceptedCoAuthorRequests(self): # Amount of accepted co-author requests the author got from other authors
         acar = Ink.objects.filter(inkOwner=self).values_list('coAuthors', flat=True)
         return acar.count()
+    
+    @property
+    def collaborators(self):
+        collabs = Ink.objects.filter(inkOwner=self).values_list('coAuthors', flat=True)
+        return collabs
 
     @property
     def followers(self):
@@ -26,10 +31,15 @@ class User(AbstractUser):
     
     @property
     def letters(self):
-        # l = Ink.objects.filter(inkOwner=self).values_list('letterCount', flat=True)
-        # l = sum(l)
-        l = 1
-        return l
+        inks = Ink.objects.filter(inkOwner=self)
+        allChapters = Chapter.objects.filter(chapterInkOrigin__in=inks)
+        total_letter_count = 0
+    
+        for chapter in allChapters:
+            letter_count = len([char for char in chapter.chapterContents.html if char.isalpha()])
+            total_letter_count += letter_count
+
+        return total_letter_count
     
     def __str__(self):
         return f"{self.username}"
@@ -62,17 +72,6 @@ class Ink(models.Model):
     content = models.TextField()
     views = models.PositiveBigIntegerField(default=0)
     creation_date = models.DateTimeField(default=timezone.now, editable=False)
-
-    @property
-    def letterCount(self):
-        allChapters = Chapter.objects.filter(chapterInkOrigin=self)
-        total_letter_count = 0
-    
-        for chapter in allChapters:
-            letter_count = len([char for char in chapter.chapterContents.html if char.isalpha()])
-            total_letter_count += letter_count
-
-        return total_letter_count
 
     def __str__(self):
         return f"{self.title} by {self.inkOwner}"

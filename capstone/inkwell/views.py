@@ -113,12 +113,12 @@ def newInk(request):
 
         time.sleep(1) # 1 second pause for the server to catch up with the newly created ink
 
-        if privateStatus != False:
+        if privateStatus != True:
             new_post = Post(message=f"{current_user.username} created a new Ink titled {title}", referencedPostInk=new_ink)
             new_post.save()
 
         time.sleep(1) # The page loads quicker than the server so it is held by 1 second for the server to catch up
-        return HttpResponseRedirect(reverse("edit_ink") + f'?inkID={new_ink.id}')
+        return redirect('edit_ink', inkID=new_ink.id)
 
     return render(request, "inkwell/newInk.html", {
         "title": "New Ink"
@@ -316,8 +316,8 @@ def edit_chapter(request, chapterID, inkID):
                     inkInfo.updateStatus == True
                 inkInfo.save()
                 time.sleep(1)
-                if inkInfo.privateStatus != False:
-                    new_post = Post(message="updated their ink", referencedPostInk=inkInfo)
+                if inkInfo.privateStatus != True:
+                    new_post = Post(message=f"updated their ink {inkInfo.title}", referencedPostInk=inkInfo)
                     new_post.save()
                 return HttpResponseRedirect(reverse("edit_ink", kwargs={'inkID': inkID}))
         
@@ -334,7 +334,7 @@ def coAuthorRequestsList(request):
     current_user = User.objects.get(pk=request.user.pk)
     inks = Ink.objects.filter(inkOwner=current_user.id)
     chapters = Chapter.objects.filter(chapterInkOrigin__in=inks)
-    requests = CoAuthorRequest.objects.filter(requestedChapter__in=chapters, acceptedStatus=False)
+    requests = CoAuthorRequest.objects.filter(requestedChapter__in=chapters, acceptedStatus=False).order_by("-requestDate")
 
     return render(request, "inkwell/coAuthorRequestsList.html", {
         "requests": requests,
@@ -368,7 +368,7 @@ def coAuthorRequest(request, chapterID, requestID):
             originalChapter.chapterContents = relatedRequest.chapterContents
             originalChapter.save()
 
-            if relatedInk.privateStatus != False:
+            if relatedInk.privateStatus != True:
                 new_post = Post(message=f"{relatedRequest.coAuthor.username} updated {relatedInk.inkOwner.username}'s ink: {relatedInk.title}", referencedPostInk=relatedInk)
                 new_post.save()
 

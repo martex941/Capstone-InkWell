@@ -19,20 +19,28 @@
 </style>
 
 <div class="container texts">
-    <h5>ORIGINAL TEXT</h5>
-    <div class="request-review-text" id="originalText">
-        <!-- Your original text here -->
-        {{originalChapter.chapterContents.html|safe}}
-    </div>
-    <h5>NEW CONTENT (highlighted in green)</h5>
-    <div class="request-review-text" id="modifiedText">
-        <!-- Your modified text here -->
-        {{newChapterContent.chapterContents.html|safe}}
-    </div>
-    <h5>DELETED CONTENT (highlighted in red)</h5>
-    <div class="request-review-text" id="whatWasDeleted">
-        {{originalChapter.chapterContents.html|safe}}
-    </div>
+    {% if newChapterContent.acceptedStatus %}
+        <h5>NEW CONTENT (highlighted in green)</h5>
+        <div class="request-review-text" id="modifiedText">
+            <!-- Your modified text here -->
+            {{newChapterContent.chapterContents.html|safe}}
+        </div>
+    {% else %}
+        <h5>ORIGINAL TEXT</h5>
+        <div class="request-review-text" id="originalText">
+            <!-- Your original text here -->
+            {{originalChapter.chapterContents.html|safe}}
+        </div>
+        <h5>NEW CONTENT (highlighted in green)</h5>
+        <div class="request-review-text" id="modifiedText">
+            <!-- Your modified text here -->
+            {{newChapterContent.chapterContents.html|safe}}
+        </div>
+        <h5>DELETED CONTENT (highlighted in red)</h5>
+        <div class="request-review-text" id="whatWasDeleted">
+            {{originalChapter.chapterContents.html|safe}}
+        </div>
+    {% endif %}
 
     {% if newChapterContent.requestedChapter.chapterInkOrigin.inkOwner.pk == request.user.pk %} <!-- if current user is the author -->
         {% if newChapterContent.acceptedStatus %}
