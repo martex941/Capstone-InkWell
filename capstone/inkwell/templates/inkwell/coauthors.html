@@ -2,6 +2,8 @@
 
 {% block body %}
 
+<a href="{% url 'well' username=request.user.username %}"><button class="backToInkWell">Back to InkWell</button></a>
+
 <h3>People who are co-authors to {{ user }}'s inks</h3>
 
 <div class="container">

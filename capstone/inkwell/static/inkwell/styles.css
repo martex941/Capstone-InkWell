@@ -95,6 +95,8 @@ body {
     }
     .chaptersListEdit {
         margin-bottom: 1rem;
+        display: flex;
+        justify-content: center;
     }
 }
 
@@ -174,6 +176,9 @@ body {
 }
 
 /* edit_ink.html ||||||||||||||||||||||||||*/
+.editingAsCoAuthorText {
+    color: rgb(207, 24, 24);
+}
 
 .inkEditContainer .row {
     display: flex;
@@ -200,10 +205,6 @@ body {
 
 .editChapterAnchor:hover {
     opacity: 50%;
-}
-
-.inkEditContainer .row {
-    margin: 0;
 }
 
 .inkEditMainCol {
@@ -297,7 +298,8 @@ body {
 .indexTimeline {
     border: var(--border-color) 1px solid;
     margin: 1rem;
-    width: 43%
+    width: 43%;
+    height: 70vh;
 }
 
 .index.container-fluid {

@@ -38,26 +38,25 @@
             </div>
     
             <div class="col-8 inkEditMainCol">
-                <div class="row mb-3 mt-3 d-flex justify-content-center">
+                <div class="row d-flex justify-content-center">
                     <div id="dataInkID" data-ink="6"></div>
                     {% if editingAsCoAuthor %}
-                        <h5 class="text-center">YOU ARE EDITING THIS INK AS CO-AUTHOR</h5>
+                        <h4 class="text-center editingAsCoAuthorText">YOU ARE EDITING THIS INK AS CO-AUTHOR</h4>
                     {% endif %}
 
-                    <form class="form disFdirColAliCen" action="" method="post">
+                    <form class="form" action="" method="post">
                         <div class="messageEditInk" id="messageEditInk">
                         </div>
                         {% csrf_token %}
                         
                         {% if editingAsCoAuthor %}
-                            <div class="inkInfoAsCoAuthor">
-                                <h5>Change title: {{ editInk.title }}</h5>
-                                <h5>Genre: {{ editInk.genre }}</h5>
-                                <h5>Description:</h5>
+                            <div class="inkInfoAsCoAuthor disFdirColAliCen">
+                                <h4>{{ editInk.title }}</h4>
+                                <span>Genre: {{ editInk.genre }}</span>
                                 <p>{{ editInk.description }}</p>
                             </div>
                         {% else %}
-                            <h5 class="">Change title:</h5>
+                            <h5>Change title:</h5>
                             <input class="form-label title" type="text" id="title" name="title" value="{{ editInk.title }}">
                             <div class="genresEdit">
                                 <label for="genresEdit">Change genre (current genre: {{ editInk.genre }}):</label>
@@ -74,6 +73,7 @@
                             <button id="saveAllChapterChangesBtn">SAVE CHANGES</button>
                         {% endif %}
                     </form>
+                    <hr>
                 </div>
 
                 {% for chapter in chapters %}

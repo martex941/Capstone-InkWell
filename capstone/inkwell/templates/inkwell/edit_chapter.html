@@ -4,7 +4,7 @@
     <a href="{% url 'edit_ink' inkID=inkID %}"><button class="backToInkView">Back to editing Ink</button></a>
     <div class="container">
         {% if editingAsCoAuthor %}
-            <h5>YOU ARE EDITING THIS CHAPTER AS CO-AUTHOR</h5>
+            <h5 class="text-center editingAsCoAuthorText">YOU ARE EDITING THIS CHAPTER AS CO-AUTHOR</h5>
         {% endif %}
         <form class="form" action="{% url 'edit_chapter' chapterID=chapterInfo.id inkID=inkID %}" method="post">
             {% csrf_token %}

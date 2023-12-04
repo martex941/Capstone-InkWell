@@ -10,12 +10,12 @@ class User(AbstractUser):
 
     @property
     def acceptedCoAuthorRequests(self): # Amount of accepted co-author requests the author got from other authors
-        acar = Ink.objects.filter(inkOwner=self).values_list('coAuthors', flat=True)
+        acar = Ink.objects.filter(inkOwner=self).exclude(coAuthors=None).values_list('coAuthors', flat=True)
         return acar.count()
     
     @property
     def collaborators(self):
-        collabs = Ink.objects.filter(inkOwner=self).values_list('coAuthors', flat=True)
+        collabs = Ink.objects.filter(inkOwner=self).exclude(coAuthors=None).values_list('coAuthors', flat=True)
         return collabs
 
     @property
@@ -62,10 +62,10 @@ class Well(models.Model):
 class Ink(models.Model):
     wellOrigin = models.ForeignKey(Well, on_delete=models.CASCADE, related_name="well_pk", default="")
     inkOwner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="ink_owner", default="")
-    coAuthors = models.ManyToManyField(User, related_name="CoAuthors",blank=True)
+    coAuthors = models.ManyToManyField(User, related_name="CoAuthors", blank=True)
     privateStatus = models.BooleanField(default=False)
     updateStatus = models.BooleanField(default=False) # If the Ink is edited at least once, this changes to true
-    ink_following = models.ManyToManyField(User, related_name="ink_following",blank=True)
+    ink_following = models.ManyToManyField(User, related_name="ink_following", blank=True)
     genre = models.CharField(max_length=64, default="")
     description = models.CharField(max_length=500, default="")
     title = models.CharField(max_length=64, default="")

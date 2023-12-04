@@ -344,7 +344,7 @@ def coAuthorRequestsList(request):
 @login_required
 def yourCoAuthorRequests(request):
     current_user = User.objects.get(pk=request.user.pk)
-    yourRequests = CoAuthorRequest.objects.filter(coAuthor=current_user)
+    yourRequests = CoAuthorRequest.objects.filter(coAuthor=current_user).order_by("-requestDate")
 
     return render(request, "inkwell/yourCoAuthorRequests.html", {
         "yourRequests": yourRequests,

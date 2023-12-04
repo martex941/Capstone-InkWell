@@ -63,7 +63,7 @@
                     <span>Views: {{ ink.views }}</span>
                 </div>
                 <div class="col-5 inkViewTitleColumn displayDirectionCol">
-                    <h1 class="text-center title">{{ ink.title }}</h1>
+                    <h1 class="text-center inkViewTitle">{{ ink.title }}</h1>
                     {% if ink.coAuthors %}
                         <span class="author-credit text-center">by {{ ink.inkOwner }} <a href="{% url 'inkCoAuthors' inkID=ink.id %}" style="text-decoration: underline; color: blue;">and {{ ink.coAuthors.count }} others</a></span>
                     {% else %}
