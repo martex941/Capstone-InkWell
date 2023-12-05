@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.urls import reverse
-from django.db import IntegrityError
+from django.db import IntegrityError, transaction
 from django.db.models.functions import Random
 from django.core.paginator import Paginator
 import time, json
@@ -55,7 +55,7 @@ def timeline(request, page):
     followers = User.objects.filter(followee__follower=request.user)
     followedInks = Ink.objects.filter(Q(inkOwner__in=followers), privateStatus=False)
     followedPosts = Post.objects.filter(Q(referencedPostInk__in=followedInks)).order_by('-postCreationDate')
-    followedPostsPag = Paginator(followedPosts, 20)
+    followedPostsPag = Paginator(followedPosts, 10)
     followedPosts_col = serializeInks(followedPostsPag)
 
     index_columns = {
@@ -197,6 +197,11 @@ def followInk(request, inkID):
     current_user = User.objects.get(pk=request.user.pk)
     viewedInk.ink_following.add(current_user)
     viewedInk.save()
+    new_notification = Notification(
+        notifiedUser=viewedInk.inkOwner, 
+        contents=f'{current_user.username} just followed your Ink "{viewedInk.title}"', 
+        url=f"ink_view/{viewedInk.id}")
+    new_notification.save()
 
     return JsonResponse({"message": "Ink followed"}, status=201)
         
@@ -259,7 +264,7 @@ def addNewChapter(request, newChapterNumber, inkId):
         new_chapter.save()
         time.sleep(1) # Necessary for the server to catch up making the new chapter model
         return HttpResponseRedirect(reverse("edit_chapter", kwargs={'chapterID': new_chapter.id, 'inkID': inkOrigin.id}))
-    
+
 @login_required
 def edit_chapter(request, chapterID, inkID):
     chapterInfo = Chapter.objects.get(id=chapterID)
@@ -291,7 +296,7 @@ def edit_chapter(request, chapterID, inkID):
                 # Create a notification for the author
                 new_notification = Notification(
                     notifiedUser=inkInfo.inkOwner, 
-                    contents=f"New co-author request from {current_user} regarding Chapter {chapterInfo.chapterNumber}: {chapterInfo.chapterTitle} of ink titled {inkInfo.title}", 
+                    contents=f'New co-author request from {current_user} regarding Chapter {chapterInfo.chapterNumber}: {chapterInfo.chapterTitle} of ink titled "{inkInfo.title}"', 
                     url=f"coAuthorRequest/{chapterInfo.id}/{new_coAuthorRequest.id}")
                 new_notification.save()
 
@@ -305,7 +310,12 @@ def edit_chapter(request, chapterID, inkID):
                 print(form.errors)
         else:
             if "deleteChapter" in request.POST:
-                    chapterInfo.delete()
+                    subsequentChapters = Chapter.objects.filter(chapterNumber__gt=chapterInfo.chapterNumber)
+                    with transaction.atomic():
+                        chapterInfo.delete()
+                        for chapter in subsequentChapters:
+                            chapter.chapterNumber -= 1
+                            chapter.save()
                     time.sleep(1)
                     return HttpResponseRedirect(reverse("edit_ink", kwargs={'inkID': inkID}))
             form = ChapterForm(request.POST)
@@ -369,12 +379,12 @@ def coAuthorRequest(request, chapterID, requestID):
             originalChapter.save()
 
             if relatedInk.privateStatus != True:
-                new_post = Post(message=f"{relatedRequest.coAuthor.username} updated {relatedInk.inkOwner.username}'s ink: {relatedInk.title}", referencedPostInk=relatedInk)
+                new_post = Post(message=f'{relatedRequest.coAuthor.username} updated {relatedInk.inkOwner.username}\'s ink: "{relatedInk.title}"', referencedPostInk=relatedInk)
                 new_post.save()
 
             new_notification = Notification(
                 notifiedUser=relatedRequest.coAuthor, 
-                contents=f"Your Co-Author request to {relatedInk.title} has been accepted.", 
+                contents=f'Your Co-Author request to "{relatedInk.title}" has been accepted.', 
                 url=f"coAuthorRequest/{chapterID}/{requestID}")
             new_notification.save()
             time.sleep(1)
@@ -387,7 +397,7 @@ def coAuthorRequest(request, chapterID, requestID):
 
             new_notification = Notification(
                 notifiedUser=relatedRequest.coAuthor, 
-                contents=f"Your Co-Author request to {relatedInk.title} has been declined.", 
+                contents=f'Your Co-Author request to "{relatedInk.title}" has been declined.', 
                 url=f"ink_view/{relatedInk.id}")
             new_notification.save()
             time.sleep(1)

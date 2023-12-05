@@ -27,9 +27,18 @@
                     <button class="btn btn-primary" type="submit">Send co-author request</button>
                 {% else %}
                     <button class="btn btn-primary" type="submit">Save Changes</button>
-                    <button class="btn btn-danger" type="submit" name="deleteChapter">Delete Chapter {{ chapterInfo.chapterNumber }}</button>
+                    <button class="btn btn-danger" id="deleteChapterBtn" type="submit" name="deleteChapter" style="display: none;">CONFIRM DELETE</button>
                 {% endif %}
             </div>
         </form>
+        {% if not editingAsCoAuthor %}
+        <div>
+            <button class="btn btn-danger" id="deleteChapterSwitch" type="button" onclick="deleteChapterSwitch()">Delete Chapter {{ chapterInfo.chapterNumber }}</button>
+            <div id="deleteChapterConfirmationDiv" style="display: none;">
+                <h5>Are you sure you want to delete Chapter {{ chapterInfo.chapterNumber }}? This change is irreversible.</h5>
+                <button class="btn btn-success" id="keepChapterBtn" onclick="keepChapter()">KEEP CHAPTER</button>
+            </div>
+        </div>
+        {% endif %}
     </div>
 {% endblock%}

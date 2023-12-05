@@ -192,6 +192,8 @@ function followInk(command) {
 //     }
 // }
 
+
+// ??????????????? WHAT IS THIS FOR?????
 function displayMessage(messageDivID, message, color) {
     const messageDiv = document.getElementById(`${messageDivID}`);
     messageDiv.innerHTML = ''; // Clear the message div
@@ -251,18 +253,6 @@ function checkTitleAvailability(fetchUrl, messageDivId, submitBtnId) {
     });
 }
 
-function addChapter () {
-    document.querySelector("#addChapterBtn").style.display = 'none';
-    document.querySelector("#cancelAddingNewChapter").style.display = 'block';
-    document.querySelector("#addChapterForm").style.display = 'block';
-}
-
-function cancelAddingNewChapter() {
-    document.querySelector("#addChapterBtn").style.display = 'block';
-    document.querySelector("#cancelAddingNewChapter").style.display = 'none';
-    document.querySelector("#addChapterForm").style.display = 'none';
-}
-
 function coAuthorRequestHighlight() {
     var originalText = document.getElementById("originalText").innerText;
     var modifiedText = document.getElementById("modifiedText").innerText;
@@ -290,6 +280,30 @@ function coAuthorRequestHighlight() {
         }
     }
     document.getElementById("whatWasDeleted").innerHTML = deletedHighlight;
+}
+
+function addChapter () {
+    document.querySelector("#addChapterBtn").style.display = 'none';
+    document.querySelector("#cancelAddingNewChapter").style.display = 'block';
+    document.querySelector("#addChapterForm").style.display = 'block';
+}
+
+function cancelAddingNewChapter() {
+    document.querySelector("#addChapterBtn").style.display = 'block';
+    document.querySelector("#cancelAddingNewChapter").style.display = 'none';
+    document.querySelector("#addChapterForm").style.display = 'none';
+}
+
+function deleteChapterSwitch() {
+    document.querySelector("#deleteChapterSwitch").style.display = 'none';
+    document.querySelector("#deleteChapterConfirmationDiv").style.display = 'block';
+    document.querySelector("#deleteChapterBtn").style.display = 'block';
+}
+
+function keepChapter() {
+    document.querySelector("#deleteChapterSwitch").style.display = 'block';
+    document.querySelector("#deleteChapterConfirmationDiv").style.display = 'none';
+    document.querySelector("#deleteChapterBtn").style.display = 'none';
 }
 
 function declineRequest() {

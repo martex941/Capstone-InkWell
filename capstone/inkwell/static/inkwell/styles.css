@@ -296,7 +296,8 @@ body {
 
 /* index.html ||||||||||||||||||||||||||*/
 .indexTimeline {
-    border: var(--border-color) 1px solid;
+    border-left: var(--border-color) 1px solid;
+    border-right: var(--border-color) 1px solid;
     margin: 1rem;
     width: 43%;
     height: 70vh;
