@@ -410,7 +410,6 @@ def coAuthorRequest(request, chapterID, requestID):
         "title": "Request review"
     })
 
-@login_required
 def well(request, username):
     current_user = User.objects.get(pk=request.user.pk)
     wellOwner = User.objects.get(username=username)
