@@ -52,11 +52,13 @@ def timeline(request, page):
     allPostsPag = Paginator(allPosts, 20)
     allPosts_col = serializeInks(allPostsPag)
 
-    followers = User.objects.filter(followee__follower=request.user)
-    followedInks = Ink.objects.filter(Q(inkOwner__in=followers), privateStatus=False)
-    followedPosts = Post.objects.filter(Q(referencedPostInk__in=followedInks)).order_by('-postCreationDate')
-    followedPostsPag = Paginator(followedPosts, 10)
-    followedPosts_col = serializeInks(followedPostsPag)
+    followedPosts_col = []
+    if request.user.is_authenticated:
+        followers = User.objects.filter(followee__follower=request.user)
+        followedInks = Ink.objects.filter(Q(inkOwner__in=followers), privateStatus=False)
+        followedPosts = Post.objects.filter(Q(referencedPostInk__in=followedInks)).order_by('-postCreationDate')
+        followedPostsPag = Paginator(followedPosts, 10)
+        followedPosts_col = serializeInks(followedPostsPag)
 
     index_columns = {
         'allInks': allPosts_col,
@@ -66,17 +68,18 @@ def timeline(request, page):
     return JsonResponse(index_columns, safe=False)
 
 def notifications(request, page):
-    notifications = Notification.objects.filter(notifiedUser=request.user).order_by('-date')
-    notificationsPag = Paginator(notifications, 10)
-    notifications_col = [
-        {
-            'contents': notif.contents,
-            'date': notif.date.strftime('%Y-%m-%d %H:%M:%S'),
-            'url': notif.url
-        }
-        for notif in notificationsPag.page(page).object_list
-    ]
-    return JsonResponse(notifications_col, safe=False)
+    if request.user.is_authenticated:
+        notifications = Notification.objects.filter(notifiedUser=request.user).order_by('-date')
+        notificationsPag = Paginator(notifications, 10)
+        notifications_col = [
+            {
+                'contents': notif.contents,
+                'date': notif.date.strftime('%Y-%m-%d %H:%M:%S'),
+                'url': notif.url
+            }
+            for notif in notificationsPag.page(page).object_list
+        ]
+        return JsonResponse(notifications_col, safe=False)
 
 @login_required
 def newInk(request):
@@ -146,23 +149,25 @@ def checkNewInkTitle(request, inkID): # requiring argument inkID is for pages th
 def ink_view(request, inkID):
     viewedInk = Ink.objects.get(id=inkID)
     chapters = Chapter.objects.filter(chapterInkOrigin=viewedInk).order_by("chapterNumber")
-    current_user = User.objects.get(pk=request.user.pk)
-    following_check = False
-
-    viewingAsAuthor = False
-    if current_user == viewedInk.inkOwner:
-        viewingAsAuthor = True
 
     # Every time an Ink view is opened, update the view count
     viewedInk.views += 1
     viewedInk.save()
 
-    try:
-        ink_followed = Ink.objects.get(ink_following=current_user)
-        if ink_followed:
-            following_check = True
-    except Ink.DoesNotExist:
-        pass
+    viewingAsAuthor = False
+    following_check = False
+    if request.user.is_authenticated:
+        current_user = User.objects.get(pk=request.user.pk)
+
+        if current_user == viewedInk.inkOwner:
+            viewingAsAuthor = True
+        
+        try:
+            ink_followed = Ink.objects.get(ink_following=current_user)
+            if ink_followed:
+                following_check = True
+        except Ink.DoesNotExist:
+            pass
 
     comments = Comment.objects.filter(commentInkOrigin=viewedInk).order_by("-commentCreationDate")
 
@@ -204,7 +209,7 @@ def followInk(request, inkID):
     new_notification.save()
 
     return JsonResponse({"message": "Ink followed"}, status=201)
-        
+
 
 @login_required
 def unfollowInk(request, inkID):
@@ -411,15 +416,17 @@ def coAuthorRequest(request, chapterID, requestID):
     })
 
 def well(request, username):
-    current_user = User.objects.get(pk=request.user.pk)
+    followCheck = False
+    if request.user.is_authenticated:
+        current_user = User.objects.get(pk=request.user.pk)
+        if Follow.objects.filter(follower=current_user, followee=wellOwner):
+            followCheck = True
+
     wellOwner = User.objects.get(username=username)
     inks = Ink.objects.filter(inkOwner=wellOwner.pk)
     followers = wellOwner.followers
     co_authors = wellOwner.acceptedCoAuthorRequests
-    followCheck = False
-    if Follow.objects.filter(follower=current_user, followee=wellOwner):
-        followCheck = True
-
+    
     return render(request, "inkwell/well.html", {
         "wellOwner": wellOwner,
         "inks": inks,

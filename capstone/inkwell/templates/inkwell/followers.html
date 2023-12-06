@@ -2,7 +2,7 @@
 
 {% block body %}
 
-<a href="{% url 'well' username=request.user.username %}"><button class="backToInkWell">Back to InkWell</button></a>
+<a href="{% url 'well' username=followed_user.username %}"><button class="backToInkWell">Back to InkWell</button></a>
 
 <div class="container">
     <h3>People who follow {{ followed_user.username }}</h3>

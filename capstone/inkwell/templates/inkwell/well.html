@@ -25,17 +25,19 @@
 
     <div class="wellUnderBanner disFdirColAliCen">
         <div class="buttonsInUnderBanner">
-            {% if wellOwner == request.user %}
-            <div class="well-management disFdirColAliCen">
-                <a href="{% url 'ink_settings' %}"><button>Manage your inks</button></a>
-                <a href="{% url 'coAuthorRequestsList' %}"><button>Requests from co-authors</button></a>
-                <a href="{% url 'yourCoAuthorRequests' %}"><button>Pending co-author requests</button></a>    
-            </div>
-            {% else %}
-                {% if followCheck %}
-                    <button class="btn btn-danger" id="unfollowBtn" onclick="follow('unfollow')">Unfollow</button>
+            {% if request.user.is_authenticated %}
+                {% if wellOwner == request.user %}
+                <div class="well-management disFdirColAliCen">
+                    <a href="{% url 'ink_settings' %}"><button>Manage your inks</button></a>
+                    <a href="{% url 'coAuthorRequestsList' %}"><button>Requests from co-authors</button></a>
+                    <a href="{% url 'yourCoAuthorRequests' %}"><button>Pending co-author requests</button></a>    
+                </div>
                 {% else %}
-                    <button class="btn btn-primary" id="followBtn" onclick="follow('follow')">Follow</button>
+                    {% if followCheck %}
+                        <button class="btn btn-danger" id="unfollowBtn" onclick="follow('unfollow')">Unfollow</button>
+                    {% else %}
+                        <button class="btn btn-primary" id="followBtn" onclick="follow('follow')">Follow</button>
+                    {% endif %}
                 {% endif %}
             {% endif %}
         </div>
