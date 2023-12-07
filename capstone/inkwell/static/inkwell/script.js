@@ -320,10 +320,13 @@ function goBackBtn() {
     document.querySelector("#declineBtn").style.display = 'block';
 }
 
-function notificationsBtn() {
-
-}
-
 function authorsBtn() {
-    
+    document.querySelector(".authors-style").style.display = 'block';
+    document.querySelector(".notifications-col-style").style.display = 'none';        
 }
+
+function notificationsBtn() {
+    document.querySelector(".authors-style").style.display = 'none';
+    document.querySelector(".notifications-col-style").style.display = 'block';
+}
+
