@@ -211,11 +211,11 @@ function displayMessage(messageDivID, message, color) {
     messageDiv.append(messageContent);
 }
 
-function checkTitleAvailability(fetchUrl, messageDivId, submitBtnId) {
-    const title = document.getElementById("title");
+function checkAvailability(fetchUrl, messageDivId, submitBtnId, checkInputId) {
+    const checkInput = document.getElementById(`${checkInputId}`);
     const csrftoken = getCsrf('csrftoken');
 
-    title.addEventListener('input', () => {
+    checkInput.addEventListener('input', () => {
         setTimeout(() => {
             fetch(fetchUrl, {
                 method: "POST",
@@ -224,12 +224,12 @@ function checkTitleAvailability(fetchUrl, messageDivId, submitBtnId) {
                     "X-CSRFToken": csrftoken
                 },
                 body: JSON.stringify({
-                    title: title.value
+                    check: checkInput.value
                 })
             })
             .then(response => response.json())
             .then(data => {
-                if (title.value.trim() === "") {
+                if (checkInput.value.trim() === "") {
                     document.getElementById(messageDivId).style.display = 'none';
                 }
                 else {
@@ -237,7 +237,7 @@ function checkTitleAvailability(fetchUrl, messageDivId, submitBtnId) {
                     displayMessage(messageDivId, data.message, data.color);
                 }
 
-                // Disable the submit button if the title is taken
+                // Disable the submit button if the checked input is taken
                 const submitButton = document.getElementById(submitBtnId);
                 if (data.color == "red") {
                     submitButton.disabled = true;
@@ -321,23 +321,28 @@ function goBackBtn() {
 }
 
 function authorsBtn() {
-    if (document.querySelector(".authors-style").style.display == 'block') {
-        document.querySelector(".authors-style").style.display = 'none';
-        document.querySelector(".authors-col").style.width = 'auto';
+    if (document.querySelector(".authors-style").style.display == 'none') {
+        document.querySelector(".authors-style").style.display = 'block';
+        document.querySelector(".authors-col").style.display = 'block';
+        document.querySelector(".authors-col").style.width = '315px';
     }
     else {
-        document.querySelector(".authors-style").style.display = 'block';
+        document.querySelector(".authors-style").style.display = 'none';
+        document.querySelector(".authors-col").style.display = 'none';
+        document.querySelector(".authors-col").style.width = 'auto';
     }
 }
 
 function notificationsBtn() {
     if (document.querySelector(".notifications-style").style.display == 'none') {
         document.querySelector(".notifications-style").style.display = 'block';
+        document.querySelector(".notifications-col-style").style.display = 'block';
         document.querySelector(".notifications-col-style").style.width = '300px';
         document.querySelector(".notifications-col-style").style.border = 'var(--border-color) 1px solid';    
     }
     else {
         document.querySelector(".notifications-style").style.display = 'none';
+        document.querySelector(".notifications-col-style").style.display = 'none';
         document.querySelector(".notifications-col-style").style.width = 'auto';
         document.querySelector(".notifications-col-style").style.border = 'none';    
     }

@@ -130,7 +130,7 @@ def newInk(request):
 @login_required
 def checkNewInkTitle(request, inkID): # requiring argument inkID is for pages that require it, otherwise it should be written as 0 Example: "0/checkNewInkTitle"
     data = json.loads(request.body)
-    title = data.get("title", "")
+    title = data.get("check", "")
     try:
         inkExists = Ink.objects.get(title=title)
         if inkExists:
@@ -145,6 +145,26 @@ def checkNewInkTitle(request, inkID): # requiring argument inkID is for pages th
             'color': "green"
             }
         return JsonResponse(messageData, safe=False)
+
+@login_required
+def checkNewUsername(request):
+    data = json.loads(request.body)
+    username = data.get("check", "")
+    try:
+        userExists = User.objects.get(username=username)
+        if userExists:
+            messageData = {
+                'message': "Username is taken.",
+                'color': "red"
+            }
+            return JsonResponse(messageData, safe=False)
+    except User.DoesNotExist:
+        messageData = {
+            'message': "Username is available.",
+            'color': "green"
+            }
+        return JsonResponse(messageData, safe=False)
+
 
 def ink_view(request, inkID):
     viewedInk = Ink.objects.get(id=inkID)
@@ -417,12 +437,12 @@ def coAuthorRequest(request, chapterID, requestID):
 
 def well(request, username):
     followCheck = False
+    wellOwner = User.objects.get(username=username)
     if request.user.is_authenticated:
         current_user = User.objects.get(pk=request.user.pk)
         if Follow.objects.filter(follower=current_user, followee=wellOwner):
             followCheck = True
 
-    wellOwner = User.objects.get(username=username)
     inks = Ink.objects.filter(inkOwner=wellOwner.pk)
     followers = wellOwner.followers
     co_authors = wellOwner.acceptedCoAuthorRequests
@@ -553,24 +573,26 @@ def password_change(request):
 @login_required
 def username_change(request):
     if request.method == "POST":
-        # Username change
-        if "change_username" in request.POST:
-            old_username = request.user
-            new_username = request.POST.get("new_username")
-            user = request.user
-            if new_username == old_username:
-                return render(request, "inkwell/settings.html", {
-                    "message": "New username must be different than the old username"
-                })
-            elif len(new_username) < 5:
-                return render(request, "inkwell/settings.html", {
-                    "message": "New username must be at least 5 characters long"
-                })
-            elif User.objects.filter(username=new_username).exclude(pk=user.pk).exists():
-                return render(request, "inkwell/settings.html", {
-                    "message": "Username is already taken"
-                })
+        old_username = request.user
+        new_username = request.POST.get("new_username")
+        user = request.user
+        if new_username == old_username:
+            print("1")
+            return render(request, "inkwell/settings.html", {
+                "message": "New username must be different than the old username"
+            })
+        elif len(new_username) < 5:
+            print("2")
+            return render(request, "inkwell/settings.html", {
+                "message": "New username must be at least 5 characters long"
+            })
+        elif User.objects.filter(username=new_username).exclude(pk=user.pk).exists():
+            print("3")
+            return render(request, "inkwell/settings.html", {
+                "message": "Username is already taken"
+            })
         else:
+            print("4")
             current_user = User.objects.get(pk=user.pk)
             current_user.username = new_username
             current_user.save()

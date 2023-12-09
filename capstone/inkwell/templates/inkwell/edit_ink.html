@@ -7,7 +7,7 @@
         <script>
             document.addEventListener("DOMContentLoaded", () => {
                 const inkID = document.querySelector("#dataInkID").dataset.ink;
-                checkTitleAvailability(`${inkID}/checkNewInkTitle`, "messageEditInk", "saveAllChapterChangesBtn");
+                checkAvailability(`${inkID}/checkNewInkTitle`, "messageEditInk", "saveAllInkChangesBtn", "inkTitleEdit");
             })
         </script>
     {% endif %}
@@ -57,7 +57,7 @@
                             </div>
                         {% else %}
                             <h5>Change title:</h5>
-                            <input class="form-label title" type="text" id="title" name="title" value="{{ editInk.title }}">
+                            <input class="form-label title" id="inkTitleEdit" type="text" id="title" name="title" value="{{ editInk.title }}">
                             <div class="genresEdit">
                                 <label for="genresEdit">Change genre (current genre: {{ editInk.genre }}):</label>
                                 <select class="form-label" id="genresEdit" name="genresEdit">
@@ -70,7 +70,7 @@
                                 <h5>Edit description:</h5>
                                 <textarea class="form-label descriptionEdit" rows="4" cols="100" name="descriptionEdit">{{ editInk.description }}</textarea>
                             </div>
-                            <button id="saveAllChapterChangesBtn">SAVE CHANGES</button>
+                            <button id="saveAllInkChangesBtn">SAVE CHANGES</button>
                         {% endif %}
                     </form>
                     <hr>

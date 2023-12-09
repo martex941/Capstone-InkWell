@@ -16,6 +16,7 @@ urlpatterns = [
     path('ink_settings', views.ink_settings, name='ink_settings'),
     path('newInk', views.newInk, name='newInk'),
     path('<int:inkID>/checkNewInkTitle', views.checkNewInkTitle, name='checkNewInkTitle'),
+    path('checkNewUsername', views.checkNewUsername, name='checkNewUsername'),
     path('edit_ink/<int:inkID>/checkNewInkTitle', views.checkNewInkTitle, name='checkNewInkTitle'),
     path('edit_ink/<int:inkID>', views.edit_ink, name='edit_ink'),
     path('addNewChapter/<int:newChapterNumber>/<int:inkId>', views.addNewChapter, name='addNewChapter'),

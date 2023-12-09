@@ -2,7 +2,13 @@
 
 {% block body %}
 
-    <div class="container">
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        checkAvailability("checkNewUsername", "messageNewUsername", "changeUsernameBtn", "newUsernameInput");
+    });
+</script>
+
+    <div class="container mt-5" style="width: 300px;">
         <div class="form">
             {% if message %}
                 <div>{{ message }}</div>
@@ -10,10 +16,12 @@
             <form action="{% url 'username_change' %}" method="post">
                 {% csrf_token %}
                 <div class="form-label">
-                    <input class="form-control" type="text" name="new_username" placeholder="Enter your new username">
+                    <input class="form-control" id="newUsernameInput" type="text" name="new_username" placeholder="Enter your new username">
                 </div>
+                <div class="messageNewUsername" id="messageNewUsername">
+                </div>    
                 <div class="d-flex justify-content-center">
-                    <input class="btn btn-primary" type="submit" value="Change username">
+                    <input class="btn btn-primary" type="submit" id="changeUsernameBtn" value="Change username">
                 </div>
             </form>
         </div>

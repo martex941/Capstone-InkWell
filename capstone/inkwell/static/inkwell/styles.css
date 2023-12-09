@@ -70,9 +70,9 @@ body {
 
 @media (max-width: 1300px) {
     /* index.html \\\\\\\\\\\\\\\\\\\ */
-    .authors-btn-style, .notifications-btn-style {
+    /* .authors-btn-style, .notifications-btn-style {
         display: block;
-    }
+    } */
 
     .notifications-style, .authors-style {
         display: none;
@@ -81,6 +81,7 @@ body {
     .notifications-col-style, .authors-col {
         border: none;
         width: auto;
+        display: none;
     }
 }
 
@@ -340,7 +341,8 @@ body {
 }
 
 .inkPostDiv, .notiDiv {
-    border: 1px var(--border-color) solid;
+    border-top: 1px var(--border-color) solid;
+    border-bottom: 1px var(--border-color) solid;
     padding: 0.5rem;
 }
 
@@ -354,6 +356,11 @@ body {
     margin: 1rem;
     position: sticky;
     top: 3%;
+    padding: 0;
+}
+
+.notifications-col-style::-webkit-scrollbar {
+    width: 0;
 }
 
 .author-profile-picture {
