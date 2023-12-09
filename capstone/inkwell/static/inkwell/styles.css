@@ -68,6 +68,22 @@ body {
     text-align: justify;
 }
 
+@media (max-width: 1300px) {
+    /* index.html \\\\\\\\\\\\\\\\\\\ */
+    .authors-btn-style, .notifications-btn-style {
+        display: block;
+    }
+
+    .notifications-style, .authors-style {
+        display: none;
+    }
+
+    .notifications-col-style, .authors-col {
+        border: none;
+        width: auto;
+    }
+}
+
 @media (min-width: 943px) {
     .hiddenChaptersAndInfo .chapterListCol {
         display: none;
@@ -296,11 +312,12 @@ body {
 
 /* index.html ||||||||||||||||||||||||||*/
 .indexTimeline {
-    border-left: var(--border-color) 1px solid;
-    border-right: var(--border-color) 1px solid;
+    border-left: var(--border-color) 1.5px solid;
+    border-right: var(--border-color) 1.5px solid;
     margin: 1rem;
     width: 43%;
     height: auto;
+    padding: 0;
 }
 
 .index.container-fluid {
@@ -339,10 +356,6 @@ body {
     top: 3%;
 }
 
-.notifications-btn {
-    float: right;
-}
-
 .author-profile-picture {
     border: 1px var(--border-color) solid;
     border-radius: 50%;
@@ -362,24 +375,9 @@ body {
     width: 315px;
 }
 
-.authors-btn-style, .notifications-btn-style {
+/* .authors-btn-style, .notifications-btn-style {
     display: none;
-}
-
-@media only screen and (max-width: 1300px) {
-    .authors-btn-style, .notifications-btn-style {
-        display: block;
-    }
-
-    .notifications-style, .authors-style {
-        display: none;
-    }
-
-    .notifications-col-style, .authors-col {
-        border: none;
-        width: auto;
-    }
-}
+} */
 
 /* ink_settings.html ||||||||||||||||||||||*/
 .inkSettingRow {

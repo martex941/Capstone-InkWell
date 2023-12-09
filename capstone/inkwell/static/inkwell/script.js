@@ -321,12 +321,25 @@ function goBackBtn() {
 }
 
 function authorsBtn() {
-    document.querySelector(".authors-style").style.display = 'block';
-    document.querySelector(".notifications-col-style").style.display = 'none';        
+    if (document.querySelector(".authors-style").style.display == 'block') {
+        document.querySelector(".authors-style").style.display = 'none';
+        document.querySelector(".authors-col").style.width = 'auto';
+    }
+    else {
+        document.querySelector(".authors-style").style.display = 'block';
+    }
 }
 
 function notificationsBtn() {
-    document.querySelector(".authors-style").style.display = 'none';
-    document.querySelector(".notifications-col-style").style.display = 'block';
+    if (document.querySelector(".notifications-style").style.display == 'none') {
+        document.querySelector(".notifications-style").style.display = 'block';
+        document.querySelector(".notifications-col-style").style.width = '300px';
+        document.querySelector(".notifications-col-style").style.border = 'var(--border-color) 1px solid';    
+    }
+    else {
+        document.querySelector(".notifications-style").style.display = 'none';
+        document.querySelector(".notifications-col-style").style.width = 'auto';
+        document.querySelector(".notifications-col-style").style.border = 'none';    
+    }
 }
 
