@@ -172,9 +172,9 @@ function followInk(command) {
     .catch(error => {
         console.error(error);
     });
-    setTimeout(() => {
-        location.reload();
-    }, 50);
+    // setTimeout(() => {
+    //     location.reload();
+    // }, 50);
 
 }
 

@@ -19,10 +19,16 @@
     --desert-sand: #d8b4a0ff;
     --burnt-sienna: #d77a61ff;
 
+    --baby-powder: #fdfffcff;
+    --lapis-lazuli: #235789ff;
+    --fire-engine-red: #c1292eff;
+    --school-bus-yellow: #f1d302ff;
+    --raisin-black: #161925ff;
+
     --primary-color: var(--antiflash-white);
-    --secondary-color: var(--antiflash-white);
-    --background-color: var(--platinum);
-    --text-color: var(--gunmetal);
+    --secondary-color: var(--baby-powder);
+    --background-color: var(--baby-powder);
+    --text-color: var(--eerie-black);
     --border-color: #888888;
 }
 
@@ -43,12 +49,16 @@
     margin-right: 1rem;
 }
 
+.nav-link, .navbar-brand {
+    color: var(--text-color);
+}
+
 p, a, h1, h2, h3, h4, h5, span {
     color: var(--text-color);
 }
 
 body {
-    background-color: var(--primary-color);
+    background-color: var(--background-color);
     margin: 0;
     z-index: 0;
 }
@@ -66,6 +76,18 @@ body {
 
 .justify-text {
     text-align: justify;
+}
+
+.backToInkView, .backToInkWell {
+    margin: 0.5rem;
+}
+
+.follow-btn {
+    border: 2.5px #007FFF solid;
+}
+
+.unfollow-btn {
+    border: 2.5px #FF1B1C solid;
 }
 
 @media (max-width: 1300px) {
@@ -170,20 +192,6 @@ body {
     }
 }
 
-.backToInkView, .backToInkWell {
-    margin: 0.5rem;
-}
-
-.follow-btn {
-    background-color: #007FFF;
-    color: var(--secondary-color);
-}
-
-/* .unfollow-btn {
-    background-color: #FF1B1C;
-    color: var(--secondary-color);
-} */
-
 /* coauthors.html ||||||||||||||||||||||||||*/
 .co-author-reference {
     margin: 1rem;
@@ -225,7 +233,7 @@ body {
 }
 
 .inkEditMainCol {
-    background-color: var(--secondary-color);
+    background-color: var(--primary-color);
     border: 1px var(--border-color) solid;
 }
 
@@ -246,7 +254,7 @@ body {
 }
 
 .chaptersListView button {
-    width: 130px;
+    width: 135px;
     height: 35px;
     margin: 0.5rem;
 }
@@ -257,7 +265,7 @@ body {
 }
 
 .inkViewContents {
-    background-color: var(--secondary-color);
+    background-color: var(--primary-color);
     border: 1px var(--border-color) solid;
     font-family: 'Courier New', Courier, monospace;
     padding: 1rem;
@@ -269,7 +277,7 @@ body {
 }
 
 .comment {
-    background-color: white;
+    background-color: var(--primary-color);
     margin-bottom: 1rem;
     padding: 1rem;
 }
@@ -313,6 +321,7 @@ body {
 
 /* index.html ||||||||||||||||||||||||||*/
 .indexTimeline {
+    background-color: var(--primary-color);
     border-left: var(--border-color) 1.5px solid;
     border-right: var(--border-color) 1.5px solid;
     margin: 1rem;
@@ -357,6 +366,7 @@ body {
     position: sticky;
     top: 3%;
     padding: 0;
+    background-color: var(--primary-color);
 }
 
 .notifications-col-style::-webkit-scrollbar {
@@ -380,6 +390,7 @@ body {
 .authors-col {
     margin: 1rem;
     width: 315px;
+    background-color: var(--primary-color);
 }
 
 /* .authors-btn-style, .notifications-btn-style {
@@ -430,6 +441,7 @@ body {
 .well-banner {
     height: auto;
     border: 1.5px var(--border-color) solid;
+    background-color: var(--primary-color);
     border-radius: 10px;
 }
 
@@ -452,6 +464,7 @@ body {
     height: 250px;
     border: 2px solid #333;
     border-radius: 50%;
+    background-color: var(--primary-color);
 }
 
 /* coAuthorRequest.html ||||||||||||||||||||| */

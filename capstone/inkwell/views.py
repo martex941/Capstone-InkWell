@@ -541,20 +541,20 @@ def password_change(request):
             
             # Check if the old password matches the user's current password
             if not user.check_password(old_password):
-                return render(request, "inkwell/settings.html", {
-                    "message": "Incorrect old password"
+                return render(request, "inkwell/password_change.html", {
+                    "message": "Incorrect old password."
                 })
             
             # Check if the new password is valid
             if len(new_password) < 8:
-                return render(request, "inkwell/settings.html", {
-                    "message": "New password must be at least 8 characters long"
+                return render(request, "inkwell/password_change.html", {
+                    "message": "New password must be at least 8 characters long."
                 })
             
             # Check if the new passwords match
             if new_password != new_password_confirm:
-                return render(request, "inkwell/settings.html", {
-                    "message": "Passwords must match"
+                return render(request, "inkwell/password_change.html", {
+                    "message": "Passwords must match."
                 })
 
             # Update the user's password
@@ -564,8 +564,8 @@ def password_change(request):
             # Update the session to reflect the password change
             update_session_auth_hash(request, user)
             
-            return render(request, "inkwell/settings.html", {
-                "message": "Password changed successfully"
+            return render(request, "inkwell/password_change.html", {
+                "message": "Password changed successfully."
             })
         
     return render(request, "inkwell/password_change.html")
@@ -573,31 +573,27 @@ def password_change(request):
 @login_required
 def username_change(request):
     if request.method == "POST":
-        old_username = request.user
+        old_username = request.user.username
         new_username = request.POST.get("new_username")
         user = request.user
-        if new_username == old_username:
-            print("1")
-            return render(request, "inkwell/settings.html", {
-                "message": "New username must be different than the old username"
+        if new_username.strip().lower() == old_username.strip().lower():
+            return render(request, "inkwell/username_change.html", {
+                "message": "New username must be different than the old username."
             })
         elif len(new_username) < 5:
-            print("2")
-            return render(request, "inkwell/settings.html", {
-                "message": "New username must be at least 5 characters long"
+            return render(request, "inkwell/username_change.html", {
+                "message": "New username must be at least 5 characters long."
             })
         elif User.objects.filter(username=new_username).exclude(pk=user.pk).exists():
-            print("3")
-            return render(request, "inkwell/settings.html", {
-                "message": "Username is already taken"
+            return render(request, "inkwell/username_change.html", {
+                "message": "Username is already taken."
             })
         else:
-            print("4")
             current_user = User.objects.get(pk=user.pk)
             current_user.username = new_username
             current_user.save()
-            return render(request, "inkwell/settings.html", {
-                "message": "Username successfully changed"
+            return render(request, "inkwell/username_change.html", {
+                "message": "Username successfully changed."
             })
         
     return render(request, "inkwell/username_change.html")
