@@ -232,11 +232,6 @@ body {
     opacity: 50%;
 }
 
-.inkEditMainCol {
-    background-color: var(--primary-color);
-    border: 1px var(--border-color) solid;
-}
-
 .descriptionEdit {
     width: 100%; 
     box-sizing: border-box; 
@@ -264,7 +259,7 @@ body {
     justify-content: center;
 }
 
-.inkViewContents {
+.inkViewContents, .inkEditMainCol {
     background-color: var(--primary-color);
     border: 1px var(--border-color) solid;
     font-family: 'Courier New', Courier, monospace;

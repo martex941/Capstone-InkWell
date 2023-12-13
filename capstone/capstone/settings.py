@@ -128,3 +128,17 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+QUILL_CONFIGS = {
+    'default': {
+        'modules': {
+            'toolbar': [
+                ['bold', 'italic', 'underline', 'strike'],
+                [{'list': 'ordered'}, {'list': 'bullet'}],
+                ['link', ],
+                [{'color': []}, {'background': []}],
+                ['clean'],
+            ],
+        },
+    },
+}
