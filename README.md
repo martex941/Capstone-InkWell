@@ -16,8 +16,10 @@ InkWell is a website for writers to write and collaborate on their projects. It 
 ## **1. Writing**
 
 ### 1.1 Text Editor
-    
+InkWell utilizes [Django Quill](https://github.com/LeeHanYeong/django-quill-editor) to let writers express themselves in various ways. Simplicity, however, is the name of the game as the idea for the website is to bring the "retro" style into light.
+![Image of Django Quill editor while editing a chapter.](/capstone/media/readme/edit_chapter_editor.png)
 ### 1.2 Chapters
+
 ### 1.3 Editing Inks
 
 ## **2. Co-authorship**
