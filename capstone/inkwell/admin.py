@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Ink, Notification, Well, Follow, User, Chapter, Post, Comment, CoAuthorRequest
+from .models import Ink, Notification, Well, Follow, User, Chapter, Post, Comment, CoAuthorRequest, DiscoverAuthors
 
 # Register your models here.
 admin.site.register(User)
@@ -12,3 +12,4 @@ admin.site.register(Notification)
 admin.site.register(Follow)
 admin.site.register(Comment)
 admin.site.register(CoAuthorRequest)
+admin.site.register(DiscoverAuthors)

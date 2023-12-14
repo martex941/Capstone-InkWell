@@ -8,18 +8,61 @@ from django.urls import reverse
 from django.db import IntegrityError, transaction
 from django.db.models.functions import Random
 from django.core.paginator import Paginator
+from datetime import datetime, timedelta
 import time, json
 
 from .helpers import email_validator
 from .forms import ChapterForm, CoAuthorRequestForm
-from .models import User, Ink, Notification, Well, Follow, Chapter, Post, Comment, CoAuthorRequest
+from .models import User, Ink, Notification, Well, Follow, Chapter, Post, Comment, CoAuthorRequest, DiscoverAuthors
 
-def index(request):
+def updateDiscoverAuthors(request):
     users = User.objects.all()
-    popularAuthors = sorted(users, key=lambda user: user.readers * user.followers, reverse=True)[:10]
-    topAuthors = sorted(users, key=lambda user: user.letters * user.acceptedCoAuthorRequests, reverse=True)[:10]
+    popularAuthors = sorted(users, key=lambda user: (user.readers + user.followers) + (user.readers * user.followers), reverse=True)[:10]
+    topAuthors = sorted(users, key=lambda user: (user.letters + user.acceptedCoAuthorRequests) + (user.letters * user.acceptedCoAuthorRequests), reverse=True)[:10]
     topCoAuthors = sorted(users, key=lambda user: user.acceptedCoAuthorRequests, reverse=True)[:10]
     discoverAuthors = User.objects.annotate(random_order=Random()).order_by('random_order')[:20]
+    
+    try:
+        getDiscoverModel = DiscoverAuthors.objects.get(id=1)
+        for user in popularAuthors:
+            getDiscoverModel.popularAuthors.add(user)
+
+        for user in topAuthors:
+            getDiscoverModel.topAuthors.add(user)
+
+        for user in topCoAuthors:
+            getDiscoverModel.topCoAuthors.add(user)
+
+        for user in discoverAuthors:
+            getDiscoverModel.discoverAuthors.add(user)
+
+        getDiscoverModel.save()
+        print("discover authors updated")
+    except DiscoverAuthors.DoesNotExist:
+        print("Updating DiscoverAuthors has encountered a problem.")
+
+def index(request):
+    
+    startDate = datetime(2023, 12, 12)
+    currentDate = datetime.now()
+    timeDifference = currentDate - startDate
+
+    if timeDifference >= timedelta(days=7):
+        updateDiscoverAuthors(request)
+        startDate = currentDate
+
+    disco  = DiscoverAuthors.objects.get(id=1)
+
+    pops = disco.popularAuthors.all()
+    popularAuthors = sorted(pops, key=lambda user: (user.readers + user.followers) + (user.readers * user.followers), reverse=True)[:10]
+
+    tops = disco.topAuthors.all()
+    topAuthors = sorted(tops, key=lambda user: (user.letters + user.acceptedCoAuthorRequests) + (user.letters * user.acceptedCoAuthorRequests), reverse=True)[:10]
+
+    topCos = disco.topCoAuthors.all()
+    topCoAuthors = sorted(topCos, key=lambda user: user.acceptedCoAuthorRequests, reverse=True)[:10]
+
+    discoverAuthors = disco.discoverAuthors.all().annotate(random_order=Random()).order_by('random_order')[:20]
 
     return render(request, 'inkwell/index.html', {
         'popularAuthors': popularAuthors,
