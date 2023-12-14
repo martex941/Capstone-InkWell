@@ -192,8 +192,7 @@ function followInk(command) {
 //     }
 // }
 
-
-// ??????????????? WHAT IS THIS FOR?????
+// Displaying messages, connected with checkAvailability function
 function displayMessage(messageDivID, message, color) {
     const messageDiv = document.getElementById(`${messageDivID}`);
     messageDiv.innerHTML = ''; // Clear the message div
@@ -321,30 +320,40 @@ function goBackBtn() {
 }
 
 function authorsBtn() {
-    if (document.querySelector(".authors-style").style.display == 'none') {
-        document.querySelector(".authors-style").style.display = 'block';
-        document.querySelector(".authors-col").style.display = 'block';
-        document.querySelector(".authors-col").style.width = '315px';
-    }
+    var authorsStyle = document.querySelector(".authors-style");
+    var authorsCol = document.querySelector(".authors-col");
+
+    var computedStyle = window.getComputedStyle(authorsStyle);
+
+    if (computedStyle.display === 'none') {
+        authorsStyle.style.display = 'block';
+        authorsCol.style.display = 'block';
+        authorsCol.style.width = '315px';
+    } 
     else {
-        document.querySelector(".authors-style").style.display = 'none';
-        document.querySelector(".authors-col").style.display = 'none';
-        document.querySelector(".authors-col").style.width = 'auto';
+        authorsStyle.style.display = 'none';
+        authorsCol.style.display = 'none';
+        authorsCol.style.width = 'auto';
     }
 }
 
 function notificationsBtn() {
-    if (document.querySelector(".notifications-style").style.display == 'none') {
-        document.querySelector(".notifications-style").style.display = 'block';
-        document.querySelector(".notifications-col-style").style.display = 'block';
-        document.querySelector(".notifications-col-style").style.width = '300px';
-        document.querySelector(".notifications-col-style").style.border = 'var(--border-color) 1px solid';    
-    }
+    var notificationsStyle = document.querySelector(".notifications-style");
+    var notificationsColStyle = document.querySelector(".notifications-col-style");
+
+    var computedStyle = window.getComputedStyle(notificationsStyle);
+
+    if (computedStyle.display === 'none') {
+        notificationsStyle.style.display = 'block';
+        notificationsColStyle.style.display = 'block';
+        notificationsColStyle.style.width = '300px';
+        notificationsColStyle.style.border = 'var(--border-color) 1px solid';
+    } 
     else {
-        document.querySelector(".notifications-style").style.display = 'none';
-        document.querySelector(".notifications-col-style").style.display = 'none';
-        document.querySelector(".notifications-col-style").style.width = 'auto';
-        document.querySelector(".notifications-col-style").style.border = 'none';    
+        notificationsStyle.style.display = 'none';
+        notificationsColStyle.style.display = 'none';
+        notificationsColStyle.style.width = 'auto';
+        notificationsColStyle.style.border = 'none';
     }
 }
 
