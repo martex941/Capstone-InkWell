@@ -13,7 +13,7 @@ import time, json
 
 from .helpers import email_validator
 from .forms import ChapterForm, CoAuthorRequestForm
-from .models import User, Ink, Notification, Well, Follow, Chapter, Post, Comment, CoAuthorRequest, DiscoverAuthors
+from .models import User, Ink, Notification, Well, Follow, Chapter, Post, Comment, CoAuthorRequest, DiscoverAuthors, Tag
 
 def updateDiscoverAuthors(request):
     users = User.objects.all()
@@ -290,6 +290,7 @@ def unfollowInk(request, inkID):
 @login_required
 def edit_ink(request, inkID):
     editInk = Ink.objects.get(id=inkID)
+    tags = Tag.objects.all()
     chapters = Chapter.objects.filter(chapterInkOrigin=editInk.id).order_by("chapterNumber")
     if chapters:
         lastChapter = chapters.last().chapterNumber
@@ -317,6 +318,7 @@ def edit_ink(request, inkID):
 
     return render(request, "inkwell/edit_ink.html", {
         "editInk": editInk,
+        "tags": tags,
         "chapters": chapters,
         "newChapterNum": (lastChapter + 1),
         "editingAsCoAuthor": editingAsCoAuthor,

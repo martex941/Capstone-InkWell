@@ -59,6 +59,12 @@ class Well(models.Model):
     def __str__(self):
         return f"{self.wellOwner}'s well"
 
+class Tag(models.Model):
+    tagName = models.CharField(max_length=64)
+
+    def __str__(self):
+        return f"{self.tagName}"
+
 class Ink(models.Model):
     wellOrigin = models.ForeignKey(Well, on_delete=models.CASCADE, related_name="well_pk", default="")
     inkOwner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="ink_owner", default="")
@@ -67,6 +73,7 @@ class Ink(models.Model):
     updateStatus = models.BooleanField(default=False) # If the Ink is edited at least once, this changes to true
     ink_following = models.ManyToManyField(User, related_name="ink_following", blank=True)
     genre = models.CharField(max_length=64, default="")
+    tags = models.ManyToManyField(Tag, related_name="tags", blank=True)
     description = models.CharField(max_length=500, default="")
     title = models.CharField(max_length=64, default="")
     content = models.TextField()
