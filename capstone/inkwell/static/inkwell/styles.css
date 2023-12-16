@@ -205,6 +205,25 @@ body {
     color: rgb(207, 24, 24);
 }
 
+.tag, .tagEdit {
+    border-radius: 10px;
+    background-color: rgb(194, 194, 194);
+    display: inline-block;
+    padding-left: 0.3rem;
+    font-size: 16px;
+    margin: 0.2rem;
+    font-weight: bold;
+}
+.tagEdit button, .tag button {
+    background-color: transparent;
+    border: none;
+    padding-left: 0;
+}
+
+.tagsEdit-style {
+    border: 1px var(--border-color) solid;
+}
+
 .inkEditContainer .row {
     display: flex;
     justify-content: center;

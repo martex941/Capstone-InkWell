@@ -273,7 +273,6 @@ def followInk(request, inkID):
 
     return JsonResponse({"message": "Ink followed"}, status=201)
 
-
 @login_required
 def unfollowInk(request, inkID):
     if request.method != "POST":
@@ -285,7 +284,6 @@ def unfollowInk(request, inkID):
     viewedInk.save()
 
     return JsonResponse({"message": "Ink unfollowed"}, status=201)
-
 
 @login_required
 def edit_ink(request, inkID):
@@ -324,6 +322,16 @@ def edit_ink(request, inkID):
         "editingAsCoAuthor": editingAsCoAuthor,
         "title": "Editing Ink"
     })
+
+@login_required
+def sendTagInfo(request, inkID):
+    inkTags = Ink.objects.get(id=inkID).tags.all()
+    tags = Tag.objects.all()
+    editTags = [{'editTagName': tag.tagName}for tag in inkTags]
+    allTags = [{'allTagName': tag.tagName }for tag in tags]
+    tagData = {'editTags': editTags, 'allTags': allTags}
+
+    return JsonResponse(tagData, safe=False)
 
 @login_required
 def addNewChapter(request, newChapterNumber, inkId):

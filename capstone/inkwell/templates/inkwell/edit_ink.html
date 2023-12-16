@@ -8,6 +8,7 @@
             document.addEventListener("DOMContentLoaded", () => {
                 const inkID = document.querySelector("#dataInkID").dataset.ink;
                 checkAvailability(`${inkID}/checkNewInkTitle`, "messageEditInk", "saveAllInkChangesBtn", "inkTitleEdit");
+                updatingTags(inkID);
             })
         </script>
     {% endif %}
@@ -58,7 +59,7 @@
                         {% else %}
                             <h5>Change title:</h5>
                             <input class="form-label title" id="inkTitleEdit" type="text" id="title" name="title" value="{{ editInk.title }}">
-                            <div class="genresEdit">
+                            <!-- <div class="genresEdit">
                                 <label for="genresEdit">Change genre (current genre: {{ editInk.genre }}):</label>
                                 <select class="form-label" id="genresEdit" name="genresEdit">
                                     <option value="Science & Technology">Science & Technology</option>
@@ -79,13 +80,31 @@
                                     <option value="Guide">Guide</option>
                                     <option value="Guide">Guide</option>
                                 </select>
+                            </div> -->
+                            <div class="tagsEdit-style" id="tagsEdit">
+                                <div class="container p-2 pb-0">
+                                    <h5>Tags:</h5>
+                                    <div id="chosenTags">
+                                        {% for tag in editInk.tags.all %}
+                                            <div class="tag" id="tag">
+                                                {{ tag.tagName }}
+                                                <button type="button">X</button>
+                                            </div>
+                                        {% endfor%}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="container pb-2" id="availableTags">
+                                    {% for tag in tags %}
+                                        {% if tag not in editInk.tags.all %}
+                                            <div class="tagEdit pd-1" id="tagEdit">
+                                                <span id="{{ tag.tagName}}">{{ tag.tagName }}</span>
+                                                <button type="button">+</button>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
                             </div>
-                            <div id="tagsEdit">
-
-                            </div>
-                            <script>
-                                
-                            </script>
                             <div class="col">
                                 <h5>Edit description:</h5>
                                 <textarea class="form-label descriptionEdit" rows="4" cols="100" name="descriptionEdit">{{ editInk.description }}</textarea>

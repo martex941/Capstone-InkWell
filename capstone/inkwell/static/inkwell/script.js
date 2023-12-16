@@ -252,6 +252,14 @@ function checkAvailability(fetchUrl, messageDivId, submitBtnId, checkInputId) {
     });
 }
 
+function updatingTags(inkID) {
+    fetch(`sendTagInfo/${inkID}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+        })
+    }
+
 function coAuthorRequestHighlight() {
     var originalText = document.getElementById("originalText").innerText;
     var modifiedText = document.getElementById("modifiedText").innerText;
