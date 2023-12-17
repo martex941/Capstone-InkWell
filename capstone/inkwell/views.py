@@ -323,15 +323,15 @@ def edit_ink(request, inkID):
         "title": "Editing Ink"
     })
 
-@login_required
-def sendTagInfo(request, inkID):
-    inkTags = Ink.objects.get(id=inkID).tags.all()
-    tags = Tag.objects.all()
-    editTags = [{'editTagName': tag.tagName}for tag in inkTags]
-    allTags = [{'allTagName': tag.tagName }for tag in tags]
-    tagData = {'editTags': editTags, 'allTags': allTags}
+# @login_required
+# def sendTagInfo(request, inkID):
+#     inkTags = Ink.objects.get(id=inkID).tags.all()
+#     tags = Tag.objects.all()
+#     editTags = [{'editTagName': tag.tagName}for tag in inkTags]
+#     allTags = [{'allTagName': tag.tagName }for tag in tags]
+#     tagData = {'editTags': editTags, 'allTags': allTags}
 
-    return JsonResponse(tagData, safe=False)
+#     return JsonResponse(tagData, safe=False)
 
 @login_required
 def addNewChapter(request, newChapterNumber, inkId):

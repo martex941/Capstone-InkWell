@@ -59,47 +59,75 @@
                         {% else %}
                             <h5>Change title:</h5>
                             <input class="form-label title" id="inkTitleEdit" type="text" id="title" name="title" value="{{ editInk.title }}">
-                            <!-- <div class="genresEdit">
-                                <label for="genresEdit">Change genre (current genre: {{ editInk.genre }}):</label>
-                                <select class="form-label" id="genresEdit" name="genresEdit">
-                                    <option value="Science & Technology">Science & Technology</option>
-                                    <option value="Science Fiction">Science Fiction</option>
-                                    <option value="Short Story">Short Story</option>
-                                    <option value="Dystopian">Dystopian</option>
-                                    <option value="Adventure">Adventure</option>
-                                    <option value="Biography">Biography</option>
-                                    <option value="Self-help">Self-help</option>
-                                    <option value="Fantasy">Fantasy</option>
-                                    <option value="Romance">Romance</option>
-                                    <option value="History">History</option>
-                                    <option value="Mystery">Mystery</option>
-                                    <option value="Horror">Horror</option>
-                                    <option value="Travel">Travel</option>
-                                    <option value="Humor">Humor</option>
-                                    <option value="Essay">Essay</option>
-                                    <option value="Guide">Guide</option>
-                                    <option value="Guide">Guide</option>
-                                </select>
-                            </div> -->
+                            <script>
+                                $(document).ready(function() {
+                                    $(".draggable").draggable({
+                                        revert: "invalid",
+                                        helper: "original",
+                                        snap: ".tagContainer",
+                                        snapMode: "inner",
+                                        snapTolerance: 20
+                                    });
+
+                                    $(".tagContainer").droppable({
+                                        accept: ".draggable",
+                                        drop: function(event, ui) {
+                                            handleDrop(ui.helper, $(this));
+                                        }
+                                    });
+
+                                    $(".draggable").on("click", function() {
+                                        var draggable = $(this);
+                                        var currentContainer = draggable.parent(); // Get the current container
+
+                                        // Determine the target container
+                                        var targetContainer = currentContainer.attr("id") === "chosenTags" ? $("#availableTags") : $("#chosenTags");
+
+                                        handleDrop(draggable, targetContainer);
+                                    });
+
+                                    function handleDrop(draggable, targetContainer) {
+                                        // Calculate the position relative to the container
+                                        var position = draggable.position();
+                                        var containerPosition = targetContainer.offset();
+
+                                        var left = position.left - containerPosition.left;
+                                        var top = position.top - containerPosition.top;
+
+                                        // Set the position relative to the container
+                                        draggable.css({
+                                            left: left,
+                                            top: top
+                                        });
+
+                                        // Append the dragged div to the target container
+                                        targetContainer.append(draggable);
+
+                                        // Manually revert the dragged div to its original position
+                                        draggable.css({
+                                            left: 0,
+                                            top: 0
+                                        });
+                                    }
+                                });
+                            </script>
                             <div class="tagsEdit-style" id="tagsEdit">
                                 <div class="container p-2 pb-0">
-                                    <h5>Tags:</h5>
-                                    <div id="chosenTags">
+                                    <div class="tagContainer" id="chosenTags">
+                                        <h5>Tags:</h5>
                                         {% for tag in editInk.tags.all %}
-                                            <div class="tag" id="tag">
+                                            <div class="draggable tag" id="tag">
                                                 {{ tag.tagName }}
-                                                <button type="button">X</button>
                                             </div>
                                         {% endfor%}
                                     </div>
                                 </div>
                                 <hr>
-                                <div class="container pb-2" id="availableTags">
+                                <div class="container tagContainer pb-2" id="availableTags">
                                     {% for tag in tags %}
                                         {% if tag not in editInk.tags.all %}
-                                            <div class="tagEdit pd-1" id="tagEdit">
-                                                <span id="{{ tag.tagName}}">{{ tag.tagName }}</span>
-                                                <button type="button">+</button>
+                                            <div class="draggable tagEdit pd-1" id="tagEdit">
+                                                <span id="{{ tag.tagName }}">{{ tag.tagName }}</span>
                                             </div>
                                         {% endif %}
                                     {% endfor %}

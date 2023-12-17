@@ -210,19 +210,24 @@ body {
     background-color: rgb(194, 194, 194);
     display: inline-block;
     padding-left: 0.3rem;
+    padding-right: 0.3rem;
     font-size: 16px;
     margin: 0.2rem;
     font-weight: bold;
 }
-.tagEdit button, .tag button {
-    background-color: transparent;
-    border: none;
-    padding-left: 0;
+
+.tagContainer #chosenTags {
+    width: auto;
+    min-height: 33px;
 }
 
 .tagsEdit-style {
     border: 1px var(--border-color) solid;
 }
+
+.draggable {
+    cursor: move;
+  }
 
 .inkEditContainer .row {
     display: flex;
