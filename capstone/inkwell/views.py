@@ -81,6 +81,7 @@ def timeline(request, page):
                 'id': post.referencedPostInk.id,
                 'title': post.referencedPostInk.title,
                 'description': post.referencedPostInk.description,
+                'tags': [tag.tagName for tag in post.referencedPostInk.tags.all()],
                 'privateStatus': post.referencedPostInk.privateStatus,
                 'updateStatus': post.referencedPostInk.updateStatus,
                 'inkOwner': post.referencedPostInk.inkOwner.username,
@@ -322,16 +323,6 @@ def edit_ink(request, inkID):
         "editingAsCoAuthor": editingAsCoAuthor,
         "title": "Editing Ink"
     })
-
-# @login_required
-# def sendTagInfo(request, inkID):
-#     inkTags = Ink.objects.get(id=inkID).tags.all()
-#     tags = Tag.objects.all()
-#     editTags = [{'editTagName': tag.tagName}for tag in inkTags]
-#     allTags = [{'allTagName': tag.tagName }for tag in tags]
-#     tagData = {'editTags': editTags, 'allTags': allTags}
-
-#     return JsonResponse(tagData, safe=False)
 
 @login_required
 def addNewChapter(request, newChapterNumber, inkId):

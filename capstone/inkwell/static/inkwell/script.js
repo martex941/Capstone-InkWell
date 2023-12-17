@@ -24,9 +24,24 @@ function timeline() {
                 const ink_div = document.createElement('div');
                 ink_div.className = 'inkPostDiv';
 
+                const statusSpanDiv = document.createElement('div');
+                statusSpanDiv.className = '';
+
                 const statusSpan = document.createElement('span');
                 statusSpan.innerHTML = `<a href="well/${element.inkOwner}">${element.inkOwner}</a> ${element.postMessage}`;
-                ink_div.append(statusSpan);
+
+                statusSpanDiv.append(statusSpan);
+
+                for (var i = 0; i < element.tags.length; i++) {
+                    const tagDiv = document.createElement('div');
+                    tagDiv.className = 'tag';
+                    const tagSpan = document.createElement('span');
+                    tagSpan.innerHTML = `${element.tags[i]}`;
+                    tagDiv.append(tagSpan);
+                    statusSpanDiv.append(tagDiv);
+                }
+                
+                ink_div.append(statusSpanDiv);
                 
                 const inkLink = document.createElement('a');
                 inkLink.className = 'inkLink';
