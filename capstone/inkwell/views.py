@@ -308,14 +308,16 @@ def edit_ink(request, inkID):
         newInkTitle = request.POST.get("title")
         newTags = request.POST.get("tagsData").split(',')
         newTags = [BeautifulSoup(tag, 'html.parser').get_text(strip=True) for tag in newTags]
-        readyNewTags = Tag.objects.filter(tagName__in=newTags)
         newDescription = request.POST.get("descriptionEdit")
 
         if editInk.updateStatus == False:
             editInk.updateStatus == True
 
         editInk.title = newInkTitle
-        editInk.tags.add(*readyNewTags)
+        editInk.tags.clear()
+        if newTags:
+            readyNewTags = Tag.objects.filter(tagName__in=newTags)
+            editInk.tags.add(*readyNewTags)
         editInk.description = newDescription
         editInk.save()
         time.sleep(1)
