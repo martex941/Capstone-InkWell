@@ -9,6 +9,7 @@ from django.db import IntegrityError, transaction
 from django.db.models.functions import Random
 from django.core.paginator import Paginator
 from datetime import datetime, timedelta
+from bs4 import BeautifulSoup
 import time, json
 
 from .helpers import email_validator
@@ -41,14 +42,16 @@ def updateDiscoverAuthors(request):
     except DiscoverAuthors.DoesNotExist:
         print("Updating DiscoverAuthors has encountered a problem.")
 
+startDate = datetime(2023, 12, 12)
+
 def index(request):
-    
-    startDate = datetime(2023, 12, 12)
+    global startDate
     currentDate = datetime.now()
     timeDifference = currentDate - startDate
 
     if timeDifference >= timedelta(days=7):
         updateDiscoverAuthors(request)
+        
         startDate = currentDate
 
     disco  = DiscoverAuthors.objects.get(id=1)
@@ -303,14 +306,16 @@ def edit_ink(request, inkID):
 
     if request.method == "POST":
         newInkTitle = request.POST.get("title")
-        newGenre = request.POST.get("genresEdit")
+        newTags = request.POST.get("tagsData").split(',')
+        newTags = [BeautifulSoup(tag, 'html.parser').get_text(strip=True) for tag in newTags]
+        readyNewTags = Tag.objects.filter(tagName__in=newTags)
         newDescription = request.POST.get("descriptionEdit")
 
         if editInk.updateStatus == False:
             editInk.updateStatus == True
 
         editInk.title = newInkTitle
-        editInk.genre = newGenre
+        editInk.tags.add(*readyNewTags)
         editInk.description = newDescription
         editInk.save()
         time.sleep(1)

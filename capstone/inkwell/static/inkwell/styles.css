@@ -205,7 +205,7 @@ body {
     color: rgb(207, 24, 24);
 }
 
-.tag, .tagEdit {
+.tag {
     border-radius: 10px;
     background-color: rgb(194, 194, 194);
     display: inline-block;

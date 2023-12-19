@@ -45,7 +45,7 @@
                         <h4 class="text-center editingAsCoAuthorText">YOU ARE EDITING THIS INK AS CO-AUTHOR</h4>
                     {% endif %}
 
-                    <form class="form" action="" method="post">
+                    <form class="form" id="editInkForm" action="{% url 'edit_ink' inkID=editInk.id %}" method="post">
                         <div class="messageEditInk" id="messageEditInk">
                         </div>
                         {% csrf_token %}
@@ -110,6 +110,22 @@
                                         });
                                     }
                                 });
+
+                                $(document).ready(function() {
+                                    // Update the hidden input field with a list of data from all the divs
+                                    function updateHiddenField() {
+                                        var tagDataList = $("#chosenTags .tag").map(function() {
+                                            return $(this).text();
+                                        }).get().join(',');
+
+                                        $("#tagDataListField").val(tagDataList);
+                                    }
+
+                                    // Call the updateHiddenField function when the form is submitted
+                                    $("#editInkForm").submit(function() {
+                                        updateHiddenField();
+                                    });
+                                });
                             </script>
                             <div class="tagsEdit-style" id="tagsEdit">
                                 <div class="container p-2 pb-0">
@@ -126,13 +142,14 @@
                                 <div class="container tagContainer pb-2" id="availableTags">
                                     {% for tag in tags %}
                                         {% if tag not in editInk.tags.all %}
-                                            <div class="draggable tagEdit pd-1" id="tagEdit">
+                                            <div class="draggable tag pd-1" id="tagEdit">
                                                 <span id="{{ tag.tagName }}">{{ tag.tagName }}</span>
                                             </div>
                                         {% endif %}
                                     {% endfor %}
                                 </div>
                             </div>
+                            <input type="hidden" name="tagsData" id="tagDataListField" value="">
                             <div class="col">
                                 <h5>Edit description:</h5>
                                 <textarea class="form-label descriptionEdit" rows="4" cols="100" name="descriptionEdit">{{ editInk.description }}</textarea>
