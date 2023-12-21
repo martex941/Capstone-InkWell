@@ -4,6 +4,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             checkAvailability("0/checkNewInkTitle", "messageNewInk", "createInk", "title");
+            updatingTags("#new-post-form");
         });
     </script>
     
@@ -21,26 +22,23 @@
                 {% endfor %}
             </div>
 
-            <label for="genre">Select a genre:</label>
-            <select class="form-label" id="genre" name="genre">
-                <option value="Science & Technology">Science & Technology</option>
-                <option value="Science Fiction">Science Fiction</option>
-                <option value="Short Story">Short Story</option>
-                <option value="Dystopian">Dystopian</option>
-                <option value="Adventure">Adventure</option>
-                <option value="Biography">Biography</option>
-                <option value="Self-help">Self-help</option>
-                <option value="Fantasy">Fantasy</option>
-                <option value="Romance">Romance</option>
-                <option value="History">History</option>
-                <option value="Mystery">Mystery</option>
-                <option value="Horror">Horror</option>
-                <option value="Travel">Travel</option>
-                <option value="Humor">Humor</option>
-                <option value="Essay">Essay</option>
-                <option value="Guide">Guide</option>
-                <option value="Guide">Guide</option>
-            </select>
+            <div class="tagsEdit-style mt-3" id="tagsEdit">
+                <div class="container p-2 pb-0">
+                    <div class="tagContainer" id="chosenTags">
+                        <h5>Tags:</h5>
+                    </div>
+                </div>
+                <hr>
+                <div class="container tagContainer pb-2" id="availableTags">
+                    {% for tag in tags %}
+                        <div class="draggable tag pd-1" id="tagEdit">
+                            <span id="{{ tag.tagName }}">{{ tag.tagName }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <input type="hidden" name="tagsData" id="tagDataListField" value="">
+
             <div>
                 <label class="form-check-label" for="privateStatus">Make Ink private</label>
                 <input class="form-check-input" type="checkbox" name="privateStatus">    

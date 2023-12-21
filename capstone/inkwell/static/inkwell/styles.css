@@ -388,9 +388,9 @@ body {
     background-color: var(--primary-color);
 }
 
-.notifications-col-style::-webkit-scrollbar {
+/* .notifications-col-style::-webkit-scrollbar {
     width: 0;
-}
+} */
 
 .author-profile-picture {
     border: 1px var(--border-color) solid;
@@ -409,6 +409,8 @@ body {
 .authors-col {
     margin: 1rem;
     width: 315px;
+    border: 1px var(--border-color) solid;
+    border-radius: 10px;
     background-color: var(--primary-color);
 }
 

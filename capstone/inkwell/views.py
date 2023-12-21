@@ -61,9 +61,9 @@ def index(request):
 
     tops = disco.topAuthors.all()
     topAuthors = sorted(tops, key=lambda user: (user.letters + user.acceptedCoAuthorRequests) + (user.letters * user.acceptedCoAuthorRequests), reverse=True)[:10]
-
+    
     topCos = disco.topCoAuthors.all()
-    topCoAuthors = sorted(topCos, key=lambda user: user.acceptedCoAuthorRequests, reverse=True)[:10]
+    topCoAuthors = sorted(topCos, key=lambda user: user.yourAcceptedCoAuthorRequests, reverse=True)[:10]
 
     discoverAuthors = disco.discoverAuthors.all().annotate(random_order=Random()).order_by('random_order')[:20]
 
@@ -117,7 +117,7 @@ def timeline(request, page):
 def notifications(request, page):
     if request.user.is_authenticated:
         notifications = Notification.objects.filter(notifiedUser=request.user).order_by('-date')
-        notificationsPag = Paginator(notifications, 10)
+        notificationsPag = Paginator(notifications, 15)
         notifications_col = [
             {
                 'contents': notif.contents,
@@ -130,9 +130,13 @@ def notifications(request, page):
 
 @login_required
 def newInk(request):
+    tags = Tag.objects.all()
     if request.method == "POST":
         title = request.POST.get("title")
-        genre = request.POST.get("genre")
+        newTags = request.POST.get("tagsData").split(',')
+        newTags = [BeautifulSoup(tag, 'html.parser').get_text(strip=True) for tag in newTags]
+        if newTags:
+            readyNewTags = Tag.objects.filter(tagName__in=newTags)
         privateStatus = request.POST.get("privateStatus")
         if privateStatus == "on":
             privateStatus = True
@@ -141,7 +145,7 @@ def newInk(request):
 
         description = request.POST.get("description")
 
-        if title == "" or genre == "" or description == "":
+        if title == "" or description == "":
             return render(request, "inkwell/newInk.html", {
                 "messages": ["All fields must be filled."]
             })
@@ -153,12 +157,12 @@ def newInk(request):
             wellOrigin=user_well, 
             inkOwner=current_user, 
             privateStatus=privateStatus, 
-            updateStatus=False, 
-            genre=genre, 
+            updateStatus=False,
             description=description, 
-            title=title, 
-            content="", 
+            title=title,
             )
+        new_ink.save()
+        new_ink.tags.add(*readyNewTags)
         new_ink.save()
 
         time.sleep(1) # 1 second pause for the server to catch up with the newly created ink
@@ -171,7 +175,8 @@ def newInk(request):
         return redirect('edit_ink', inkID=new_ink.id)
 
     return render(request, "inkwell/newInk.html", {
-        "title": "New Ink"
+        "title": "New Ink",
+        "tags": tags
     })
 
 @login_required
@@ -293,6 +298,7 @@ def unfollowInk(request, inkID):
 def edit_ink(request, inkID):
     editInk = Ink.objects.get(id=inkID)
     tags = Tag.objects.all()
+    print(tags)
     chapters = Chapter.objects.filter(chapterInkOrigin=editInk.id).order_by("chapterNumber")
     if chapters:
         lastChapter = chapters.last().chapterNumber
@@ -375,11 +381,6 @@ def edit_chapter(request, chapterID, inkID):
                     contents=f'New co-author request from {current_user} regarding Chapter {chapterInfo.chapterNumber}: {chapterInfo.chapterTitle} of ink titled "{inkInfo.title}"', 
                     url=f"coAuthorRequest/{chapterInfo.id}/{new_coAuthorRequest.id}")
                 new_notification.save()
-
-                # Update requests counter for the user who is the author
-                inkAuthor = inkInfo.inkOwner
-                inkAuthor.YourCoAuthorRequests += 1
-                inkAuthor.save()
 
                 return HttpResponseRedirect(reverse("coAuthorRequest", kwargs={'chapterID': chapterInfo.id, 'requestID': new_coAuthorRequest.id}))
             else:
@@ -532,7 +533,7 @@ def follow(request, username):
         new_notification = Notification(
             notifiedUser=followed_user, 
             contents=f"{current_user} followed you.", 
-            url=f"well/{followed_user.username}/followers")
+            url=f"well/{current_user}")
         new_notification.save()
 
     return JsonResponse({"message": "Followed"}, status=201)
@@ -679,7 +680,8 @@ def edit_profile(request):
 def ink_settings(request):
     retrieve_inks = Ink.objects.filter(inkOwner=request.user)
     return render(request, "inkwell/ink_settings.html", {
-        "inks": retrieve_inks
+        "inks": retrieve_inks,
+        "title": "Ink Settings"
     })
 
 def login_view(request):

@@ -6,7 +6,16 @@ from django.db import models
 class User(AbstractUser):
     about = models.CharField(max_length=250, default="")
     profilePicture = models.ImageField(upload_to='', blank=True, null=True)
-    YourCoAuthorRequests = models.PositiveIntegerField(default=0) # Amount of co-author requests the author made to other inks that were accepted
+
+    @property
+    def yourCoAuthorRequests(self): # Amount of co-author requests the author made to other inks
+        ycar = CoAuthorRequest.objects.filter(coAuthor=self)
+        return ycar.count()
+
+    @property
+    def yourAcceptedCoAuthorRequests(self):# Amount of co-author requests the author made to other inks that were accepted
+        yacar = Ink.objects.filter(coAuthors=self)
+        return yacar.count()
 
     @property
     def acceptedCoAuthorRequests(self): # Amount of accepted co-author requests the author got from other authors
@@ -72,11 +81,9 @@ class Ink(models.Model):
     privateStatus = models.BooleanField(default=False)
     updateStatus = models.BooleanField(default=False) # If the Ink is edited at least once, this changes to true
     ink_following = models.ManyToManyField(User, related_name="ink_following", blank=True)
-    genre = models.CharField(max_length=64, default="")
     tags = models.ManyToManyField(Tag, related_name="tags", blank=True)
     description = models.CharField(max_length=500, default="")
     title = models.CharField(max_length=64, default="")
-    content = models.TextField()
     views = models.PositiveBigIntegerField(default=0)
     creation_date = models.DateTimeField(default=timezone.now, editable=False)
 

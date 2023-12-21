@@ -134,7 +134,7 @@ function notifications() {
 
     loadNotifications();
 
-    const notiColumn = document.querySelector("#notifications_col");
+    const notiColumn = document.querySelector("#notifications-col");
     notiColumn.onscroll = () => {
         if (notiColumn.clientHeight + notiColumn.scrollTop >= notiColumn.scrollHeight) {
             page++;
@@ -187,10 +187,9 @@ function followInk(command) {
     .catch(error => {
         console.error(error);
     });
-    // setTimeout(() => {
-    //     location.reload();
-    // }, 50);
-
+    setTimeout(() => {
+        location.reload();
+    }, 50);
 }
 
 // Changes the follow/unfollow button
@@ -264,6 +263,75 @@ function checkAvailability(fetchUrl, messageDivId, submitBtnId, checkInputId) {
                 console.error(error);
             });
         }, 500);
+    });
+}
+
+function updatingTags(formID) {
+    $(document).ready(function() {
+        $(".draggable").draggable({
+            revert: "invalid",
+            helper: "original",
+            snap: ".tagContainer",
+            snapMode: "inner",
+            snapTolerance: 20
+        });
+
+        $(".tagContainer").droppable({
+            accept: ".draggable",
+            drop: function(event, ui) {
+                handleDrop(ui.helper, $(this));
+            }
+        });
+
+        $(".draggable").on("click", function() {
+            var draggable = $(this);
+            var currentContainer = draggable.parent(); // Get the current container
+
+            // Determine the target container
+            var targetContainer = currentContainer.attr("id") === "chosenTags" ? $("#availableTags") : $("#chosenTags");
+
+            handleDrop(draggable, targetContainer);
+        });
+
+        function handleDrop(draggable, targetContainer) {
+            // Calculate the position relative to the container
+            var position = draggable.position();
+            var containerPosition = targetContainer.offset();
+
+            var left = position.left - containerPosition.left;
+            var top = position.top - containerPosition.top;
+
+            // Set the position relative to the container
+            draggable.css({
+                left: left,
+                top: top
+            });
+
+            // Append the dragged div to the target container
+            targetContainer.append(draggable);
+
+            // Manually revert the dragged div to its original position
+            draggable.css({
+                left: 0,
+                top: 0
+            });
+        }
+    });
+
+    $(document).ready(function() {
+        // Update the hidden input field with a list of data from all the divs
+        function updateHiddenField() {
+            var tagDataList = $("#chosenTags .tag").map(function() {
+                return $(this).text();
+            }).get().join(',');
+
+            $("#tagDataListField").val(tagDataList);
+        }
+
+        // Call the updateHiddenField function when the form is submitted
+        $(formID).submit(function() {
+            updateHiddenField();
+        });
     });
 }
 

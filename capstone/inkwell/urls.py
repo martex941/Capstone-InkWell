@@ -19,7 +19,6 @@ urlpatterns = [
     path('checkNewUsername', views.checkNewUsername, name='checkNewUsername'),
     path('edit_ink/<int:inkID>/checkNewInkTitle', views.checkNewInkTitle, name='checkNewInkTitle'),
     path('edit_ink/<int:inkID>', views.edit_ink, name='edit_ink'),
-    # path('edit_ink/sendTagInfo/<int:inkID>', views.sendTagInfo, name='sendTagInfo'),
     path('addNewChapter/<int:newChapterNumber>/<int:inkId>', views.addNewChapter, name='addNewChapter'),
     path('edit_chapter/<int:chapterID>/<int:inkID>', views.edit_chapter, name='edit_chapter'),
     path('yourCoAuthorRequests', views.yourCoAuthorRequests, name='yourCoAuthorRequests'),

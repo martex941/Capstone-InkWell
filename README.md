@@ -9,6 +9,7 @@ InkWell is a website for writers to write and collaborate on their projects. It 
 ### **Important things to install:**
 - [django-quill-editor](https://pypi.org/project/django-quill-editor/)
 - [Pillow](https://pypi.org/project/Pillow/)
+- [BeautifulSoup](https://pypi.org/project/beautifulsoup4/)
 
 
 # **Overview**
