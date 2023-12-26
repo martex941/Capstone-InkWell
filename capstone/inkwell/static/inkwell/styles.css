@@ -63,6 +63,7 @@ body {
     z-index: 0;
 }
 
+
 .displayDirectionCol {
     display: flex;
     flex-direction: column;
@@ -375,7 +376,7 @@ body {
 }
 
 .notifications-col-style {
-    height: 50vh;
+    height: 450px;
     width: 300px;
     overflow-y: auto;
     text-overflow: ellipsis;

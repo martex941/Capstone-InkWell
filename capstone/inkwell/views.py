@@ -168,7 +168,7 @@ def newInk(request):
         time.sleep(1) # 1 second pause for the server to catch up with the newly created ink
 
         if privateStatus != True:
-            new_post = Post(message=f"{current_user.username} created a new Ink titled {title}", referencedPostInk=new_ink)
+            new_post = Post(message=f'{current_user.username} created a new Ink "{title}"', referencedPostInk=new_ink)
             new_post.save()
 
         time.sleep(1) # The page loads quicker than the server so it is held by 1 second for the server to catch up
@@ -235,11 +235,12 @@ def ink_view(request, inkID):
             viewingAsAuthor = True
         
         try:
-            ink_followed = Ink.objects.get(ink_following=current_user)
-            if ink_followed:
+            if viewedInk.ink_following.filter(pk=current_user.pk):
                 following_check = True
-        except Ink.DoesNotExist:
+        except Ink.MultipleObjectsReturned:
             pass
+
+    print(following_check)
 
     comments = Comment.objects.filter(commentInkOrigin=viewedInk).order_by("-commentCreationDate")
 
@@ -404,7 +405,7 @@ def edit_chapter(request, chapterID, inkID):
                 inkInfo.save()
                 time.sleep(1)
                 if inkInfo.privateStatus != True:
-                    new_post = Post(message=f"updated their ink {inkInfo.title}", referencedPostInk=inkInfo)
+                    new_post = Post(message=f'{current_user} updated their ink "{inkInfo.title}"', referencedPostInk=inkInfo)
                     new_post.save()
                 return HttpResponseRedirect(reverse("edit_ink", kwargs={'inkID': inkID}))
         

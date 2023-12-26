@@ -28,7 +28,7 @@ function timeline() {
                 statusSpanDiv.className = '';
 
                 const statusSpan = document.createElement('span');
-                statusSpan.innerHTML = `<a href="well/${element.inkOwner}">${element.inkOwner}</a> ${element.postMessage}`;
+                statusSpan.innerHTML = `${element.postMessage}`;
 
                 statusSpanDiv.append(statusSpan);
 
