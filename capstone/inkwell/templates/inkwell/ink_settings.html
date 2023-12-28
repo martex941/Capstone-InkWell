@@ -5,25 +5,34 @@
 <a href="{% url 'well' username=request.user.username %}"><button class="backToInkWell">Back to InkWell</button></a>
 
 <div class="container">
+    
+    {% if message %}
+        <h5 class="disFdirColAliCen m-2">{{ message }}</h5>
+    {% endif %}
+
     {% for ink in inks %}
         <div class="row inkSettingRow">
             <div class="col">
+                Title:
+                <br>
                 {{ ink.title }}
             </div>
             <div class="col">
+                Created:
+                <br>
                 {{ ink.creation_date }}
             </div>
             <div class="col">
                 Privacy settings
             </div>
             <div class="col">
-                <a href="{% url 'ink_view' inkID=ink.id %}"><button class="btn btn-secondary">VIEW INK</button></a>
+                <a href="{% url 'ink_view' inkID=ink.id %}"><button>VIEW INK</button></a>
             </div>
             <div class="col">
-                <a href="{% url 'edit_ink' inkID=ink.id %}"><button class="btn btn-primary" href="">EDIT INK</button></a>
+                <a href="{% url 'edit_ink' inkID=ink.id %}"><button>EDIT INK</button></a>
             </div>
             <div class="col">
-                <button class="btn btn-danger">DELETE</button>
+                <a href="{% url 'delete_ink' inkID=ink.id %}"><button class="btn btn-danger">DELETE</button></a>
             </div>
         </div>
     {% endfor %}

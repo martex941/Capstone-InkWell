@@ -8,7 +8,7 @@
             document.addEventListener("DOMContentLoaded", () => {
                 const inkID = document.querySelector("#dataInkID").dataset.ink;
                 checkAvailability(`${inkID}/checkNewInkTitle`, "messageEditInk", "saveAllInkChangesBtn", "inkTitleEdit");
-                updatingTags("#inkTitleEdit");
+                updatingTags("#editInkForm");
             })
         </script>
     {% endif %}

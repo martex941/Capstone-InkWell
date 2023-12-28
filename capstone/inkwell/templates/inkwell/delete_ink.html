@@ -1,0 +1,22 @@
+{% extends "inkwell/layout.html" %}
+
+{% block body %}
+
+<a href="{% url 'ink_settings' %}"><button class="backToInkWell">Back to Ink Settings</button></a>
+
+<div class="container disFdirColAliCen p-4">
+    <form action="{% url 'delete_ink' inkID=inkID %}" method="post">
+        {%csrf_token%}
+        <h5>Are you sure you want to delete "{{ selectedInk.title }}"?</h5>
+        <div class="form-label">
+            <input class="form-control" name="deleteInkConfirmation" placeholder='Type Ink title in order to confirm...'>
+        </div>
+        {% if message %}
+            <h5 class="disFdirColAliCen m-2">Error: {{ message }}</h5>
+        {% endif %}
+        <div class="d-flex justify-content-center">
+            <button class="btn btn-danger" type="submit">CONFIRM</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

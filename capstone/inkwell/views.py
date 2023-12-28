@@ -682,7 +682,30 @@ def ink_settings(request):
     retrieve_inks = Ink.objects.filter(inkOwner=request.user)
     return render(request, "inkwell/ink_settings.html", {
         "inks": retrieve_inks,
-        "title": "Ink Settings"
+        "title": "Ink Settings",
+        "message": "message test"
+    })
+
+@login_required
+def delete_ink(request, inkID):
+    selectedInk = Ink.objects.get(id=inkID)
+    if request.method == "POST":
+        deleteConfirmation = request.POST.get("deleteInkConfirmation")
+        if deleteConfirmation == selectedInk.title:
+            selectedInk.delete()
+            time.sleep(1)
+            return HttpResponseRedirect(reverse("ink_settings"))
+        else:
+            return render(request, "inkwell/delete_ink.html", {
+                "selectedInk": selectedInk,
+                "inkID": inkID,
+                "message": "Invalid title."
+            })
+
+
+    return render(request, "inkwell/delete_ink.html", {
+        "selectedInk": selectedInk,
+        "inkID": inkID
     })
 
 def login_view(request):
