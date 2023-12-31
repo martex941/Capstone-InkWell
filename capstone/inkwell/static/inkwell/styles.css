@@ -25,11 +25,17 @@
     --school-bus-yellow: #f1d302ff;
     --raisin-black: #161925ff;
 
+    --khaki: #b7ad99ff;
+    --folly: #ff4365ff;
+    --black: #030301ff;
+    --turquoise: #00d9c0ff;
+    --ivory: #fffff3ff;
+
     --primary-color: var(--antiflash-white);
-    --secondary-color: var(--baby-powder);
-    --background-color: var(--baby-powder);
-    --text-color: var(--eerie-black);
-    --border-color: #888888;
+    --secondary-color: var(--ivory);
+    --background-color: var(--ivory);
+    --text-color: var(--black);
+    --border-color: var(--khaki);
 }
 
 .navbar-brand, .nav-logo {
@@ -208,7 +214,7 @@ body {
 
 .tag {
     border-radius: 10px;
-    background-color: rgb(194, 194, 194);
+    background-color: var(--border-color);
     display: inline-block;
     padding-left: 0.3rem;
     padding-right: 0.3rem;
