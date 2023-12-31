@@ -364,6 +364,26 @@ function coAuthorRequestHighlight() {
     document.getElementById("whatWasDeleted").innerHTML = deletedHighlight;
 }
 
+function privatizeInk(command) {
+    const csrftoken = getCsrf('csrftoken');
+    const inkID = document.querySelector("#dataInkID").dataset.inkid;
+
+    fetch(`privatizeInk/${inkID}/${command}`, { // Command can be either "makePublic" or "makePrivate"
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": csrftoken
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+    })
+    .catch(error => {
+        console.error(error);
+    });
+}
+
 function addChapter () {
     document.querySelector("#addChapterBtn").style.display = 'none';
     document.querySelector("#cancelAddingNewChapter").style.display = 'block';

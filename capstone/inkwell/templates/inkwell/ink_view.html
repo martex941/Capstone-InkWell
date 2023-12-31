@@ -2,116 +2,124 @@
 
 {% block body %}
 
+<a href="{% url 'well' username=ink.inkOwner.username %}"><button class="backToInkWell">Back to {{ ink.inkOwner.username }}'s InkWell</button></a>
+
 <div class="container-flex inkViewContainer">
 
-    <div class="hiddenChaptersAndInfo disFdirColAliCen">
-        <div class="col-3 chapterListCol">
-            <div class="chaptersListView">
-                <div class="inkViewButtons disFdirColAliCen">
-                    {% if request.user.is_authenticated %}
-                        <a href="{% url 'edit_ink' inkID=ink.id %}" class="edit-ink-btn"><button>EDIT INK</button></a>
-                        <div id="dataInkID" data-inkid="{{ink.id}}"></div>
-                        {% if not viewingAsAuthor %}
-                            {% if following_check %}
-                                <button class="unfollow-btn" id="unfollowBtn" type="submit" onclick="followInk('unfollowInk')">UNFOLLOW INK</button>
-                            {% else %}
-                                <button class="follow-btn" id="followBtn" type="submit" onclick="followInk('followInk')">FOLLOW INK</button>
-                            {% endif %}
-                        {% endif%}
-                    {% endif %}
-                </div>
-                <h5 class="text-start">CHAPTERS</h5>
-                <ul class="chapter-list">
-                    {% for chapter in chapters %}
-                        <a href="#anchorChapter{{ chapter.chapterNumber }}"><li>Chapter {{ chapter.chapterNumber }}: {{ chapter.chapterTitle }}</li></a>
-                    {% endfor %}
-                </ul>
-            </div>
+    {% if ink.privateStatus and request.user != ink.inkOwner %}
+        <div class="container disFdirColAliCen mt-5">
+            <h3>THIS INK IS PRIVATE</h3>
         </div>
-        <div class="col inkTitleCardInfo displayDirectionCol">
-            <span>Genre: {{ ink.genre }}</span>
-            <span>Views: {{ ink.views }}</span>
-        </div>
-    </div>
-
-    <div class="row mt-2">
-
-        <div class="col-3 chapterListCol">
-            <div class="chaptersListView">
-                <div class="inkViewButtons disFdirColAliCen">
-                    {% if request.user.is_authenticated %}
-                        <a href="{% url 'edit_ink' inkID=ink.id %}" class="edit-ink-btn"><button>EDIT INK</button></a>
-                        <div id="dataInkID" data-inkid="{{ink.id}}"></div>
-                        {% if not viewingAsAuthor %}
-                            {% if following_check %}
-                                <button class="unfollow-btn" id="unfollowBtn" type="submit" onclick="followInk('unfollowInk')">UNFOLLOW INK</button>
-                            {% else %}
-                                <button class="follow-btn" id="followBtn" type="submit" onclick="followInk('followInk')">FOLLOW INK</button>
-                            {% endif %}
-                        {% endif%}
-                    {% endif %}
-                </div>
-                <h5 class="text-start">CHAPTERS</h5>
-                <ul class="chapter-list">
-                    {% for chapter in chapters %}
-                        <a href="#anchorChapter{{ chapter.chapterNumber }}"><li>Chapter {{ chapter.chapterNumber }}: {{ chapter.chapterTitle }}</li></a>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-
-        <div class="col-8 inkViewContents">
-            <div class="row inkTitleCard">
-                <div class="col inkTitleCardInfo displayDirectionCol">
-                    <span>Genre: {{ ink.genre }}</span>
-                    <span>Views: {{ ink.views }}</span>
-                </div>
-                <div class="col-5 inkViewTitleColumn displayDirectionCol">
-                    <h1 class="text-center inkViewTitle">{{ ink.title }}</h1>
-                    {% if ink.coAuthors %}
-                        <span class="author-credit text-center">by {{ ink.inkOwner }} <a href="{% url 'inkCoAuthors' inkID=ink.id %}" style="text-decoration: underline; color: blue;">and {{ ink.coAuthors.count }} others</a></span>
-                    {% else %}
-                        <span class="author-credit text-center">by {{ ink.inkOwner }}</span>
-                    {% endif %}
-                </div>
-                <div class="col">
-                </div>
-            </div>
-            <hr>
-            {% for chapter in chapters %}
-            <div class="justify-text" id="anchorChapter{{chapter.chapterNumber}}">
-                <h5 class="text-center fw-bold chapterTitle">Chapter {{ chapter.chapterNumber}}: {{chapter.chapterTitle}}</h5>
-                <p>{{chapter.chapterContents.html|safe}}</p>
-            </div>
-            {% endfor %}
-        </div>
-
-    </div>
-
-    <div class="row inkViewComments disFdirColAliCen">
-        <hr>
-        <div class="col-8">
-            {% if request.user.is_authenticated %}
-                <form class="form" action="{% url 'ink_view' inkID=ink.id %}" method="post" name="commentForm">
-                    {% csrf_token %}
-                    <h5 class="lead">Write a comment</h5>
-                    <textarea class="commentContents" rows="4" name="commentContents"></textarea>
-                    <button type="submit">Comment</button>
-                </form>
-            {% endif %}
-            <div class="comments-section">
-                <h5 class="text-center">COMMENTS</h5>
-                {% for comment in comments %}
-                    <div class="comment">
-                        <span>{{ comment.commentAuthor }}:</span>
-                        <p>{{ comment.content }}</p>
-                        <hr>
-                        <span>{{ comment.commentCreationDate }}</span>
+    {% else %}
+        <div class="hiddenChaptersAndInfo disFdirColAliCen">
+            <div class="col-3 chapterListCol">
+                <div class="chaptersListView">
+                    <div class="inkViewButtons disFdirColAliCen">
+                        {% if request.user.is_authenticated %}
+                            <a href="{% url 'edit_ink' inkID=ink.id %}" class="edit-ink-btn"><button>EDIT INK</button></a>
+                            <div id="dataInkID" data-inkid="{{ink.id}}"></div>
+                            {% if not viewingAsAuthor %}
+                                {% if following_check %}
+                                    <button class="unfollow-btn" id="unfollowBtn" type="submit" onclick="followInk('unfollowInk')">UNFOLLOW INK</button>
+                                {% else %}
+                                    <button class="follow-btn" id="followBtn" type="submit" onclick="followInk('followInk')">FOLLOW INK</button>
+                                {% endif %}
+                            {% endif%}
+                        {% endif %}
                     </div>
+                    <h5 class="text-start">CHAPTERS</h5>
+                    <ul class="chapter-list">
+                        {% for chapter in chapters %}
+                            <a href="#anchorChapter{{ chapter.chapterNumber }}"><li>Chapter {{ chapter.chapterNumber }}: {{ chapter.chapterTitle }}</li></a>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="col inkTitleCardInfo displayDirectionCol">
+                <span>Genre: {{ ink.genre }}</span>
+                <span>Views: {{ ink.views }}</span>
+            </div>
+        </div>
+
+        <div class="row mt-2">
+
+            <div class="col-3 chapterListCol">
+                <div class="chaptersListView">
+                    <div class="inkViewButtons disFdirColAliCen">
+                        {% if request.user.is_authenticated %}
+                            <a href="{% url 'edit_ink' inkID=ink.id %}" class="edit-ink-btn"><button>EDIT INK</button></a>
+                            <div id="dataInkID" data-inkid="{{ink.id}}"></div>
+                            {% if not viewingAsAuthor %}
+                                {% if following_check %}
+                                    <button class="unfollow-btn" id="unfollowBtn" type="submit" onclick="followInk('unfollowInk')">UNFOLLOW INK</button>
+                                {% else %}
+                                    <button class="follow-btn" id="followBtn" type="submit" onclick="followInk('followInk')">FOLLOW INK</button>
+                                {% endif %}
+                            {% endif%}
+                        {% endif %}
+                    </div>
+                    <h5 class="text-start">CHAPTERS</h5>
+                    <ul class="chapter-list">
+                        {% for chapter in chapters %}
+                            <a href="#anchorChapter{{ chapter.chapterNumber }}"><li>Chapter {{ chapter.chapterNumber }}: {{ chapter.chapterTitle }}</li></a>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-8 inkViewContents">
+                <div class="row inkTitleCard">
+                    <div class="col inkTitleCardInfo displayDirectionCol">
+                        <span>Genre: {{ ink.genre }}</span>
+                        <span>Views: {{ ink.views }}</span>
+                    </div>
+                    <div class="col-5 inkViewTitleColumn displayDirectionCol">
+                        <h1 class="text-center inkViewTitle">{{ ink.title }}</h1>
+                        {% if ink.coAuthors %}
+                            <span class="author-credit text-center">by {{ ink.inkOwner }} <a href="{% url 'inkCoAuthors' inkID=ink.id %}" style="text-decoration: underline; color: blue;">and {{ ink.coAuthors.count }} others</a></span>
+                        {% else %}
+                            <span class="author-credit text-center">by {{ ink.inkOwner }}</span>
+                        {% endif %}
+                    </div>
+                    <div class="col">
+                    </div>
+                </div>
+                <hr>
+                {% for chapter in chapters %}
+                <div class="justify-text" id="anchorChapter{{chapter.chapterNumber}}">
+                    <h5 class="text-center fw-bold chapterTitle">Chapter {{ chapter.chapterNumber}}: {{chapter.chapterTitle}}</h5>
+                    <p>{{chapter.chapterContents.html|safe}}</p>
+                </div>
                 {% endfor %}
             </div>
+
         </div>
-    </div>
+
+        <div class="row inkViewComments disFdirColAliCen">
+            <hr>
+            <div class="col-8">
+                {% if request.user.is_authenticated %}
+                    <form class="form" action="{% url 'ink_view' inkID=ink.id %}" method="post" name="commentForm">
+                        {% csrf_token %}
+                        <h5 class="lead">Write a comment</h5>
+                        <textarea class="commentContents" rows="4" name="commentContents"></textarea>
+                        <button type="submit">Comment</button>
+                    </form>
+                {% endif %}
+                <div class="comments-section">
+                    <h5 class="text-center">COMMENTS</h5>
+                    {% for comment in comments %}
+                        <div class="comment">
+                            <span>{{ comment.commentAuthor }}:</span>
+                            <p>{{ comment.content }}</p>
+                            <hr>
+                            <span>{{ comment.commentCreationDate }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
 </div>
 
 {% endblock%}

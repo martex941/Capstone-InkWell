@@ -687,6 +687,24 @@ def ink_settings(request):
     })
 
 @login_required
+def privatizeInk(request, inkid, command):
+    if request.method != "POST":
+        return JsonResponse({"error": "POST request required."}, status=400)
+
+    ink = Ink.objects.get(id=inkid)
+
+    if command == "makePublic":
+        ink.privateStatus = False
+        ink.save()
+        return JsonResponse({"message": "Ink has been made private."}, safe=False)
+    elif command == "makePrivate":
+        ink.privateStatus = True
+        ink.save()
+        return JsonResponse({"message": "Ink has been made private."}, safe=False)
+    else:
+        pass
+
+@login_required
 def delete_ink(request, inkID):
     selectedInk = Ink.objects.get(id=inkID)
     if request.method == "POST":

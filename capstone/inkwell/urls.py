@@ -14,6 +14,7 @@ urlpatterns = [
     path('username_change', views.username_change, name='username_change'),
     path('edit_profile', views.edit_profile, name='edit_profile'),
     path('ink_settings', views.ink_settings, name='ink_settings'),
+    path('privatizeInk/<int:inkid>/<str:command>', views.privatizeInk, name="privatizeInk"),
     path('delete_ink/<int:inkID>', views.delete_ink, name='delete_ink'),
     path('newInk', views.newInk, name='newInk'),
     path('<int:inkID>/checkNewInkTitle', views.checkNewInkTitle, name='checkNewInkTitle'),
