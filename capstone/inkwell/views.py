@@ -42,7 +42,7 @@ def updateDiscoverAuthors(request):
     except DiscoverAuthors.DoesNotExist:
         print("Updating DiscoverAuthors has encountered a problem.")
 
-startDate = datetime(2023, 12, 12)
+startDate = datetime(2024, 1, 1)
 
 def index(request):
     global startDate
@@ -239,8 +239,6 @@ def ink_view(request, inkID):
                 following_check = True
         except Ink.MultipleObjectsReturned:
             pass
-
-    print(following_check)
 
     comments = Comment.objects.filter(commentInkOrigin=viewedInk).order_by("-commentCreationDate")
 

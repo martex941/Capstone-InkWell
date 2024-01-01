@@ -6,7 +6,16 @@
     {% for request in yourRequests %}
     <div class="container row">
         <div class="col-2">
-            Request to: {{request.requestedChapter.chapterInkOrigin.inkOwner}}
+            {% if request.acceptedStatus %}
+                Status: Accepted
+            {% elif request.declinedMessage != "" %}
+                Status: Declined
+            {% else %}
+                Status: Pending
+            {% endif %}
+        </div>
+        <div class="col-2">
+            Request to: <a href="{% url 'well' username=request.requestedChapter.chapterInkOrigin.inkOwner.username %}">{{request.requestedChapter.chapterInkOrigin.inkOwner}}</a> 
         </div>
         <div class="col">
             Request: change contents of Chapter {{request.requestedChapter.chapterNumber}}: {{request.requestedChapter.chapterTitle}} in <a href="{% url 'ink_view' inkID=request.requestedChapter.chapterInkOrigin.id %}">{{request.requestedChapter.chapterInkOrigin.title}}</a>

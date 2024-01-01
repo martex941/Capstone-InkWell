@@ -117,7 +117,7 @@ class Comment(models.Model):
     commentCreationDate = models.DateTimeField(default=timezone.now, editable=False)
 
 class CoAuthorRequest(models.Model):
-    coAuthor = models.ForeignKey(User, on_delete=models.CASCADE, related_name="coAuthor", default="")
+    coAuthor = models.ForeignKey(User, on_delete=models.CASCADE, related_name="coAuthor", default="") # Person who made the request
     requestedChapter = models.ForeignKey(Chapter, on_delete=models.CASCADE, related_name="requestedChapter", default="")
     chapterContents = QuillField()
     requestDate = models.DateTimeField(default=timezone.now, editable=False)

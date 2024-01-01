@@ -290,11 +290,12 @@ body {
     justify-content: center;
 }
 
-.inkViewContents, .inkEditMainCol {
+.inkViewContents, .inkEditMainCol, .request-review-text {
     background-color: var(--primary-color);
     border: 1px var(--border-color) solid;
     font-family: 'Courier New', Courier, monospace;
     padding: 1rem;
+    font-weight: 600;
     box-shadow: 3px 3px 5px #888888;
 }
 
@@ -479,11 +480,11 @@ body {
     border-right: 3px var(--border-color) solid;
 }
 
-.buttonsInUnderBanner {
+.buttonsWellUnderBanner {
     padding: 1rem;
 }
 
-.buttonsInUnderBanner button {
+.buttonsWellUnderBanner button {
     margin: 3px;
     width: 212px;
 }
@@ -500,4 +501,12 @@ body {
     border: var(--border-color) 1px solid;
     margin: 1rem;
     padding: 1rem;
+}
+
+.added {
+    background-color: #aaffaa;
+}
+
+.deleted {
+    background-color: #ffaaaa;
 }

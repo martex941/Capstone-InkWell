@@ -104,8 +104,8 @@
                 {% for chapter in chapters %}
                     <div class="chapterEditorDiv" id="anchorChapter{{ chapter.chapterNumber }}">
                         <a class="editChapterAnchor" href="{% url 'edit_chapter' chapterID=chapter.id inkID=editInk.id %}">
-                            <h5 class="text-center">Chapter {{ chapter.chapterNumber }}: {{ chapter.chapterTitle }}</h5>
-                            <div class="justify-text" id="chapterID" data-chapterID="{{ chapter.id }}">
+                            <h5 class="text-center fw-bold">Chapter {{ chapter.chapterNumber }}: {{ chapter.chapterTitle }}</h5>
+                            <div class="justify-text p-4" id="chapterID" data-chapterID="{{ chapter.id }}">
                                 {{ chapter.chapterContents.html|safe }}
                             </div>
                         </a>

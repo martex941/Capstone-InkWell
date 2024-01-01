@@ -411,15 +411,17 @@ function keepChapter() {
 function declineRequest() {
     document.querySelector("#confirmDeclineBtn").style.display = 'block';
     document.querySelector("#declineMessageTextArea").style.display = 'block';
-    document.querySelector("#go-backBtn").style.display = 'block';
-    document.querySelector("#declineBtn").style.display = 'none';
+    document.querySelector("#go-backCARequestBtn").style.display = 'block';
+    document.querySelector("#declineCARequestBtn").style.display = 'none';
+    document.querySelector("#acceptCARequestBtn").style.display = 'none';
 }
 
 function goBackBtn() {
     document.querySelector("#confirmDeclineBtn").style.display = 'none';
     document.querySelector("#declineMessageTextArea").style.display = 'none';
-    document.querySelector("#go-backBtn").style.display = 'none';
-    document.querySelector("#declineBtn").style.display = 'block';
+    document.querySelector("#go-backCARequestBtn").style.display = 'none';
+    document.querySelector("#declineCARequestBtn").style.display = 'block';
+    document.querySelector("#acceptCARequestBtn").style.display = 'block';
 }
 
 function authorsBtn() {
