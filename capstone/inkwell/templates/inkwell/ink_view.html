@@ -35,8 +35,13 @@
                     </ul>
                 </div>
             </div>
-            <div class="col inkTitleCardInfo displayDirectionCol">
-                <span>Genre: {{ ink.genre }}</span>
+            <div class="col inkTitleCardInfo displayDirectionCol disFdirColAliCen">
+                    Tags:
+                    {% for tag in ink.tags.all %}
+                        <div class="tag">
+                            <span>{{ tag }}</span>
+                        </div>
+                    {% endfor %}
                 <span>Views: {{ ink.views }}</span>
             </div>
         </div>
@@ -70,7 +75,13 @@
             <div class="col-8 inkViewContents">
                 <div class="row inkTitleCard">
                     <div class="col inkTitleCardInfo displayDirectionCol">
-                        <span>Genre: {{ ink.genre }}</span>
+                        <span>Tags: 
+                            {% for tag in ink.tags.all %}
+                                <div class="tag">
+                                    <span>{{ tag }}</span>
+                                </div>
+                            {% endfor %}
+                        </span>
                         <span>Views: {{ ink.views }}</span>
                     </div>
                     <div class="col-5 inkViewTitleColumn displayDirectionCol">
@@ -87,12 +98,11 @@
                 <hr>
                 {% for chapter in chapters %}
                 <div class="justify-text p-3" id="anchorChapter{{chapter.chapterNumber}}">
-                    <h5 class="text-center fw-bold chapterTitle">Chapter {{ chapter.chapterNumber}}: {{chapter.chapterTitle}}</h5>
+                    <h5 class="text-center chapterTitle">Chapter {{ chapter.chapterNumber}}: {{chapter.chapterTitle}}</h5>
                     <p>{{chapter.chapterContents.html|safe}}</p>
                 </div>
                 {% endfor %}
             </div>
-
         </div>
 
         <div class="row inkViewComments disFdirColAliCen">

@@ -69,7 +69,6 @@ body {
     z-index: 0;
 }
 
-
 .displayDirectionCol {
     display: flex;
     flex-direction: column;
@@ -295,7 +294,6 @@ body {
     border: 1px var(--border-color) solid;
     font-family: 'Courier New', Courier, monospace;
     padding: 1rem;
-    font-weight: 600;
     box-shadow: 3px 3px 5px #888888;
 }
 
@@ -501,6 +499,10 @@ body {
     border: var(--border-color) 1px solid;
     margin: 1rem;
     padding: 1rem;
+}
+
+.coAuthorRequestReviewForm .btn {
+    margin: 0.3rem;
 }
 
 .added {

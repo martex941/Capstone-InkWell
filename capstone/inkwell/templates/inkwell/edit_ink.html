@@ -57,7 +57,13 @@
                         {% if editingAsCoAuthor %}
                             <div class="inkInfoAsCoAuthor disFdirColAliCen">
                                 <h4>{{ editInk.title }}</h4>
-                                <span>Genre: {{ editInk.genre }}</span>
+                                <span>Tags: 
+                                    {% for tag in editInk.tags.all %}
+                                        <div class="tag">
+                                            <span>{{ tag }}</span>
+                                        </div>
+                                    {% endfor %}
+                                </span>
                                 <p>{{ editInk.description }}</p>
                             </div>
                         {% else %}

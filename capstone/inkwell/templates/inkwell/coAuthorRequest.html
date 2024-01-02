@@ -7,65 +7,72 @@
     });
     
 </script>
+{% if newChapterContent.coAuthor.pk == request.user.pk %} <!-- if current user is the co author -->
+    <a href="{% url 'yourCoAuthorRequests' %}"><button class="backToInkWell">Back to your co-author requests</button></a>
+{% elif newChapterContent.requestedChapter.chapterInkOrigin.inkOwner.pk == request.user.pk %} <!-- if current user is the author reviewing request -->
+    <a href="{% url 'coAuthorRequestsList' %}"><button class="backToInkWell">Back to co-author requests</button></a>
+{% endif %}
 
-<a href="{% url 'yourCoAuthorRequests' %}"><button class="backToInkWell">Back to your co-author requests</button></a>
-
-
-<div class="coAuthorRequestReviewForm disFdirColAliCen m-5">
-    {% if newChapterContent.requestedChapter.chapterInkOrigin.inkOwner.pk == request.user.pk %} <!-- if current user is the author -->
-    
-        {% if newChapterContent.acceptedStatus %}
-            YOU ALREADY ACCEPTED THIS REQUEST
-        {% elif newChapterContent.declinedMessage != "" %}
-            YOU ALREADY DECLINED THIS REQUEST
-        {% else %}
-            <form class="form" action="{% url 'coAuthorRequest' chapterID=newChapterContent.requestedChapter.id requestID=newChapterContent.id %}" method="post">
-                {% csrf_token %}
-                <button class="btn btn-success" id="acceptCARequestBtn" type="submit" name="requestAccepted">ACCEPT REQUEST</button>
-                <button class="btn btn-danger" id="declineCARequestBtn" onclick="declineRequest()" type="button">DECLINE REQUEST</button>
-                <button class="btn btn-secondary" id="go-backCARequestBtn" style="display: none;" onclick="goBackBtn()" type="button">GO BACK</button>
-                <button class="btn btn-danger" id="confirmDeclineBtn" style="display: none;" type="submit" name="requestDeclined">CONFIRM DECLINE</button>
-                <textarea style="display: none;" id="declineMessageTextArea" placeholder="Provide a reason for declining the request..." rows="4" cols="50" name="declineReason"></textarea>
-            </form>
-        {% endif %}
-
-    {% else %}
-
-        {% if newChapterContent.acceptedStatus %}
-            YOUR REQUEST HAS BEEN ACCEPTED <a href="{% url 'ink_view' inkID=originalChapter.chapterInkOrigin.id %}">Go to Ink</a>
-        {% elif newChapterContent.declinedMessage != "" %}
-            YOUR REQUEST HAS BEEN DECLINED
-            Reason:
-            <p class="request-review-text">{{newChapterContent.declinedMessage}}</p>
-        {% else %}
-            YOUR REQUEST IS STILL PENDING
-        {% endif %}
+{% if newChapterContent.coAuthor.pk == request.user.pk or newChapterContent.requestedChapter.chapterInkOrigin.inkOwner.pk == request.user.pk%}
+    <div class="coAuthorRequestReviewForm disFdirColAliCen m-5">
+        {% if newChapterContent.requestedChapter.chapterInkOrigin.inkOwner.pk == request.user.pk %} <!-- if current user is the author -->
         
-    {% endif %}
-</div>
+            {% if newChapterContent.acceptedStatus %}
+            <span class="alert alert-success">YOU ALREADY ACCEPTED THIS REQUEST</span>
+            {% elif newChapterContent.declinedMessage != "" %}
+            <span class="alert alert-danger">YOU ALREADY DECLINED THIS REQUEST</span>
+            {% else %}
+                <form class="form disFdirColAliCen" action="{% url 'coAuthorRequest' chapterID=newChapterContent.requestedChapter.id requestID=newChapterContent.id %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-success" id="acceptCARequestBtn" type="submit" name="requestAccepted">ACCEPT REQUEST</button>
+                    <button class="btn btn-danger" id="declineCARequestBtn" onclick="declineRequest()" type="button">DECLINE REQUEST</button>
+                    <button class="btn btn-secondary" id="go-backCARequestBtn" style="display: none;" onclick="goBackBtn()" type="button">GO BACK</button>
+                    <button class="btn btn-danger" id="confirmDeclineBtn" style="display: none;" type="submit" name="requestDeclined">CONFIRM DECLINE</button>
+                    <textarea style="display: none;" id="declineMessageTextArea" placeholder="Provide a reason for declining the request..." rows="4" cols="50" name="declineReason"></textarea>
+                </form>
+            {% endif %}
 
-<div class="container texts">
-    {% if newChapterContent.acceptedStatus %}
-        <h5>NEW CONTENT (highlighted in green)</h5>
-        <div class="request-review-text" id="modifiedText">
-            <!-- Your modified text here -->
-            {{newChapterContent.chapterContents.html|safe}}
-        </div>
-    {% else %}
-        <h5>ORIGINAL TEXT</h5>
-        <div class="request-review-text" id="originalText">
-            <!-- Your original text here -->
-            {{originalChapter.chapterContents.html|safe}}
-        </div>
-        <h5>NEW CONTENT (highlighted in green)</h5>
-        <div class="request-review-text" id="modifiedText">
-            <!-- Your modified text here -->
-            {{newChapterContent.chapterContents.html|safe}}
-        </div>
-        <h5>DELETED CONTENT (highlighted in red)</h5>
-        <div class="request-review-text" id="whatWasDeleted">
-            {{originalChapter.chapterContents.html|safe}}
-        </div>
-    {% endif %}
-</div>
+        {% else %}
+
+            {% if newChapterContent.acceptedStatus %}
+                <span class="alert alert-success">YOUR REQUEST HAS BEEN ACCEPTED</span> <a href="{% url 'ink_view' inkID=originalChapter.chapterInkOrigin.id %}">Go to Ink</a>
+            {% elif newChapterContent.declinedMessage != "" %}
+            <span class="alert alert-danger">YOUR REQUEST HAS BEEN DECLINED</span>
+                Reason:
+                <p class="request-review-text">{{newChapterContent.declinedMessage}}</p>
+            {% else %}
+                YOUR REQUEST IS STILL PENDING
+            {% endif %}
+            
+        {% endif %}
+        {% if message %}
+            <div class="alert alert-danger mt-3">{{ message }}</div>
+        {% endif %}
+    </div>
+
+    <div class="container">
+        {% if newChapterContent.acceptedStatus %}
+            <h5>NEW CONTENT (highlighted in green)</h5>
+            <div class="request-review-text" id="modifiedText">
+                <!-- Your modified text here -->
+                {{newChapterContent.chapterContents.html|safe}}
+            </div>
+        {% else %}
+            <h5>ORIGINAL TEXT</h5>
+            <div class="request-review-text" id="originalText">
+                <!-- Your original text here -->
+                {{originalChapter.chapterContents.html|safe}}
+            </div>
+            <h5>NEW CONTENT (highlighted in green)</h5>
+            <div class="request-review-text" id="modifiedText">
+                <!-- Your modified text here -->
+                {{newChapterContent.chapterContents.html|safe}}
+            </div>
+            <h5>DELETED CONTENT (highlighted in red)</h5>
+            <div class="request-review-text" id="whatWasDeleted">
+                {{originalChapter.chapterContents.html|safe}}
+            </div>
+        {% endif %}
+    </div>
+{% endif %}
 {% endblock %}

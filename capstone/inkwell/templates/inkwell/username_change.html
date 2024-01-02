@@ -18,8 +18,11 @@
                 <div class="messageNewUsername" id="messageNewUsername">
                     {% if message %}
                         <div class="alert alert-danger">{{ message }}</div>
-                    {% endif %}    
-                </div>    
+                    {% endif %}
+                    {% if successMessage %}
+                        <div class="alert alert-success">{{ successMessage }}</div>
+                    {% endif %}
+                </div>
                 <div class="d-flex justify-content-center">
                     <input class="btn btn-primary" type="submit" id="changeUsernameBtn" value="Change username">
                 </div>

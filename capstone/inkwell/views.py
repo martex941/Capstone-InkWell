@@ -297,7 +297,6 @@ def unfollowInk(request, inkID):
 def edit_ink(request, inkID):
     editInk = Ink.objects.get(id=inkID)
     tags = Tag.objects.all()
-    print(tags)
     chapters = Chapter.objects.filter(chapterInkOrigin=editInk.id).order_by("chapterNumber")
     if chapters:
         lastChapter = chapters.last().chapterNumber
@@ -468,6 +467,13 @@ def coAuthorRequest(request, chapterID, requestID):
             return HttpResponseRedirect(reverse("edit_ink", kwargs={'inkID': relatedInk.id}))
         elif "requestDeclined" in request.POST:
             declineReason = request.POST.get("declineReason")
+            if declineReason == "":
+                return render(request, "inkwell/coAuthorRequest.html", {
+                    "originalChapter": originalChapter,
+                    "newChapterContent": relatedRequest,
+                    "title": "Request review",
+                    "message": "Please provide a reason for request denial."
+                })
             relatedRequest.declinedMessage = declineReason
             relatedRequest.save()
 
@@ -643,9 +649,8 @@ def username_change(request):
             current_user = User.objects.get(pk=user.pk)
             current_user.username = new_username
             current_user.save()
-            return render(request, "inkwell/username_change.html", {
-                "message": "Username successfully changed."
-            })
+            time.sleep(1)
+            return redirect('username_change')
         
     return render(request, "inkwell/username_change.html")
 
