@@ -14,7 +14,7 @@
 {% endif %}
 
 {% if newChapterContent.coAuthor.pk == request.user.pk or newChapterContent.requestedChapter.chapterInkOrigin.inkOwner.pk == request.user.pk%}
-    <div class="coAuthorRequestReviewForm disFdirColAliCen m-5">
+    <div class="coAuthorRequestReviewForm disFdirColAliCen m-1">
         {% if newChapterContent.requestedChapter.chapterInkOrigin.inkOwner.pk == request.user.pk %} <!-- if current user is the author -->
         
             {% if newChapterContent.acceptedStatus %}
@@ -24,10 +24,10 @@
             {% else %}
                 <form class="form disFdirColAliCen" action="{% url 'coAuthorRequest' chapterID=newChapterContent.requestedChapter.id requestID=newChapterContent.id %}" method="post">
                     {% csrf_token %}
-                    <button class="btn btn-success" id="acceptCARequestBtn" type="submit" name="requestAccepted">ACCEPT REQUEST</button>
                     <button class="btn btn-danger" id="declineCARequestBtn" onclick="declineRequest()" type="button">DECLINE REQUEST</button>
+                    <button class="btn btn-success" id="acceptCARequestBtn" type="submit" name="requestAccepted">ACCEPT REQUEST</button>
                     <button class="btn btn-secondary" id="go-backCARequestBtn" style="display: none;" onclick="goBackBtn()" type="button">GO BACK</button>
-                    <button class="btn btn-danger" id="confirmDeclineBtn" style="display: none;" type="submit" name="requestDeclined">CONFIRM DECLINE</button>
+                    <button class="btn btn-danger" id="confirmDeclineBtn" style="display: none;" type="submit" name="requestDeclined">CONFIRM</button>
                     <textarea style="display: none;" id="declineMessageTextArea" placeholder="Provide a reason for declining the request..." rows="4" cols="50" name="declineReason"></textarea>
                 </form>
             {% endif %}
@@ -35,7 +35,7 @@
         {% else %}
 
             {% if newChapterContent.acceptedStatus %}
-                <span class="alert alert-success">YOUR REQUEST HAS BEEN ACCEPTED</span> <a href="{% url 'ink_view' inkID=originalChapter.chapterInkOrigin.id %}">Go to Ink</a>
+                <span class="alert alert-success">YOUR REQUEST HAS BEEN ACCEPTED</span> 
             {% elif newChapterContent.declinedMessage != "" %}
             <span class="alert alert-danger">YOUR REQUEST HAS BEEN DECLINED</span>
                 Reason:
@@ -48,6 +48,7 @@
         {% if message %}
             <div class="alert alert-danger mt-3">{{ message }}</div>
         {% endif %}
+        <a href="{% url 'ink_view' inkID=originalChapter.chapterInkOrigin.id %}">Go to Ink</a>
     </div>
 
     <div class="container">
