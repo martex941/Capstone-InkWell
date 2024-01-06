@@ -36,6 +36,7 @@
     --background-color: var(--ivory);
     --text-color: var(--black);
     --border-color: var(--khaki);
+    --button-color: var(--khaki);
 }
 
 .navbar-brand, .nav-logo {
@@ -511,4 +512,23 @@ body {
 
 .deleted {
     background-color: #ffaaaa;
+}
+
+/* coAuthorRequestsList.html \\\\\\\\\\\\\ */
+.coAuthorRequestsList {
+    display: flex;
+    justify-content: center;
+}
+
+.card {
+    width: 316px;
+    margin: 1rem;
+}
+
+.card span, .card a {
+    margin-bottom: 1rem;
+}
+
+.card button {
+    background-color: var(--button-color);
 }

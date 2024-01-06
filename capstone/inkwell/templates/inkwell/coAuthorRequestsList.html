@@ -2,29 +2,28 @@
 
 {% block body %}
 <a href="{% url 'well' username=request.user.username %}"><button class="backToInkWell">Back to InkWell</button></a>
-<div class="coAuthorRequestsList disFdirColAliCen">
+<h3 class="text-center">REQUESTS FROM CO-AUTHORS</h3>
+<div class="coAuthorRequestsList row">
     {% for request in requests %}
-    <div class="container row">
-        <div class="col-2">
+    <div class="card col-md-4">
+        <div class="card-title text-center">
             Request from: {{request.coAuthor}}
         </div>
-        <div class="col-2">
-            {% if request.acceptedStatus %}
-                Status: Accepted
-            {% elif request.declinedMessage != "" %}
-                Status: Declined
-            {% else %}
-                Status: Pending
-            {% endif %}
-        </div>
-        <div class="col">
-            Request: change contents of Chapter {{request.requestedChapter.chapterNumber}}: {{request.requestedChapter.chapterTitle}} in <a href="{% url 'ink_view' inkID=request.requestedChapter.chapterInkOrigin.id %}">{{request.requestedChapter.chapterInkOrigin.title}}</a>
-        </div>
-        <div class="col-2">
-            <a href="{% url 'coAuthorRequest' chapterID=request.requestedChapter.id requestID=request.id %}"><button>View changes</button></a>
-        </div>
-        <div class="col-2">
-            {{request.requestDate}}
+        <div class="card-body disFdirColAliCen">
+            <span>
+                {% if request.acceptedStatus %}
+                    Status: Accepted
+                {% elif request.declinedMessage != "" %}
+                    Status: Declined
+                {% else %}
+                    Status: Pending
+                {% endif %}
+            </span>
+            <span class="text-center">
+                Request: change contents of Chapter {{request.requestedChapter.chapterNumber}}: {{request.requestedChapter.chapterTitle}} in <a href="{% url 'ink_view' inkID=request.requestedChapter.chapterInkOrigin.id %}">{{request.requestedChapter.chapterInkOrigin.title}}</a>
+            </span>
+            <a href="{% url 'coAuthorRequest' chapterID=request.requestedChapter.id requestID=request.id %}"><button class="btn">View changes</button></a>
+            <span>Creation date: {{request.requestDate}}</span>
         </div>
     </div>
     {% endfor %}
