@@ -11,6 +11,11 @@
 <div class="well-col disFdirColAliCen mt-5">
 
     <div class="well-banner disFdirColAliCen">
+        {% if wellOwner.profilePicture %}
+            <img class="author-profile-picture" src="/media/{{wellOwner.profilePicture}}">
+        {% else %}
+            <img class="author-profile-picture" src="/media/no-profile-picture-icon.jpg">
+        {% endif %}
         <h2 class="text-center" id="well-username" data-name="{{ wellOwner }}">{{ wellOwner }}'s InkWell</h2>
 
         <div class="profileAboutMe">

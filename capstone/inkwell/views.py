@@ -685,8 +685,7 @@ def ink_settings(request):
     retrieve_inks = Ink.objects.filter(inkOwner=request.user)
     return render(request, "inkwell/ink_settings.html", {
         "inks": retrieve_inks,
-        "title": "Ink Settings",
-        "message": "message test"
+        "title": "Ink Settings"
     })
 
 @login_required
