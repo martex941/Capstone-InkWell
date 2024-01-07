@@ -335,11 +335,8 @@ body {
 }
 
 /* followers.html ||||||||||||||||||||||||||*/
-.follower-reference {
-    margin: 1rem;
-    border: 1px var(--border-color) solid;
-    border-radius: 15px;
-    padding: 0.5rem;
+.followersList .card {
+    width: 175px;
 }
 
 /* index.html ||||||||||||||||||||||||||*/

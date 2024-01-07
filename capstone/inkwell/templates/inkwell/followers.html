@@ -4,17 +4,21 @@
 
 <a href="{% url 'well' username=followed_user.username %}"><button class="backToInkWell">Back to InkWell</button></a>
 
-<div class="container">
+<div class="followersList row d-flex justify-content-center">
     <h3>People who follow {{ followed_user.username }}</h3>
     {% for follower in followers %}
-        <div class="row follower-reference">
-            <div class="col">
-                {{ follower.username }}
-            </div>
-            <div class="col">
-                <a href="{% url 'well' username=follower.username %}"><button class="btn btn-primary">Go to {{ follower.username }}'s InkWell</button></a>
-            </div>
+    <div class="card col-md-4">
+        <div class="card-body disFdirColAliCen">
+            {% if follower.profilePicture %}
+                <img class="author-profile-picture" src="/media/{{follower.profilePicture}}">
+            {% else %}
+                <img class="author-profile-picture" src="/media/no-profile-picture-icon.jpg">
+            {% endif %}
+            <span class="card-title lead">{{ follower.username }}</span>
+            <br>
+            <a href="{% url 'well' username=follower.username %}"><button class="btn btn-khaki">Visit InkWell</button></a>
         </div>
+    </div>
     {% endfor %}
 </div>
 {% endblock %}
