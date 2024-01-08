@@ -89,13 +89,13 @@ body {
     margin: 0.5rem;
 }
 
-.follow-btn {
+/* .follow-btn {
     border: 2.5px #007FFF solid;
 }
 
 .unfollow-btn {
     border: 2.5px #FF1B1C solid;
-}
+} */
 
 @media (max-width: 1300px) {
     /* index.html \\\\\\\\\\\\\\\\\\\ */
@@ -277,7 +277,7 @@ body {
 }
 
 .chaptersListView button {
-    width: 135px;
+    width: 140px;
     height: 35px;
     margin: 0.5rem;
 }
@@ -455,7 +455,7 @@ body {
 }
 
 /* well.html ||||||||||||||||||||*/
-.well-col{
+.well-col {
     width: auto;
 }
 .well-banner {
@@ -477,7 +477,7 @@ body {
 
 .buttonsWellUnderBanner button {
     margin: 3px;
-    width: 212px;
+    width: 225px;
 }
 
 .well {
@@ -510,6 +510,7 @@ body {
 .card {
     width: 316px;
     margin: 1rem;
+    background-color: var(--primary-color);
 }
 
 .card span, .card a {

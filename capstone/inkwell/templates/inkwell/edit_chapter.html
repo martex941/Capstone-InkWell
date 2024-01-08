@@ -1,7 +1,7 @@
 {% extends "inkwell/layout.html" %}
 
 {% block body %}
-    <a href="{% url 'edit_ink' inkID=inkID %}"><button class="backToInkView">Back to editing Ink</button></a>
+    <a href="{% url 'edit_ink' inkID=inkID %}"><button class="backToInkView btn btn-khaki">&larr; Back to editing Ink</button></a>
     <div class="container">
         {% if editingAsCoAuthor %}
             <h5 class="text-center editingAsCoAuthorText">YOU ARE EDITING THIS CHAPTER AS CO-AUTHOR</h5>

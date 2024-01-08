@@ -33,9 +33,9 @@
             {% if request.user.is_authenticated %}
                 {% if wellOwner == request.user %}
                 <div class="well-management disFdirColAliCen">
-                    <a href="{% url 'ink_settings' %}"><button>Manage your inks</button></a>
-                    <a href="{% url 'coAuthorRequestsList' %}"><button>Requests from co-authors</button></a>
-                    <a href="{% url 'yourCoAuthorRequests' %}"><button>Pending co-author requests</button></a>    
+                    <a href="{% url 'ink_settings' %}"><button class="btn btn-khaki">Manage your inks</button></a>
+                    <a href="{% url 'coAuthorRequestsList' %}"><button class="btn btn-khaki">Requests from co-authors</button></a>
+                    <a href="{% url 'yourCoAuthorRequests' %}"><button class="btn btn-khaki">Pending co-author requests</button></a>    
                 </div>
                 {% else %}
                     {% if followCheck %}

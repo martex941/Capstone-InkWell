@@ -2,7 +2,7 @@
 
 {% block body %}
 
-<a href="{% url 'ink_settings' %}"><button class="backToInkWell">Back to Ink Settings</button></a>
+<a href="{% url 'ink_settings' %}"><button class="backToInkWell btn btn-khaki">&larr; Back to Ink Settings</button></a>
 
 <div class="container disFdirColAliCen p-4">
     <form action="{% url 'delete_ink' inkID=inkID %}" method="post">

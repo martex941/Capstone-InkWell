@@ -2,7 +2,7 @@
 
 {% block body %}
 
-<a href="{% url 'ink_view' inkID=inkID %}"><button class="backToInkView">Back to Ink</button></a>
+<a href="{% url 'ink_view' inkID=inkID %}"><button class="backToInkView btn btn-khaki">&larr; Back to InkWell</button></a>
 <h3>People who are co-authors to {{ user }}'s inks</h3>
 
 <div class="container">
@@ -12,7 +12,7 @@
                 {{ coauthor.username }}
             </div>
             <div class="col">
-                <a href="{% url 'well' username=coauthor.username %}"><button class="btn btn-primary">Go to {{ coauthor.username }}'s InkWell</button></a>
+                <a href="{% url 'well' username=coauthor.username %}"><button class="btn btn-khaki">Go to {{ coauthor.username }}'s InkWell</button></a>
             </div>
         </div>
     {% endfor %}

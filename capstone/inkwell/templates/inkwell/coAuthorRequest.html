@@ -8,9 +8,9 @@
     
 </script>
 {% if newChapterContent.coAuthor.pk == request.user.pk %} <!-- if current user is the co author -->
-    <a href="{% url 'yourCoAuthorRequests' %}"><button class="backToInkWell">Back to your co-author requests</button></a>
+    <a href="{% url 'yourCoAuthorRequests' %}"><button class="backToInkWell btn btn-khaki">&larr; Back to your co-author requests</button></a>
 {% elif newChapterContent.requestedChapter.chapterInkOrigin.inkOwner.pk == request.user.pk %} <!-- if current user is the author reviewing request -->
-    <a href="{% url 'coAuthorRequestsList' %}"><button class="backToInkWell">Back to co-author requests</button></a>
+    <a href="{% url 'coAuthorRequestsList' %}"><button class="backToInkWell btn btn-khaki">&larr; Back to co-author requests</button></a>
 {% endif %}
 
 {% if newChapterContent.coAuthor.pk == request.user.pk or newChapterContent.requestedChapter.chapterInkOrigin.inkOwner.pk == request.user.pk%}

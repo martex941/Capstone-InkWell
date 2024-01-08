@@ -1,7 +1,7 @@
 {% extends "inkwell/layout.html" %}
 
 {% block body %}
-<a href="{% url 'well' username=request.user.username %}"><button class="backToInkWell">Back to InkWell</button></a>
+<a href="{% url 'well' username=request.user.username %}"><button class="backToInkWell btn btn-khaki">&larr; Back to InkWell</button></a>
 <h3 class="text-center">YOUR CO-AUTHOR REQUESTS</h3>
 <div class="yourCoAuthorRequests row d-flex justify-content-center">
     {% for request in yourRequests %}
