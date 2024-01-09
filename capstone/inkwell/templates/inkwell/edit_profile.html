@@ -1,13 +1,12 @@
 {% extends "inkwell/layout.html" %}
 
 {% block body%}
+<a href="{% url 'ink_settings' %}"><button class="backToInkView btn btn-khaki">&larr; Back to Ink Settings</button></a>
+<div class="edit-profile-container mt-5 disFdirColAliCen">
 
-<div class="container d-flex justify-content-center mt-5">
-
-    <a href="{% url 'ink_settings' %}"><button class="backToInkView btn btn-khaki">&larr; Back to Ink Settings</button></a>
     <img class="profile-picture-edit" src="media/{{ profile_picture }}">
 
-    <form class="edit-profile-form" method="post" enctype="multipart/form-data" action="{% url 'edit_profile' %}">
+    <form class="edit-profile-form disFdirColAliCen" method="post" enctype="multipart/form-data" action="{% url 'edit_profile' %}">
         <h4>Set your profile picture</h4>
         {% csrf_token %}
         <div class="form-label">
@@ -16,7 +15,7 @@
         <button class="btn btn-primary" type="submit">Upload Profile Picture</button>
     </form>
 
-    <form method="post" action="{% url 'edit_profile' %}">
+    <form class="form disFdirColAliCen mt-3" method="post" action="{% url 'edit_profile' %}">
         <h4>Describe yourself to other writers</h4>
         {% csrf_token %}
         <div class="form-label">

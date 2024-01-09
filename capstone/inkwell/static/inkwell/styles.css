@@ -132,7 +132,7 @@ body {
         width: auto;
     }
     .inkViewComments .col-8 {
-        width: auto;
+        width: 100%;
     }
 
     /* edit_ink.html \\\\\\\\\\\\\\\\\\\\\\\\\\\ */
@@ -231,7 +231,7 @@ body {
 
 .draggable {
     cursor: move;
-  }
+}
 
 .inkEditContainer .row {
     display: flex;
@@ -316,6 +316,10 @@ body {
 }
 
 /* edit_profile.html ||||||||||||||||||||||||||*/
+.edit-profile-container {
+    padding: 1rem;
+}
+
 .profile-picture-edit {
     border: 1px var(--border-color) solid;
     border-radius: 50%;
@@ -329,6 +333,7 @@ body {
     height: 100%;
     object-fit: cover;
 }
+
 /* !!!!!!!!!!!!!! IF FORM ON EDIT_PROFILE ACTS FUNNY THEN ITS BECAUSE OF THE EDIT-PROFILE-FORM CLASS HERE !!!!!!!!!!!!! */
 .edit-profile-form form { 
     margin: 1rem;
@@ -441,9 +446,25 @@ body {
     width: 216px;
 }
 
+.settings-buttons button {
+    width: 235px;
+}
+
 /* newInk.html ||||||||||||||||||||*/
+.newInk-description-container .description {
+    width: 100%;
+}
+
+.newInk-title-input {
+    width: 25vh;
+}
+
 .newInkInfo {
     flex-direction: column;
+}
+
+.newInk-tags {
+    width: 75%;
 }
 
 .form-label {
