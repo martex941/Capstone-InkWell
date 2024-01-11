@@ -384,6 +384,7 @@ function privatizeInk(command) {
     });
 }
 
+// Chapter buttons
 function addChapter () {
     document.querySelector("#addChapterBtn").style.display = 'none';
     document.querySelector("#cancelAddingNewChapter").style.display = 'block';
@@ -408,6 +409,7 @@ function keepChapter() {
     document.querySelector("#deleteChapterBtn").style.display = 'none';
 }
 
+// Co Author request buttons
 function declineRequest() {
     document.querySelector("#confirmDeclineBtn").style.display = 'block';
     document.querySelector("#declineMessageTextArea").style.display = 'block';
@@ -424,6 +426,18 @@ function goBackBtn() {
     document.querySelector("#acceptCARequestBtn").style.display = 'block';
 }
 
+// Comments buttons
+function deleteCommentBtn() {
+    document.querySelector("#deleteCommentButton").style.display = 'none';
+    document.querySelector("#deleteCommentForm").style.display = 'block';
+}
+
+function dontDeleteComment() {
+    document.querySelector("#deleteCommentButton").style.display = 'block';
+    document.querySelector("#deleteCommentForm").style.display = 'none';
+}
+
+// Index notifications and discover authors buttons
 function authorsBtn() {
     var authorsStyle = document.querySelector(".authors-style");
     var authorsCol = document.querySelector(".authors-col");

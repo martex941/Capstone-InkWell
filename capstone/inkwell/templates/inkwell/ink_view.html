@@ -123,7 +123,20 @@
                             <span>{{ comment.commentAuthor }}:</span>
                             <p>{{ comment.content }}</p>
                             <hr>
-                            <span>{{ comment.commentCreationDate }}</span>
+                            <div class="row ">
+                                <span class="col">{{ comment.commentCreationDate }}</span>
+                                <div class="col-2 delete-comment-form">
+                                    <button class="btn btn-danger" type="button" id="deleteCommentButton">DELETE</button>
+                                    {% if request.user=comment.commentAuthor %}
+                                        <form class="form" id="deleteCommentForm" method="post" action="{% url 'deleteComment' commentID=comment.id %}" style="display: none;">
+                                            {% csrf_token %}
+                                            <span>Are you sure you want to delete this comment?</span>
+                                            <button class="btn btn-danger" type="submit">YES</button>
+                                            <button class="btn btn-khaki" type="button">NO</button>
+                                        </form>
+                                    {% endif %}
+                                </div>
+                            </div>
                         </div>
                     {% endfor %}
                 </div>

@@ -257,6 +257,10 @@ def ink_view(request, inkID):
         "comments": comments
     })
 
+@login_required
+def deleteComment(request, commentID):
+    print(commentID)
+
 def inkCoAuthors(request, inkID):
     coauthors = Ink.objects.get(id=inkID).coAuthors.all()    
     return render(request, "inkwell/inkCoAuthors.html", {
