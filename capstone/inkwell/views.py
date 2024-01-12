@@ -259,7 +259,14 @@ def ink_view(request, inkID):
 
 @login_required
 def deleteComment(request, commentID):
-    print(commentID)
+    if request.method == "POST":
+        comment = Comment.objects.get(id=commentID)
+        ink = Ink.objects.get(id=comment.commentInkOrigin.id)
+        authorsComments = Comment.objects.filter(commentAuthor=request.user).all()
+        if comment in authorsComments:
+            comment.delete()
+            time.sleep(1)
+            return redirect('ink_view', inkID=ink.id)
 
 def inkCoAuthors(request, inkID):
     coauthors = Ink.objects.get(id=inkID).coAuthors.all()    
