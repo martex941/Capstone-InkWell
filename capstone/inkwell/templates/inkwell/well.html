@@ -23,7 +23,7 @@
             <p>{{ wellOwner.about }}</p>
         </div>
 
-        <h5><a href="{% url 'followers' username=wellOwner %}">Followers</a>: {{ followers }}</h5>
+        <h5><a href="{% url 'followers' username=wellOwner searchQuery='' %}">Followers</a>: {{ followers }}</h5>
         <h5><a href="{% url 'coauthors' username=wellOwner %}">Co-authors</a>: {{ coAuthors }}</h5>
         <h5>Available inks: {{ ink_number }}</h5>
     </div>
@@ -35,7 +35,7 @@
                 <div class="well-management disFdirColAliCen">
                     <a href="{% url 'ink_settings' %}"><button class="btn btn-khaki">Manage your inks</button></a>
                     <a href="{% url 'coAuthorRequestsList' %}"><button class="btn btn-khaki">Requests from co-authors</button></a>
-                    <a href="{% url 'yourCoAuthorRequests' %}"><button class="btn btn-khaki">Pending co-author requests</button></a>    
+                    <a href="{% url 'yourCoAuthorRequests' %}"><button class="btn btn-khaki">Your co-author requests</button></a>    
                 </div>
                 {% else %}
                     {% if followCheck %}

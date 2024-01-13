@@ -6,6 +6,13 @@
 
 <div class="followersList row d-flex justify-content-center">
     <h3>People who follow {{ followed_user.username }}</h3>
+    <div class="disFdirColAliCen">
+        <form class="form disFdirColAliCen" action="{% url 'searchFollowers' username=followed_user.username %}" method="post">
+            {% csrf_token %}
+            <input placeholder="Search..." type="text" class="searchInput-style form-control" name="searchFollowersQuery">    
+            <button class="btn btn-khaki mt-2" type="submit">SEARCH</button>
+        </form>
+    </div>
     {% for follower in followers %}
     <div class="card col-md-4">
         <div class="card-body disFdirColAliCen">

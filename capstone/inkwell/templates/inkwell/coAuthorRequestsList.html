@@ -10,15 +10,13 @@
             Request from: {{request.coAuthor}}
         </div>
         <div class="card-body disFdirColAliCen">
-            <span>
-                {% if request.acceptedStatus %}
-                    Status: Accepted
-                {% elif request.declinedMessage != "" %}
-                    Status: Declined
-                {% else %}
-                    Status: Pending
-                {% endif %}
-            </span>
+            {% if request.acceptedStatus %}
+                <span>Status: <span style="color: #28a745;">Accepted</span></span>
+            {% elif request.declinedMessage != "" %}
+                <span>Status: <span style="color: #dc3545;">Declined</span></span>
+            {% else %}
+                <span>Status: <span style="color: #b7ad99ff;">Pending</span></span>
+            {% endif %}
             <span class="text-center">
                 Request: change contents of Chapter {{request.requestedChapter.chapterNumber}}: {{request.requestedChapter.chapterTitle}} in <a href="{% url 'ink_view' inkID=request.requestedChapter.chapterInkOrigin.id %}">{{request.requestedChapter.chapterInkOrigin.title}}</a>
             </span>

@@ -5,7 +5,13 @@
 <a href="{% url 'well' username=request.user.username %}"><button class="backToInkWell btn btn-khaki">&larr; Back to InkWell</button></a>
 
 <div class="inkSettingsRow row d-flex justify-content-center">
-    <h5 class="text-center">YOUR INKS</h5>
+    <div class="disFdirColAliCen">
+        <form class="form disFdirColAliCen" action="{% url 'searchInkSettings' %}" method="post">
+            {% csrf_token %}
+            <input placeholder="Search Inks..." type="text" class="searchInput-style form-control" id="searchInput" name="searchInkSettingsQuery">    
+            <button class="btn btn-khaki mt-2" type="submit">SEARCH</button>    
+        </form>
+    </div>
     
     {% if message %}
         <h5 class="text-center m-2">{{ message }}</h5>

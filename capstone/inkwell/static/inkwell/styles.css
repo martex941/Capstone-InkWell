@@ -89,6 +89,10 @@ body {
     margin: 0.5rem;
 }
 
+.searchInput-style {
+    width: auto;
+}
+
 /* .follow-btn {
     border: 2.5px #007FFF solid;
 }

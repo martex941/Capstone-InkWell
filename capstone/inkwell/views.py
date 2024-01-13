@@ -430,7 +430,7 @@ def coAuthorRequestsList(request):
     current_user = User.objects.get(pk=request.user.pk)
     inks = Ink.objects.filter(inkOwner=current_user.id)
     chapters = Chapter.objects.filter(chapterInkOrigin__in=inks)
-    requests = CoAuthorRequest.objects.filter(requestedChapter__in=chapters, acceptedStatus=False).order_by("-requestDate")
+    requests = CoAuthorRequest.objects.filter(requestedChapter__in=chapters).order_by("-requestDate")
 
     return render(request, "inkwell/coAuthorRequestsList.html", {
         "requests": requests,
@@ -573,14 +573,25 @@ def unfollow(request, username):
 
     return JsonResponse({"message": "Unfollowed"}, status=201)
 
-def followers(request, username):
+def followers(request, username, searchQuery):
     user = User.objects.get(username=username)
-    followers = User.objects.filter(follower__followee=user.pk).distinct()
+    if searchQuery == "":
+        followers = User.objects.filter(follower__followee=user.pk).distinct()
+    else:
+        followers = User.objects.filter(follower__followee=user.pk, username__contains=searchQuery).distinct()
 
     return render(request, "inkwell/followers.html", {
         "followers": followers,
         "followed_user": user
     })
+
+def searchFollowers(request, username):
+    if request.method == "POST":
+        query = request.POST.get("searchFollowersQuery")
+        return redirect('followers', username=username, searchQuery=query)
+    else:
+        return redirect('followers', username=username)
+
 
 def coauthors(request, username):
     user = User.objects.get(username=username)
@@ -591,6 +602,7 @@ def coauthors(request, username):
         "coauthors": coauthors,
         "user": user
     })
+
 
 @login_required
 def settings(request):
@@ -692,12 +704,23 @@ def edit_profile(request):
     })
 
 @login_required
-def ink_settings(request):
-    retrieve_inks = Ink.objects.filter(inkOwner=request.user)
+def ink_settings(request, inkQuery):
+    if inkQuery == "":
+        retrieve_inks = Ink.objects.filter(inkOwner=request.user)
+    else:
+        retrieve_inks = Ink.objects.filter(inkOwner=request.user, title__contains=inkQuery)
     return render(request, "inkwell/ink_settings.html", {
         "inks": retrieve_inks,
         "title": "Ink Settings"
     })
+
+@login_required
+def searchInkSettings(request):
+    if request.method == "POST":
+        query = request.POST.get("searchInkSettingsQuery")
+        return redirect('ink_settings', inkQuery=query)
+    else:
+        return redirect('ink_settings')
 
 @login_required
 def privatizeInk(request, inkid, command):
