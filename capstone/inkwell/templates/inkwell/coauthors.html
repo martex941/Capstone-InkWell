@@ -4,9 +4,17 @@
 
 <a href="{% url 'well' username=user.username %}"><button class="backToInkWell btn btn-khaki">&larr; Back to InkWell</button></a>
 
-<h3>People who are co-authors to {{ user }}'s inks</h3>
+
 
 <div class="coauthors row d-flex justify-content-center">
+    <h3>People who are co-authors to {{ user }}'s inks</h3>
+    <div class="disFdirColAliCen">
+        <form class="form disFdirColAliCen" action="{% url 'searchCoAuthors' username=user.username %}" method="post">
+            {% csrf_token %}
+            <input placeholder="Search..." type="text" class="searchInput-style form-control" name="searchCoAuthorsQuery">    
+            <button class="btn btn-khaki mt-2" type="submit">SEARCH</button>
+        </form>
+    </div>
     {% for coauthor in coauthors %}
     <div class="card col-md-4">
         <div class="coauthor-pfp disFdirColAliCen mt-4">

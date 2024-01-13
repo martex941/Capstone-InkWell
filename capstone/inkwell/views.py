@@ -438,6 +438,12 @@ def coAuthorRequestsList(request):
     })
 
 @login_required
+def searchCoAuthorRequests(request):
+    if request.method == "POST":
+        query = request.POST.get("searchYourRequestsQuery")
+        
+
+@login_required
 def yourCoAuthorRequests(request):
     current_user = User.objects.get(pk=request.user.pk)
     yourRequests = CoAuthorRequest.objects.filter(coAuthor=current_user).order_by("-requestDate")
@@ -593,16 +599,25 @@ def searchFollowers(request, username):
         return redirect('followers', username=username)
 
 
-def coauthors(request, username):
+def coauthors(request, username, searchQuery):
     user = User.objects.get(username=username)
     userInks = Ink.objects.filter(inkOwner=user.pk)
-    coauthors = User.objects.filter(CoAuthors__in=userInks).distinct()
+    if searchQuery == "":
+        coauthors = User.objects.filter(CoAuthors__in=userInks).distinct()
+    else:
+        coauthors = User.objects.filter(CoAuthors__in=userInks, username__contains=searchQuery).distinct()
 
     return render(request, "inkwell/coauthors.html", {
         "coauthors": coauthors,
         "user": user
     })
 
+def searchCoAuthors(request, username):
+    if request.method == "POST":
+        query = request.POST.get("searchCoAuthorsQuery")
+        return redirect('coauthors', username=username, searchQuery=query)
+    else:
+        return redirect('coauthors', username=username)
 
 @login_required
 def settings(request):
