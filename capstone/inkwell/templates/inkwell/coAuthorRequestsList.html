@@ -6,9 +6,9 @@
 <div class="coAuthorRequestsList row d-flex justify-content-center">
     <h3 class="text-center">REQUESTS FROM CO-AUTHORS</h3>
     <div class="disFdirColAliCen">
-        <form class="form disFdirColAliCen" action="" method="post">
+        <form class="form disFdirColAliCen" action="{% url 'searchCoAuthorRequestsList' %}" method="post">
             {% csrf_token %}
-            <input placeholder="Search..." type="text" class="searchInput-style form-control" name="searchFollowersQuery">    
+            <input placeholder="Search..." type="text" class="searchInput-style form-control" name="searchYourRequestsListQuery">
             <button class="btn btn-khaki mt-2" type="submit">SEARCH</button>
         </form>
     </div>

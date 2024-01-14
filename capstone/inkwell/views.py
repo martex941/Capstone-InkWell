@@ -426,11 +426,14 @@ def edit_chapter(request, chapterID, inkID):
     })
 
 @login_required
-def coAuthorRequestsList(request):
+def coAuthorRequestsList(request, searchQuery):
     current_user = User.objects.get(pk=request.user.pk)
     inks = Ink.objects.filter(inkOwner=current_user.id)
     chapters = Chapter.objects.filter(chapterInkOrigin__in=inks)
-    requests = CoAuthorRequest.objects.filter(requestedChapter__in=chapters).order_by("-requestDate")
+    if searchQuery == "":
+        requests = CoAuthorRequest.objects.filter(requestedChapter__in=chapters).order_by("-requestDate")
+    else:
+        requests = CoAuthorRequest.objects.filter(Q(requestedChapter__in=chapters) & Q(coAuthor__username__contains=searchQuery) | Q(requestedChapter__chapterInkOrigin__title__contains=searchQuery)).order_by("-requestDate")
 
     return render(request, "inkwell/coAuthorRequestsList.html", {
         "requests": requests,
@@ -438,20 +441,33 @@ def coAuthorRequestsList(request):
     })
 
 @login_required
-def searchCoAuthorRequests(request):
+def searchCoAuthorRequestsList(request):
     if request.method == "POST":
-        query = request.POST.get("searchYourRequestsQuery")
-        
+        query = request.POST.get("searchYourRequestsListQuery")
+        return redirect('coAuthorRequestsList', searchQuery=query)
+    else:
+        return redirect('coAuthorRequestsList')
 
 @login_required
-def yourCoAuthorRequests(request):
+def yourCoAuthorRequests(request, searchQuery):
     current_user = User.objects.get(pk=request.user.pk)
-    yourRequests = CoAuthorRequest.objects.filter(coAuthor=current_user).order_by("-requestDate")
+    if searchQuery == "":
+        yourRequests = CoAuthorRequest.objects.filter(coAuthor=current_user).order_by("-requestDate")
+    else:
+        yourRequests = CoAuthorRequest.objects.filter(Q(requestedChapter__chapterInkOrigin__inkOwner__username__contains=searchQuery) | Q(requestedChapter__chapterInkOrigin__title__contains=searchQuery)).order_by("-requestDate")
 
     return render(request, "inkwell/yourCoAuthorRequests.html", {
         "yourRequests": yourRequests,
         "title": "Your co-author requests"
     })
+
+@login_required
+def searchYourCoAuthorRequests(request):
+    if request.method == "POST":
+        query = request.POST.get("searchYourRequestsQuery")
+        return redirect('yourCoAuthorRequests', searchQuery=query)
+    else:
+        return redirect('yourCoAuthorRequests')
 
 @login_required
 def coAuthorRequest(request, chapterID, requestID):
