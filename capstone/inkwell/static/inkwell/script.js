@@ -476,3 +476,13 @@ function notificationsBtn() {
     }
 }
 
+function indexBtnsShow() {
+    let screenWidth = window.innerWidth;
+
+    window.addEventListener('resize', () => {
+        if (screenWidth > 1200) {
+            
+        }
+    })
+}
+
