@@ -47,7 +47,9 @@ urlpatterns = [
     path('timeline/<int:page>', views.timeline, name='timeline'),
     path('notifications/<int:page>', views.notifications, name='notificaitons'),
     path('well/<str:username>/follow', views.follow, name='follow'),
-    path('well/<str:username>/unfollow', views.unfollow, name='unfollow')
+    path('well/<str:username>/unfollow', views.unfollow, name='unfollow'),
+    path('mainSearch', views.mainSearch, name="mainSearch"),
+    path('mainSearchResults/<str:searchQuery>', views.mainSearchResults, name="mainSearchResults")
 ]
 
 if settings.DEBUG:
