@@ -39,7 +39,8 @@
                 </ul>
                 <ul class="navbar-nav d-flex justify-content-end nav-right col-4">
                     <li class="nav-item">
-                        <form class="form" action="" method="post">
+                        <form class="form" action="{% url 'mainSearch' %}" method="post">
+                            {% csrf_token %}
                             <div class="disFdirColAliCen">
                                 <input class="form-control mainSearchQuery-style" placeholder="Search..." type="text" name="mainSearchQuery">
                             </div>
