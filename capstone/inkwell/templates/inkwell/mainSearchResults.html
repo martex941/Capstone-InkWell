@@ -1,15 +1,39 @@
 {% extends 'inkwell/layout.html' %}
 
 {% block body %}
-<div class="container">
-    <div class="authors">
+<div class="mainSearchContainer">
+    <div class="mainSearchAuthors row d-flex justify-content-center">
+        <div>
+            <h5>AUTHORS</h5>
+        </div>
         {% for author in authors %}
-            <div>
-                {{ author.username }}
-            </div>    
+            <div class="card col-md-4">
+                <div class="card-title text-center disFdirColAliCen">
+                    {% if author.profilePicture %}
+                        <img class="author-profile-picture" src="/media/{{author.profilePicture}}">
+                    {% else %}
+                        <img class="author-profile-picture" src="/media/no-profile-picture-icon.jpg">
+                    {% endif %}
+                    <span class="fw-bold lead">{{ author.username }}</span>
+                </div>    
+                <div class="card-body disFdirColAliCen">
+                    <div>
+                        most used tags
+                    </div>
+                    <div>
+                        followers: {{ author.followers }}
+                    </div>
+                    <div>
+                        go to ink link
+                    </div>
+                </div>
+            </div>
         {% endfor %}
     </div>
-    <div class="inks">
+    <div class="mainSearchInks row d-flex justify-content-center">
+        <div>
+            <h5>INKS</h5>
+        </div>
         {% for ink in inks %}
         <div>
             {{ ink.title }}
