@@ -1,11 +1,22 @@
 from django.contrib.auth.models import AbstractUser
 from django_quill.fields import QuillField
 from django.utils import timezone
+from collections import Counter
 from django.db import models
 
 class User(AbstractUser):
     about = models.CharField(max_length=250, default="")
     profilePicture = models.ImageField(upload_to='', blank=True, null=True)
+
+
+    @property
+    def mostUsedTags(self):
+        tags = Ink.objects.filter(inkOwner=self).exclude(tags=None).values_list('tags', flat=True)
+        tagCounter = Counter(tags)
+        most_common = tagCounter.most_common(3)
+        most_common_tag_ids = [tag[0] for tag in most_common]
+        t = Tag.objects.filter(id__in=most_common_tag_ids)
+        return t
 
     @property
     def yourCoAuthorRequests(self): # Amount of co-author requests the author made to other inks

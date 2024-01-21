@@ -4,7 +4,7 @@
 <div class="mainSearchContainer">
     <div class="mainSearchAuthors row d-flex justify-content-center">
         <div>
-            <h5>AUTHORS</h5>
+            <h3 class="text-center ">AUTHORS</h3>
         </div>
         {% for author in authors %}
             <div class="card col-md-4">
@@ -14,17 +14,28 @@
                     {% else %}
                         <img class="author-profile-picture" src="/media/no-profile-picture-icon.jpg">
                     {% endif %}
-                    <span class="fw-bold lead">{{ author.username }}</span>
-                </div>    
-                <div class="card-body disFdirColAliCen">
-                    <div>
-                        most used tags
+                    
+                </div>
+                <div class="card-body disFdirColAliCen pt-0">
+                    <span class="fw-bold lead m-0">{{ author.username }}</span>
+                    <div class="mb-2">
+                        Followers: {{ author.followers }}
                     </div>
-                    <div>
-                        followers: {{ author.followers }}
-                    </div>
-                    <div>
-                        go to ink link
+                    {% if author.mostUsedTags %}
+                        <div class="mb-2">
+                            Popular tags:
+                            {% for tag in author.mostUsedTags %}
+                                <span class="tag">{{tag}}</span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    {% if author.about %}
+                        <div class="mb-2">
+                            <p>{{ author.about }}</p>
+                        </div>
+                    {% endif %}
+                    <div class="mt-2">
+                        <a href="{% url 'well' username=author.username %}"><button class="btn btn-khaki">Go to InkWell</button></a>
                     </div>
                 </div>
             </div>
@@ -32,11 +43,33 @@
     </div>
     <div class="mainSearchInks row d-flex justify-content-center">
         <div>
-            <h5>INKS</h5>
+            <h3 class="text-center">INKS</h3>
         </div>
         {% for ink in inks %}
-        <div>
-            {{ ink.title }}
+        <div class="card col-md-4 disFdirColAliCen">
+            <div class="card-title text-center">
+                <span class="fw-bold lead mt-0">{{ ink.title }}</span>
+                <br>
+                <span>Views: {{ ink.views }}</span>
+            </div>
+            <div class="card-body disFdirColAliCen">
+                {% if ink.tags.all %}
+                    <div class="mb-2">
+                        Tags:
+                        {% for tag in ink.tags.all %}
+                            <span class="tag">{{ tag }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% if ink.description %}
+                    <div class="mb-2">
+                        <p class="text-justify">{{ ink.description }}</p>
+                    </div>
+                {% endif %}
+                <div class="mt-2">
+                    <a href="{% url 'ink_view' inkID=ink.id %}"><button class="btn btn-khaki">Go to Ink</button></a>
+                </div>
+            </div>
         </div>
         {% endfor %}
     </div>

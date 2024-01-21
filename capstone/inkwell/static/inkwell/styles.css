@@ -205,6 +205,14 @@ body {
     color: rgb(207, 24, 24);
 }
 
+.mainSearchContainer .tag {
+    margin: 0.2rem;
+}
+
+.mainSearchContainer p {
+    width: 270px;
+}
+
 .tag {
     border-radius: 10px;
     background-color: var(--border-color);

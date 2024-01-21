@@ -1,7 +1,7 @@
 {% extends "inkwell/layout.html" %}
 
 {% block body%}
-<a href="{% url 'ink_settings' %}"><button class="backToInkView btn btn-khaki">&larr; Back to Ink Settings</button></a>
+<a href="{% url 'well' username=request.user.username %}"><button class="backToInkView btn btn-khaki">&larr; Back to InkWell</button></a>
 <div class="edit-profile-container mt-5 disFdirColAliCen">
 
     <img class="profile-picture-edit" src="media/{{ profile_picture }}">

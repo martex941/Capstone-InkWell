@@ -47,7 +47,7 @@ def mainSearchResults(request, searchQuery):
         return redirect('index')
     else:
         authors = User.objects.filter(username__contains=searchQuery)
-        inks = Ink.objects.filter(title__contains=searchQuery)
+        inks = Ink.objects.filter(title__contains=searchQuery, privateStatus=False)
         return render(request, "inkwell/mainSearchResults.html", {
             "authors": authors,
             "inks": inks
@@ -549,7 +549,7 @@ def well(request, username):
         if Follow.objects.filter(follower=current_user, followee=wellOwner):
             followCheck = True
 
-    inks = Ink.objects.filter(inkOwner=wellOwner.pk)
+    inks = Ink.objects.filter(inkOwner=wellOwner.pk, privateStatus=False)
     followers = wellOwner.followers
     co_authors = wellOwner.acceptedCoAuthorRequests
     
