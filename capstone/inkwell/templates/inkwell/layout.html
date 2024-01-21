@@ -8,6 +8,7 @@
         <title>{% block title %}{{title}}{% endblock %}</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
         <link href="{% static 'inkwell/styles.css' %}" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -41,8 +42,9 @@
                     <li class="nav-item">
                         <form class="form" action="{% url 'mainSearch' %}" method="post">
                             {% csrf_token %}
-                            <div class="disFdirColAliCen">
-                                <input class="form-control mainSearchQuery-style" placeholder="Search..." type="text" name="mainSearchQuery">
+                            <div class="mainSearchFunction">
+                                <button class="btn btn-khaki"><i class="fa fa-search"></i></button>
+                                <input class="form-control mainSearchQuery-style" placeholder="Search..." type="text" name="mainSearchQuery">    
                             </div>
                         </form>
                     </li>

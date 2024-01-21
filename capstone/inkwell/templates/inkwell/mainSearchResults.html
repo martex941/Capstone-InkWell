@@ -1,9 +1,72 @@
 {% extends 'inkwell/layout.html' %}
 
 {% block body %}
-<div class="mainSearchContainer">
-    <div class="mainSearchAuthors row d-flex justify-content-center">
-        <div>
+<div class="mainSearchContainer row d-flex justify-content-center">
+    {% for result in results %}
+        {% if result.username %}
+            <div class="card col-md-4">
+                <div class="card-title text-center disFdirColAliCen">
+                    {% if result.profilePicture %}
+                        <img class="author-profile-picture" src="/media/{{result.profilePicture}}">
+                    {% else %}
+                        <img class="author-profile-picture" src="/media/no-profile-picture-icon.jpg">
+                    {% endif %}
+                </div>
+                <div class="card-body disFdirColAliCen pt-0">
+                    <span class="fw-bold lead m-0">{{ result.username }}</span>
+                    <div class="mb-2">
+                        Followers: {{ result.followers }}
+                    </div>
+                    {% if result.mostUsedTags %}
+                        <div class="mb-2">
+                            Popular tags:
+                            {% for tag in result.mostUsedTags %}
+                                <span class="tag">{{tag}}</span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    {% if result.about %}
+                        <div class="mb-2">
+                            <p>{{ result.about }}</p>
+                        </div>
+                    {% endif %}
+                    <div class="mt-2">
+                        <a href="{% url 'well' username=result.username %}"><button class="btn btn-khaki">Go to InkWell</button></a>
+                    </div>
+                </div>
+            </div>
+        {% elif result.title %}
+            <div class="card col-md-4 disFdirColAliCen">
+                <div class="card-title text-center">
+                    <span class="fw-bold lead mt-0">{{ result.title }}</span>
+                    <br>
+                    <span>Views: {{ result.views }}</span>
+                </div>
+                <div class="card-body disFdirColAliCen">
+                    {% if result.tags.all %}
+                        <div class="mb-2">
+                            Tags:
+                            {% for tag in result.tags.all %}
+                                <span class="tag">{{ tag }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    {% if result.description %}
+                        <div class="mb-2">
+                            <p class="text-justify">{{ result.description }}</p>
+                        </div>
+                    {% endif %}
+                    <div class="mt-2">
+                        <a href="{% url 'ink_view' inkID=result.id %}"><button class="btn btn-khaki">Go to Ink</button></a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}
+    <!-- <div class="mainSearchAuthors row d-flex justify-content-center"> -->
+        <!-- <div>
             <h3 class="text-center ">AUTHORS</h3>
         </div>
         {% for author in authors %}
@@ -72,6 +135,4 @@
             </div>
         </div>
         {% endfor %}
-    </div>
-</div>
-{% endblock %}
+    </div> -->

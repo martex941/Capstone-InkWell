@@ -48,9 +48,11 @@ def mainSearchResults(request, searchQuery):
     else:
         authors = User.objects.filter(username__contains=searchQuery)
         inks = Ink.objects.filter(title__contains=searchQuery, privateStatus=False)
+        combined = list(authors) + list(inks)
         return render(request, "inkwell/mainSearchResults.html", {
             "authors": authors,
-            "inks": inks
+            "inks": inks,
+            "results": combined
         })
 
 def mainSearch(request):
