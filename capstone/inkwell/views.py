@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.urls import reverse
-from django.db import IntegrityError, transaction
+from django.db import IntegrityError, transaction, models
 from django.db.models.functions import Random
 from django.core.paginator import Paginator
 from datetime import datetime, timedelta
@@ -46,7 +46,7 @@ def mainSearchResults(request, searchQuery):
     if searchQuery == "":
         return redirect('index')
     else:
-        authors = User.objects.filter(username__contains=searchQuery).order_by('-followers')
+        authors = User.objects.filter(username__contains=searchQuery)
         inks = Ink.objects.filter(title__contains=searchQuery, privateStatus=False).order_by('-views')
         combined = list(authors) + list(inks)
         return render(request, "inkwell/mainSearchResults.html", {
