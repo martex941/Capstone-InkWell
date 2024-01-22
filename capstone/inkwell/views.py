@@ -46,8 +46,8 @@ def mainSearchResults(request, searchQuery):
     if searchQuery == "":
         return redirect('index')
     else:
-        authors = User.objects.filter(username__contains=searchQuery)
-        inks = Ink.objects.filter(title__contains=searchQuery, privateStatus=False)
+        authors = User.objects.filter(username__contains=searchQuery).order_by('-followers')
+        inks = Ink.objects.filter(title__contains=searchQuery, privateStatus=False).order_by('-views')
         combined = list(authors) + list(inks)
         return render(request, "inkwell/mainSearchResults.html", {
             "authors": authors,
