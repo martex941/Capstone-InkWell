@@ -49,7 +49,7 @@ urlpatterns = [
     path('well/<str:username>/follow', views.follow, name='follow'),
     path('well/<str:username>/unfollow', views.unfollow, name='unfollow'),
     path('mainSearch', views.mainSearch, name="mainSearch"),
-    path('mainSearchResults/<str:searchQuery>/<int:page>', views.mainSearchResults, name="mainSearchResults")
+    path('mainSearchResults/<str:searchQuery>/', views.mainSearchResults, name="mainSearchResults")
 ]
 
 if settings.DEBUG:

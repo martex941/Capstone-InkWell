@@ -63,10 +63,27 @@
             </div>
         {% endif %}
     {% endfor %}
-    <div class="pages d-flex justify-content-center">
-        {% for page in range.pages %}
+    <div class="pagination d-flex justify-content-center">
+        <!-- {% for page in range.pages %}
             <a class="m-2" href="{% url 'mainSearchResults' searchQuery=searchQuery page=1 %}">{{page}}</a>
+        {% endfor %} -->
+        {% if results.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ results.previous_page_number }}">previous</a>
+        {% endif %}
+
+        {% for page in pages %}
+            {% if page == results.number %}
+            <span class="current">{{ page }}</span>
+            {% else %}
+                <a href="?page={{ page }}">{{ page }}</a>
+            {% endif %}
         {% endfor %}
+
+        {% if results.has_next %}
+            <a href="?page={{ results.next_page_number }}">next</a>
+            <a href="?page={{ results.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

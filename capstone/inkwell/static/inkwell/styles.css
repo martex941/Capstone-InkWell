@@ -80,6 +80,10 @@ body {
     z-index: 0;
 }
 
+.pagination a, .pagination span {
+    margin: 0.3rem;
+}
+
 .displayDirectionCol {
     display: flex;
     flex-direction: column;

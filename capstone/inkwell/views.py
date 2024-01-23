@@ -7,7 +7,7 @@ from django.db.models import Q
 from django.urls import reverse
 from django.db import IntegrityError, transaction, models
 from django.db.models.functions import Random
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from datetime import datetime, timedelta
 from bs4 import BeautifulSoup
 import time, json
@@ -42,31 +42,36 @@ def updateDiscoverAuthors(request):
     except DiscoverAuthors.DoesNotExist:
         print("Updating DiscoverAuthors has encountered a problem.")
 
-def mainSearchResults(request, searchQuery, page):
+def mainSearchResults(request, searchQuery):
     if searchQuery == "":
-        return redirect('index')
-    elif page <= 0:
         return redirect('index')
     else:
         authors = User.objects.filter(username__contains=searchQuery)
         inks = Ink.objects.filter(title__contains=searchQuery, privateStatus=False).order_by('-views')
         combined = list(authors) + list(inks)
         pag = Paginator(combined, 1)
+        page = request.GET.get('page')
+        try:
+            pag_items = pag.page(page)
+        except PageNotAnInteger:
+            pag_items = pag.page(1)
+        except EmptyPage:
+            pag_items = pag.page(pag.num_pages)
 
-        print(pag.num_pages)
-        print(pag.page(page).object_list)
+        pages = range(1, pag.num_pages+1)
+
         return render(request, "inkwell/mainSearchResults.html", {
             "authors": authors,
             "inks": inks,
             "searchQuery": searchQuery,
-            "results": pag.page(page).object_list,
-            "pages": pag.num_pages
+            "results": pag_items,
+            "pages": pages
         })
 
 def mainSearch(request):
     if request.method == "POST":
         query = request.POST.get("mainSearchQuery")
-        return redirect('mainSearchResults', searchQuery=query, page=1)
+        return redirect('mainSearchResults', searchQuery=query)
 
 startDate = datetime(2024, 1, 1)
 
