@@ -42,23 +42,31 @@ def updateDiscoverAuthors(request):
     except DiscoverAuthors.DoesNotExist:
         print("Updating DiscoverAuthors has encountered a problem.")
 
-def mainSearchResults(request, searchQuery):
+def mainSearchResults(request, searchQuery, page):
     if searchQuery == "":
+        return redirect('index')
+    elif page <= 0:
         return redirect('index')
     else:
         authors = User.objects.filter(username__contains=searchQuery)
         inks = Ink.objects.filter(title__contains=searchQuery, privateStatus=False).order_by('-views')
         combined = list(authors) + list(inks)
+        pag = Paginator(combined, 1)
+
+        print(pag.num_pages)
+        print(pag.page(page).object_list)
         return render(request, "inkwell/mainSearchResults.html", {
             "authors": authors,
             "inks": inks,
-            "results": combined
+            "searchQuery": searchQuery,
+            "results": pag.page(page).object_list,
+            "pages": pag.num_pages
         })
 
 def mainSearch(request):
     if request.method == "POST":
         query = request.POST.get("mainSearchQuery")
-        return redirect('mainSearchResults', searchQuery=query)
+        return redirect('mainSearchResults', searchQuery=query, page=1)
 
 startDate = datetime(2024, 1, 1)
 
