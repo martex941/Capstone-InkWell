@@ -18,7 +18,7 @@
                         Followers: {{ result.followers }}
                     </div>
                     {% if result.mostUsedTags %}
-                        <div class="mb-2">
+                        <div class="mb-2 mainSearchResultsTags-style">
                             Popular tags:
                             {% for tag in result.mostUsedTags %}
                                 <span class="tag">{{tag}}</span>
@@ -30,7 +30,7 @@
                             <p>{{ result.about }}</p>
                         </div>
                     {% endif %}
-                    <div class="mt-2">
+                    <div class="mt-2 mb-3 mainSearch-goToBtn">
                         <a href="{% url 'well' username=result.username %}"><button class="btn btn-khaki">Go to InkWell</button></a>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                 </div>
                 <div class="card-body disFdirColAliCen">
                     {% if result.tags.all %}
-                        <div class="mb-2">
+                        <div class="mb-2 mainSearchResultsTags-style">
                             Tags:
                             {% for tag in result.tags.all %}
                                 <span class="tag">{{ tag }}</span>
@@ -52,17 +52,18 @@
                         </div>
                     {% endif %}
                     {% if result.description %}
-                        <div class="mb-2">
+                        <div class="mb-2 mainSearchResultsDescription-style">
                             <p class="text-justify">{{ result.description }}</p>
                         </div>
                     {% endif %}
-                    <div class="mt-2">
+                    <div class="mt-2 mb-3 mainSearch-goToBtn">
                         <a href="{% url 'ink_view' inkID=result.id %}"><button class="btn btn-khaki">Go to Ink</button></a>
                     </div>
                 </div>
             </div>
         {% endif %}
     {% endfor %}
+
     <div class="pagination d-flex justify-content-center">
         <!-- {% for page in range.pages %}
             <a class="m-2" href="{% url 'mainSearchResults' searchQuery=searchQuery page=1 %}">{{page}}</a>

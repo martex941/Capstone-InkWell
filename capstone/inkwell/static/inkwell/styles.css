@@ -60,8 +60,30 @@
     color: var(--text-color);
 }
 
+.card {
+    height: 450px;
+}
+
+.mainSearchResultsTags-style {
+    max-height: 91px;
+    overflow-y: auto;
+    text-overflow: ellipsis;
+}
+
 .mainSearchQuery-style {
     width: 175px;
+}
+
+.mainSearch-goToBtn {
+    position: absolute;
+    bottom: 0;
+}
+
+.mainSearchResultsDescription-style {
+    height: 195px;
+    overflow: auto;
+    text-overflow: ellipsis;
+    margin-top: -0.2rem;
 }
 
 .mainSearchFunction {
@@ -419,8 +441,6 @@ body {
 .notifications-col-style {
     height: 450px;
     width: 300px;
-    overflow-y: auto;
-    text-overflow: ellipsis;
     border: var(--border-color) 1px solid;
     border-radius: 5%;
     margin: 1rem;
@@ -430,9 +450,11 @@ body {
     background-color: var(--primary-color);
 }
 
-/* .notifications-col-style::-webkit-scrollbar {
-    width: 0;
-} */
+.notifications-style {
+    height: 405px;
+    overflow-y: auto;
+    text-overflow: ellipsis;
+}
 
 .author-profile-picture {
     border: 1px var(--border-color) solid;

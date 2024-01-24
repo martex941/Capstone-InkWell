@@ -49,7 +49,7 @@ def mainSearchResults(request, searchQuery):
         authors = User.objects.filter(username__contains=searchQuery)
         inks = Ink.objects.filter(title__contains=searchQuery, privateStatus=False).order_by('-views')
         combined = list(authors) + list(inks)
-        pag = Paginator(combined, 1)
+        pag = Paginator(combined, 10)
         page = request.GET.get('page')
         try:
             pag_items = pag.page(page)
@@ -71,6 +71,8 @@ def mainSearchResults(request, searchQuery):
 def mainSearch(request):
     if request.method == "POST":
         query = request.POST.get("mainSearchQuery")
+        if query == "":
+            return redirect('index')
         return redirect('mainSearchResults', searchQuery=query)
 
 startDate = datetime(2024, 1, 1)
