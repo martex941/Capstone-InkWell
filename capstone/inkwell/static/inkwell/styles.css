@@ -537,6 +537,7 @@ body {
 .well-col {
     width: auto;
 }
+
 .well-banner {
     height: auto;
     border: 1.5px var(--border-color) solid;
@@ -561,9 +562,16 @@ body {
 
 .well {
     height: 250px;
+    scrollbar-width: none;
+    overflow-y: auto;
+    text-overflow: ellipsis;
     border: 2px solid #333;
     border-radius: 50%;
     background-color: var(--primary-color);
+}
+
+.well::-webkit-scrollbar {
+    width: 0px;
 }
 
 /* coAuthorRequest.html ||||||||||||||||||||| */

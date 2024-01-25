@@ -27,5 +27,24 @@
         </div>
     </div>
     {% endfor %}
+    <div class="pagination d-flex justify-content-center">
+        {% if followers.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ followers.previous_page_number }}">previous</a>
+        {% endif %}
+
+        {% for page in pages %}
+            {% if page == followers.number %}
+            <span class="current">{{ page }}</span>
+            {% else %}
+                <a href="?page={{ page }}">{{ page }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if followers.has_next %}
+            <a href="?page={{ followers.next_page_number }}">next</a>
+            <a href="?page={{ followers.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}

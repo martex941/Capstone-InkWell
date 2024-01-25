@@ -11,7 +11,7 @@
     <div class="disFdirColAliCen">
         <form class="form disFdirColAliCen" action="{% url 'searchCoAuthors' username=user.username %}" method="post">
             {% csrf_token %}
-            <input placeholder="Search..." type="text" class="searchInput-style form-control" name="searchCoAuthorsQuery">    
+            <input placeholder="Search..." type="text" class="searchInput-style form-control" name="searchCoAuthorsQuery">
             <button class="btn btn-khaki mt-2" type="submit">SEARCH</button>
         </form>
     </div>
@@ -31,5 +31,25 @@
         </div>
     </div>
     {% endfor %}
+    <div class="pagination d-flex justify-content-center">
+        {% if coauthors.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ coauthors.previous_page_number }}">previous</a>
+        {% endif %}
+
+        {% for page in pages %}
+            {% if page == coauthors.number %}
+            <span class="current">{{ page }}</span>
+            {% else %}
+                <a href="?page={{ page }}">{{ page }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if coauthors.has_next %}
+            <a href="?page={{ coauthors.next_page_number }}">next</a>
+            <a href="?page={{ coauthors.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </div>
 </div>
+
 {% endblock %}

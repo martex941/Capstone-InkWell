@@ -61,8 +61,6 @@ def mainSearchResults(request, searchQuery):
         pages = range(1, pag.num_pages+1)
 
         return render(request, "inkwell/mainSearchResults.html", {
-            "authors": authors,
-            "inks": inks,
             "searchQuery": searchQuery,
             "results": pag_items,
             "pages": pages
@@ -635,8 +633,20 @@ def followers(request, username, searchQuery):
     else:
         followers = User.objects.filter(follower__followee=user.pk, username__contains=searchQuery).distinct()
 
+    pag = Paginator(followers, 1)
+    page = request.GET.get('page')
+    try:
+        pag_items = pag.page(page)
+    except PageNotAnInteger:
+        pag_items = pag.page(1)
+    except EmptyPage:
+        pag_items = pag.page(pag.num_pages)
+
+    pages = range(1, pag.num_pages+1)
+
     return render(request, "inkwell/followers.html", {
-        "followers": followers,
+        "followers": pag_items,
+        "pages": pages,
         "followed_user": user
     })
 
@@ -655,9 +665,21 @@ def coauthors(request, username, searchQuery):
         coauthors = User.objects.filter(CoAuthors__in=userInks).distinct()
     else:
         coauthors = User.objects.filter(CoAuthors__in=userInks, username__contains=searchQuery).distinct()
+    
+    pag = Paginator(coauthors, 1)
+    page = request.GET.get('page')
+    try:
+        pag_items = pag.page(page)
+    except PageNotAnInteger:
+        pag_items = pag.page(1)
+    except EmptyPage:
+        pag_items = pag.page(pag.num_pages)
+
+    pages = range(1, pag.num_pages+1)
 
     return render(request, "inkwell/coauthors.html", {
-        "coauthors": coauthors,
+        "coauthors": pag_items,
+        "pages": pages,
         "user": user
     })
 
