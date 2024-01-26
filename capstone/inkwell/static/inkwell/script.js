@@ -10,12 +10,11 @@ function timeline() {
 
     // Declare the page
     let page = 1;
+
+    // Clear the timeline feed
+    document.querySelector("#timeline").innerHTML = '';
     
     function load(page, timeline) {
-
-        // Clear the timeline feed
-        document.querySelector("#timeline").innerHTML = '';
-
         fetch(`timeline/${page}`)
         .then(response => response.json())
         .then(data => {
@@ -63,23 +62,20 @@ function timeline() {
             });
         })
 
-        const timelineCol = document.querySelector("#timeline");
-        timelineCol.onscroll = () => {
-            if (timelineCol.clientHeight + timelineCol.scrollTop >= timelineCol.scrollHeight) {
-                load(page, timeline);
-                page++;
-            }
-        };
+        // const timelineCol = document.querySelector("#timeline");
+        // timelineCol.onscroll = () => {
+        //     if (timelineCol.clientHeight + timelineCol.scrollTop >= timelineCol.scrollHeight) {
+        //         page++;
+        //         load(page, timeline);
+        //     }
+        // };
     }
-
-    // function infiniteScroll (timeline) {
-    //     window.onscroll = () => {
-    //         if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-    //             load(page, timeline);
-    //             page++;
-    //         }
-    //     };
-    // }
+    window.onscroll = () => {
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+            page++;
+            load(page, "allInks");
+        }
+    };
 
     load(page, "allInks");
 

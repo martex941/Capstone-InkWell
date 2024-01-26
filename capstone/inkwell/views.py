@@ -18,13 +18,17 @@ from .models import User, Ink, Notification, Well, Follow, Chapter, Post, Commen
 
 def updateDiscoverAuthors(request):
     users = User.objects.all()
-    popularAuthors = sorted(users, key=lambda user: (user.readers + user.followers) + (user.readers * user.followers), reverse=True)[:10]
-    topAuthors = sorted(users, key=lambda user: (user.letters + user.acceptedCoAuthorRequests) + (user.letters * user.acceptedCoAuthorRequests), reverse=True)[:10]
-    topCoAuthors = sorted(users, key=lambda user: user.acceptedCoAuthorRequests, reverse=True)[:10]
-    discoverAuthors = User.objects.annotate(random_order=Random()).order_by('random_order')[:20]
+    popularAuthors = sorted(users, key=lambda user: (user.readers + user.followers) + (user.readers * user.followers), reverse=True)[:1]
+    topAuthors = sorted(users, key=lambda user: (user.letters + user.acceptedCoAuthorRequests) + (user.letters * user.acceptedCoAuthorRequests), reverse=True)[:1]
+    topCoAuthors = sorted(users, key=lambda user: user.acceptedCoAuthorRequests, reverse=True)[:1]
+    discoverAuthors = User.objects.annotate(random_order=Random()).order_by('random_order')[:1]
     
     try:
         getDiscoverModel = DiscoverAuthors.objects.get(id=1)
+        getDiscoverModel.popularAuthors.clear()
+        getDiscoverModel.topAuthors.clear()
+        getDiscoverModel.topCoAuthors.clear()
+        getDiscoverModel.discoverAuthors.clear()
         for user in popularAuthors:
             getDiscoverModel.popularAuthors.add(user)
 
@@ -88,15 +92,15 @@ def index(request):
     disco  = DiscoverAuthors.objects.get(id=1)
 
     pops = disco.popularAuthors.all()
-    popularAuthors = sorted(pops, key=lambda user: (user.readers + user.followers) + (user.readers * user.followers), reverse=True)[:10]
+    popularAuthors = sorted(pops, key=lambda user: (user.readers + user.followers) + (user.readers * user.followers), reverse=True)[:5]
 
     tops = disco.topAuthors.all()
-    topAuthors = sorted(tops, key=lambda user: (user.letters + user.acceptedCoAuthorRequests) + (user.letters * user.acceptedCoAuthorRequests), reverse=True)[:10]
+    topAuthors = sorted(tops, key=lambda user: (user.letters + user.acceptedCoAuthorRequests) + (user.letters * user.acceptedCoAuthorRequests), reverse=True)[:5]
     
     topCos = disco.topCoAuthors.all()
-    topCoAuthors = sorted(topCos, key=lambda user: user.yourAcceptedCoAuthorRequests, reverse=True)[:10]
+    topCoAuthors = sorted(topCos, key=lambda user: user.yourAcceptedCoAuthorRequests, reverse=True)[:5]
 
-    discoverAuthors = disco.discoverAuthors.all().annotate(random_order=Random()).order_by('random_order')[:20]
+    discoverAuthors = disco.discoverAuthors.all().annotate(random_order=Random()).order_by('random_order')[:10]
 
     return render(request, 'inkwell/index.html', {
         'popularAuthors': popularAuthors,
@@ -127,14 +131,14 @@ def timeline(request, page):
         return serialized_inks
 
     allPosts = Post.objects.filter(referencedPostInk__privateStatus=False).order_by('-postCreationDate')
-    allPostsPag = Paginator(allPosts, 20)
+    allPostsPag = Paginator(allPosts, 10)
     allPosts_col = serializeInks(allPostsPag)
 
     followedPosts_col = []
     if request.user.is_authenticated:
         followers = User.objects.filter(followee__follower=request.user)
-        followedInks = Ink.objects.filter(Q(inkOwner__in=followers), privateStatus=False)
-        followedPosts = Post.objects.filter(Q(referencedPostInk__in=followedInks)).order_by('-postCreationDate')
+        followedInks = Ink.objects.filter(inkOwner__in=followers, privateStatus=False)
+        followedPosts = Post.objects.filter(referencedPostInk__in=followedInks).order_by('-postCreationDate')
         followedPostsPag = Paginator(followedPosts, 10)
         followedPosts_col = serializeInks(followedPostsPag)
 

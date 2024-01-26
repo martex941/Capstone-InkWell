@@ -441,6 +441,8 @@ body {
 .notifications-col-style {
     height: 450px;
     width: 300px;
+    /* overflow-y: auto;
+    text-overflow: ellipsis; */
     border: var(--border-color) 1px solid;
     border-radius: 5%;
     margin: 1rem;
@@ -473,6 +475,7 @@ body {
 .authors-col {
     margin: 1rem;
     width: 315px;
+    height: auto;
     border: 1px var(--border-color) solid;
     border-radius: 10px;
     background-color: var(--primary-color);
