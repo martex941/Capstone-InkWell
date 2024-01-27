@@ -27,13 +27,13 @@
                     <div class="d-flex justify-content-center">
                         {% if not editingAsCoAuthor %}
                             <div class="disFdirColAliCen">
-                                <button id="addChapterBtn" onclick="addChapter()">Add Chapter {{ newChapterNum }}</button>
-                                <button class="mb-2" id="cancelAddingNewChapter" onclick="cancelAddingNewChapter()" style="display: none; width: 108px;">Cancel</button>
+                                <button class="btn btn-khaki" id="addChapterBtn" onclick="addChapter()">Add Chapter {{ newChapterNum }}</button>
+                                <button class="mb-2 btn btn-khaki" id="cancelAddingNewChapter" onclick="cancelAddingNewChapter()" style="display: none; width: 108px;">Cancel</button>
                                 <form class="form" id="addChapterForm" style="display: none;" method="post" action="{% url 'addNewChapter' newChapterNumber=newChapterNum inkId=editInk.id %}">
                                     {% csrf_token %}
                                     <input class="form-label" type="text" name="newChapterTitle" placeholder="Enter chapter title..." required>
                                     <div class="disFdirColAliCen">
-                                        <button type="submit" id="saveNewChapter">Save chapter</button>
+                                        <button class="btn btn-khaki" type="submit" id="saveNewChapter">Save chapter</button>
                                     </div>
                                 </form>
                             </div>
@@ -101,7 +101,7 @@
                                 <textarea class="form-label descriptionEdit" rows="4" cols="100" name="descriptionEdit">{{ editInk.description }}</textarea>
                             </div>
                             <div class="disFdirColAliCen">
-                                <button id="saveAllInkChangesBtn">SAVE CHANGES</button>
+                                <button class="btn btn-khaki" id="saveAllInkChangesBtn">SAVE CHANGES</button>
                             </div>
                         {% endif %}
                     </form>

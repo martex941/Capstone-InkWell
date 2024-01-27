@@ -647,7 +647,7 @@ def followers(request, username, searchQuery):
     else:
         followers = User.objects.filter(follower__followee=user.pk, username__contains=searchQuery).distinct()
 
-    pag = Paginator(followers, 1)
+    pag = Paginator(followers, 20)
     page = request.GET.get('page')
     try:
         pag_items = pag.page(page)
@@ -680,7 +680,7 @@ def coauthors(request, username, searchQuery):
     else:
         coauthors = User.objects.filter(CoAuthors__in=userInks, username__contains=searchQuery).distinct()
     
-    pag = Paginator(coauthors, 1)
+    pag = Paginator(coauthors, 20)
     page = request.GET.get('page')
     try:
         pag_items = pag.page(page)
