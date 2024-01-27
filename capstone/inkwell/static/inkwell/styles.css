@@ -56,6 +56,10 @@
     margin-right: 1rem;
 }
 
+.navbar-collapse .col-4 {
+    width: auto;
+}
+
 .nav-link, .navbar-brand {
     color: var(--text-color);
 }
@@ -539,6 +543,11 @@ body {
 /* well.html ||||||||||||||||||||*/
 .well-col {
     width: auto;
+}
+
+.profileAboutMe {
+    margin-left: 1rem;
+    margin-right: 1rem;
 }
 
 .well-banner {

@@ -26,12 +26,10 @@
                 <form class="form privatizeInkForm disFdirColAliCen" method="post">
                     {% csrf_token %}
                     {% if ink.privateStatus %}
-                        <span>Ink is private</span>
-                        <div id="dataInkID" data-inkid="{{ ink.id }}"></div>
+                        <div id="dataInkID" data-inkid="{{ ink.id }}">{{ink.id}}</div>
                         <button class="btn btn-khaki" id="makeInkPublic" type="submit" onclick="privatizeInk('makePublic')">Make public</button>
                     {% else %}
-                        <span>Ink is public</span>
-                        <div id="dataInkID" data-inkid="{{ ink.id }}"></div>
+                        <div id="dataInkID" data-inkid="{{ ink.id }}">{{ink.id}}</div>
                         <button class="btn btn-khaki" id="makeInkPrivate" type="submit" onclick="privatizeInk('makePrivate')">Make private</button>
                     {% endif %}
                 </form>

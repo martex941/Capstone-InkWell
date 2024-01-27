@@ -112,7 +112,7 @@ def index(request):
 
 def timeline(request, page):
 
-    def serializeInks(posts):
+    def serializeInks(posts, page):
         serialized_inks = [
             {
                 'postMessage': post.message,
@@ -132,7 +132,12 @@ def timeline(request, page):
 
     allPosts = Post.objects.filter(referencedPostInk__privateStatus=False).order_by('-postCreationDate')
     allPostsPag = Paginator(allPosts, 10)
-    allPosts_col = serializeInks(allPostsPag)
+    try:
+        allPosts_col = serializeInks(allPostsPag, page)
+    except PageNotAnInteger:
+        allPosts_col = serializeInks(allPostsPag, 1)
+    except EmptyPage:
+        allPosts_col = serializeInks(allPostsPag, allPostsPag.num_pages)
 
     followedPosts_col = []
     if request.user.is_authenticated:
@@ -140,7 +145,12 @@ def timeline(request, page):
         followedInks = Ink.objects.filter(inkOwner__in=followers, privateStatus=False)
         followedPosts = Post.objects.filter(referencedPostInk__in=followedInks).order_by('-postCreationDate')
         followedPostsPag = Paginator(followedPosts, 10)
-        followedPosts_col = serializeInks(followedPostsPag)
+        try:
+            followedPosts_col = serializeInks(followedPostsPag, page)
+        except PageNotAnInteger:
+            followedPosts_col = serializeInks(followedPostsPag, 1)
+        except EmptyPage:
+            followedPosts_col = serializeInks(followedPostsPag, followedPostsPag.num_pages)
 
     index_columns = {
         'allInks': allPosts_col,
@@ -822,13 +832,13 @@ def privatizeInk(request, inkid, command):
     if command == "makePublic":
         ink.privateStatus = False
         ink.save()
-        return JsonResponse({"message": "Ink has been made private."}, safe=False)
+        return JsonResponse({"message": "Ink has been made public."}, safe=False)
     elif command == "makePrivate":
         ink.privateStatus = True
         ink.save()
         return JsonResponse({"message": "Ink has been made private."}, safe=False)
     else:
-        pass
+        return JsonResponse({"message": "Wrong command."}, safe=False)
 
 @login_required
 def delete_ink(request, inkID):

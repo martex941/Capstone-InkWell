@@ -19,47 +19,56 @@ function timeline() {
         .then(response => response.json())
         .then(data => {
             console.log(data);
-            data[timeline].forEach(element => {
-                const ink_div = document.createElement('div');
-                ink_div.className = 'inkPostDiv';
+            if (Array.isArray(data[timeline])) {
+                data[timeline].forEach(element => {
+                    const ink_div = document.createElement('div');
+                    ink_div.className = 'inkPostDiv';
+    
+                    const statusSpanDiv = document.createElement('div');
+                    statusSpanDiv.className = '';
+    
+                    const statusSpan = document.createElement('span');
+                    statusSpan.innerHTML = `${element.postMessage}`;
+    
+                    statusSpanDiv.append(statusSpan);
+    
+                    for (var i = 0; i < element.tags.length; i++) {
+                        const tagDiv = document.createElement('div');
+                        tagDiv.className = 'tag';
+                        const tagSpan = document.createElement('span');
+                        tagSpan.innerHTML = `${element.tags[i]}`;
+                        tagDiv.append(tagSpan);
+                        statusSpanDiv.append(tagDiv);
+                    }
+                    
+                    ink_div.append(statusSpanDiv);
+                    
+                    const inkLink = document.createElement('a');
+                    inkLink.className = 'inkLink';
+                    inkLink.href = `ink_view/${element.id}`;
+    
+                    const contents = document.createElement('p');
+                    contents.className = 'inkPostDescription';
+                    contents.innerHTML = `${element.description}`;
+    
+                    inkLink.append(contents);
+                    ink_div.append(inkLink);
+    
+                    const date = document.createElement('span');
+                    date.className = 'date';
+                    date.innerHTML = `Created: ${element.creation_date}`;
+                    ink_div.append(date);
+    
+                    document.querySelector("#timeline").append(ink_div);
+                });
+            }
+            else {
+                const emptyPageDiv = document.createElement('div');
+                emptyPageDiv.className = 'emptyPageDiv text-center';
+                emptyPageDiv.innerHTML = "The end.";
 
-                const statusSpanDiv = document.createElement('div');
-                statusSpanDiv.className = '';
-
-                const statusSpan = document.createElement('span');
-                statusSpan.innerHTML = `${element.postMessage}`;
-
-                statusSpanDiv.append(statusSpan);
-
-                for (var i = 0; i < element.tags.length; i++) {
-                    const tagDiv = document.createElement('div');
-                    tagDiv.className = 'tag';
-                    const tagSpan = document.createElement('span');
-                    tagSpan.innerHTML = `${element.tags[i]}`;
-                    tagDiv.append(tagSpan);
-                    statusSpanDiv.append(tagDiv);
-                }
-                
-                ink_div.append(statusSpanDiv);
-                
-                const inkLink = document.createElement('a');
-                inkLink.className = 'inkLink';
-                inkLink.href = `ink_view/${element.id}`;
-
-                const contents = document.createElement('p');
-                contents.className = 'inkPostDescription';
-                contents.innerHTML = `${element.description}`;
-
-                inkLink.append(contents);
-                ink_div.append(inkLink);
-
-                const date = document.createElement('span');
-                date.className = 'date';
-                date.innerHTML = `Created: ${element.creation_date}`;
-                ink_div.append(date);
-
-                document.querySelector("#timeline").append(ink_div);
-            });
+                document.querySelector("#timeline").append(emptyPageDiv);
+            }
         })
 
         // const timelineCol = document.querySelector("#timeline");
@@ -69,13 +78,13 @@ function timeline() {
         //         load(page, timeline);
         //     }
         // };
+        window.onscroll = () => {
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+                page++;
+                load(page, timeline);
+            }
+        };
     }
-    window.onscroll = () => {
-        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-            page++;
-            load(page, "allInks");
-        }
-    };
 
     load(page, "allInks");
 
@@ -83,12 +92,16 @@ function timeline() {
         page = 1;
         document.querySelector("#mainTimelineBtn").style.display = 'none';
         document.querySelector("#followingTimelineBtn").style.display = 'block';
+        // Clear the timeline feed
+        document.querySelector("#timeline").innerHTML = '';
         load(page, "allInks");
     }
     function followingTimelineBtn () {
         page = 1;
         document.querySelector("#mainTimelineBtn").style.display = 'block';
         document.querySelector("#followingTimelineBtn").style.display = 'none';
+        // Clear the timeline feed
+        document.querySelector("#timeline").innerHTML = '';
         load(page, "followedInks");
     }
     document.querySelector("#mainTimelineBtn").addEventListener('click', mainTimelineBtn);
@@ -378,6 +391,9 @@ function privatizeInk(command) {
     .catch(error => {
         console.error(error);
     });
+    setTimeout(() => {
+        location.reload();
+    }, 100);
 }
 
 // Chapter buttons
