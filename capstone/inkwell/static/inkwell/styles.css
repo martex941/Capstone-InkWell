@@ -102,7 +102,6 @@
 
 p, a, h1, h2, h3, h4, h5, span {
     color: var(--text-color);
-    font-family:Arial, Helvetica, sans-serif;
 }
 
 body {
@@ -289,6 +288,7 @@ body {
 
 .chapterEditorDiv {
     margin-top: 1rem;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 .chaptersListEdit {
@@ -339,9 +339,12 @@ body {
 .inkViewContents, .inkEditMainCol, .request-review-text {
     background-color: var(--primary-color);
     border: 1px var(--border-color) solid;
-    font-family: 'Courier New', Courier, monospace;
     padding: 1rem;
     box-shadow: 3px 3px 5px #888888;
+}
+
+.inkViewChapters-style, .inkViewTitle {
+    font-family: 'Courier New', Courier, monospace !important;
 }
 
 .inkViewComments {

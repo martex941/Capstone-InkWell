@@ -137,7 +137,7 @@ def timeline(request, page):
     except PageNotAnInteger:
         allPosts_col = serializeInks(allPostsPag, 1)
     except EmptyPage:
-        allPosts_col = serializeInks(allPostsPag, allPostsPag.num_pages)
+        allPosts_col = "EmptyPage"
 
     followedPosts_col = []
     if request.user.is_authenticated:
@@ -150,7 +150,7 @@ def timeline(request, page):
         except PageNotAnInteger:
             followedPosts_col = serializeInks(followedPostsPag, 1)
         except EmptyPage:
-            followedPosts_col = serializeInks(followedPostsPag, followedPostsPag.num_pages)
+            followedPosts_col = "EmptyPage"
 
     index_columns = {
         'allInks': allPosts_col,

@@ -13,6 +13,7 @@ function timeline() {
 
     // Clear the timeline feed
     document.querySelector("#timeline").innerHTML = '';
+    let infiniteScrollSwitch = true;
     
     function load(page, timeline) {
         fetch(`timeline/${page}`)
@@ -63,6 +64,7 @@ function timeline() {
                 });
             }
             else {
+                infiniteScrollSwitch = false;
                 const emptyPageDiv = document.createElement('div');
                 emptyPageDiv.className = 'emptyPageDiv text-center';
                 emptyPageDiv.innerHTML = "The end.";
@@ -71,19 +73,14 @@ function timeline() {
             }
         })
 
-        // const timelineCol = document.querySelector("#timeline");
-        // timelineCol.onscroll = () => {
-        //     if (timelineCol.clientHeight + timelineCol.scrollTop >= timelineCol.scrollHeight) {
-        //         page++;
-        //         load(page, timeline);
-        //     }
-        // };
         window.onscroll = () => {
             if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-                page++;
-                load(page, timeline);
+                if (infiniteScrollSwitch == true) {
+                    page++;
+                    load(page, timeline);    
+                }
             }
-        };
+        };    
     }
 
     load(page, "allInks");
@@ -373,9 +370,8 @@ function coAuthorRequestHighlight() {
     document.getElementById("whatWasDeleted").innerHTML = deletedHighlight;
 }
 
-function privatizeInk(command) {
+function privatizeInk(inkID, command) {
     const csrftoken = getCsrf('csrftoken');
-    const inkID = document.querySelector("#dataInkID").dataset.inkid;
 
     fetch(`privatizeInk/${inkID}/${command}`, { // Command can be either "makePublic" or "makePrivate"
         method: "POST",
@@ -393,7 +389,7 @@ function privatizeInk(command) {
     });
     setTimeout(() => {
         location.reload();
-    }, 100);
+    }, 1000);
 }
 
 // Chapter buttons

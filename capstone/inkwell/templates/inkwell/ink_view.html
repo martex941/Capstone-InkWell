@@ -96,12 +96,14 @@
                     </div>
                 </div>
                 <hr>
-                {% for chapter in chapters %}
-                <div class="justify-text p-3" id="anchorChapter{{chapter.chapterNumber}}">
-                    <h5 class="text-center chapterTitle">Chapter {{ chapter.chapterNumber}}: {{chapter.chapterTitle}}</h5>
-                    <p>{{chapter.chapterContents.html|safe}}</p>
+                <div class="inkViewChapters-style">
+                    {% for chapter in chapters %}
+                    <div class="justify-text p-3" id="anchorChapter{{chapter.chapterNumber}}">
+                        <h5 class="text-center chapterTitle">Chapter {{ chapter.chapterNumber}}: {{chapter.chapterTitle}}</h5>
+                        <p>{{chapter.chapterContents.html|safe}}</p>
+                    </div>
+                    {% endfor %}    
                 </div>
-                {% endfor %}
             </div>
         </div>
 
