@@ -29,7 +29,7 @@
                 Request: change contents of Chapter {{request.requestedChapter.chapterNumber}}: {{request.requestedChapter.chapterTitle}} in <a href="{% url 'ink_view' inkID=request.requestedChapter.chapterInkOrigin.id %}">{{request.requestedChapter.chapterInkOrigin.title}}</a>
             </span>
             <a href="{% url 'coAuthorRequest' chapterID=request.requestedChapter.id requestID=request.id %}"><button class="btn btn-khaki">View changes</button></a>
-            <span>Creation date: {{request.requestDate}}</span>
+            <span>Date: {{request.requestDate}}</span>
         </div>
     </div>
     {% endfor %}

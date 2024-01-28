@@ -18,10 +18,10 @@ from .models import User, Ink, Notification, Well, Follow, Chapter, Post, Commen
 
 def updateDiscoverAuthors(request):
     users = User.objects.all()
-    popularAuthors = sorted(users, key=lambda user: (user.readers + user.followers) + (user.readers * user.followers), reverse=True)[:1]
-    topAuthors = sorted(users, key=lambda user: (user.letters + user.acceptedCoAuthorRequests) + (user.letters * user.acceptedCoAuthorRequests), reverse=True)[:1]
-    topCoAuthors = sorted(users, key=lambda user: user.acceptedCoAuthorRequests, reverse=True)[:1]
-    discoverAuthors = User.objects.annotate(random_order=Random()).order_by('random_order')[:1]
+    popularAuthors = sorted(users, key=lambda user: (user.readers + user.followers) + (user.readers * user.followers), reverse=True)[:5]
+    topAuthors = sorted(users, key=lambda user: (user.letters + user.acceptedCoAuthorRequests) + (user.letters * user.acceptedCoAuthorRequests), reverse=True)[:5]
+    topCoAuthors = sorted(users, key=lambda user: user.acceptedCoAuthorRequests, reverse=True)[:5]
+    discoverAuthors = User.objects.annotate(random_order=Random()).order_by('random_order')[:10]
     
     try:
         getDiscoverModel = DiscoverAuthors.objects.get(id=1)
@@ -131,7 +131,7 @@ def timeline(request, page):
         return serialized_inks
 
     allPosts = Post.objects.filter(referencedPostInk__privateStatus=False).order_by('-postCreationDate')
-    allPostsPag = Paginator(allPosts, 10)
+    allPostsPag = Paginator(allPosts, 25)
     try:
         allPosts_col = serializeInks(allPostsPag, page)
     except PageNotAnInteger:
@@ -144,7 +144,7 @@ def timeline(request, page):
         followers = User.objects.filter(followee__follower=request.user)
         followedInks = Ink.objects.filter(inkOwner__in=followers, privateStatus=False)
         followedPosts = Post.objects.filter(referencedPostInk__in=followedInks).order_by('-postCreationDate')
-        followedPostsPag = Paginator(followedPosts, 10)
+        followedPostsPag = Paginator(followedPosts, 25)
         try:
             followedPosts_col = serializeInks(followedPostsPag, page)
         except PageNotAnInteger:
