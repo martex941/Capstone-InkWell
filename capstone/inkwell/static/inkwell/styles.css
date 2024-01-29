@@ -52,6 +52,10 @@
     width: auto;
 }
 
+.navbar-nav .nav-link, .mainSearchFunction {
+    margin-top: 5px;
+}
+
 .nav-right {
     margin-right: 1rem;
 }
@@ -402,6 +406,7 @@ body {
     border-left: var(--border-color) 1.5px solid;
     border-right: var(--border-color) 1.5px solid;
     margin: 1rem;
+    margin-bottom: 2.5rem;
     width: 43%;
     height: auto;
     padding: 0;
@@ -469,7 +474,7 @@ body {
 }
 
 .notifications-style {
-    height: 405px;
+    height: 395px;
     overflow-y: auto;
     text-overflow: ellipsis;
 }
@@ -647,4 +652,19 @@ body {
 
 .card-title {
     margin-top:1rem;
+}
+
+.editChapterFormContainer {
+    background-color: var(--primary-color);
+    border: 2px var(--border-color) solid;
+    border-radius: 15px;
+    padding: 2rem;
+}
+
+.emptyPageDiv {
+    font-family: 'Tangerine';
+}
+
+.emptyPageSpan {
+    font-size: 50px;
 }

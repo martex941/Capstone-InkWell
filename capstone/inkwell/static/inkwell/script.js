@@ -67,7 +67,12 @@ function timeline() {
                 infiniteScrollSwitch = false;
                 const emptyPageDiv = document.createElement('div');
                 emptyPageDiv.className = 'emptyPageDiv text-center';
-                emptyPageDiv.innerHTML = "The end.";
+
+                const emptyPageSpan = document.createElement('span');
+                emptyPageSpan.className = 'emptyPageSpan';
+                emptyPageSpan.innerHTML = "The end";
+
+                emptyPageDiv.append(emptyPageSpan);
 
                 document.querySelector("#timeline").append(emptyPageDiv);
             }

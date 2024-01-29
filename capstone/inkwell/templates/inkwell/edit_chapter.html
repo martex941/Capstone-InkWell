@@ -2,11 +2,11 @@
 
 {% block body %}
     <a href="{% url 'edit_ink' inkID=inkID %}"><button class="backToInkView btn btn-khaki">&larr; Back to editing Ink</button></a>
-    <div class="container">
+    <div class="container editChapterFormContainer">
         {% if editingAsCoAuthor %}
             <h5 class="text-center editingAsCoAuthorText">YOU ARE EDITING THIS CHAPTER AS CO-AUTHOR</h5>
         {% endif %}
-        <form class="form" action="{% url 'edit_chapter' chapterID=chapterInfo.id inkID=inkID %}" method="post">
+        <form class="form editChapterForm" action="{% url 'edit_chapter' chapterID=chapterInfo.id inkID=inkID %}" method="post">
             {% csrf_token %}
             {{form.media}}
             <div>
@@ -36,7 +36,7 @@
             <button class="btn btn-danger" id="deleteChapterSwitch" type="button" onclick="deleteChapterSwitch()">Delete Chapter {{ chapterInfo.chapterNumber }}</button>
             <div id="deleteChapterConfirmationDiv" style="display: none;">
                 <h5>Are you sure you want to delete Chapter {{ chapterInfo.chapterNumber }}? This change is irreversible.</h5>
-                <button class="btn btn-success" id="keepChapterBtn" onclick="keepChapter()">KEEP CHAPTER</button>
+                <button class="btn btn-success" type="button" id="keepChapterBtn" onclick="keepChapter()">KEEP CHAPTER</button>
             </div>
         </div>
         {% endif %}
