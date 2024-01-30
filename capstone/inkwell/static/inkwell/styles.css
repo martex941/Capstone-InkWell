@@ -661,6 +661,10 @@ body {
     padding: 2rem;
 }
 
+.editChapterFormContainer button {
+    width: auto;
+}
+
 .emptyPageDiv {
     font-family: 'Tangerine';
 }

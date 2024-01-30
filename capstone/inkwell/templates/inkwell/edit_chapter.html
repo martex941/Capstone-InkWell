@@ -6,14 +6,31 @@
         {% if editingAsCoAuthor %}
             <h5 class="text-center editingAsCoAuthorText">YOU ARE EDITING THIS CHAPTER AS CO-AUTHOR</h5>
         {% endif %}
+        {% if not editingAsCoAuthor %}
+        <div class="row d-flex justify-content-end p-0">
+            <button class="btn btn-danger" id="deleteChapterSwitch" type="button" onclick="deleteChapterSwitch()">Delete Chapter {{ chapterInfo.chapterNumber }}</button>
+            <div class="p-2" id="deleteChapterConfirmationDiv" style="display: none;">
+                <h5>Are you sure you want to delete Chapter {{ chapterInfo.chapterNumber }}? This change is irreversible.</h5>
+                <button class="btn btn-success" type="button" id="keepChapterBtn" onclick="keepChapter()">KEEP CHAPTER</button>
+            </div>
+        </div>
+        {% endif %}
         <form class="form editChapterForm" action="{% url 'edit_chapter' chapterID=chapterInfo.id inkID=inkID %}" method="post">
             {% csrf_token %}
             {{form.media}}
             <div>
                 {% if editingAsCoAuthor %}
-                    <h5>Editing Chapter {{ chapterInfo.chapterNumber }}: {{chapterInfo.chapterTitle}}</h5>
+                    <span class="fw-bold">Editing Chapter {{ chapterInfo.chapterNumber }}: {{chapterInfo.chapterTitle}}</span>
                 {% else %}
-                    <h5>Editing Chapter {{ chapterInfo.chapterNumber }}: {{form.chapterTitle}}</h5>
+                    <span class="fw-bold">Editing Chapter {{ chapterInfo.chapterNumber }}: {{form.chapterTitle}}</span>
+                {% endif %}
+            </div>
+            <div class="row d-flex justify-content-between p-0">
+                {% if editingAsCoAuthor %}
+                    <button class="btn btn-primary" type="submit">Send co-author request</button>
+                {% else %}
+                    <button class="btn btn-primary m-2" type="submit">Save Changes</button>
+                    <button class="btn btn-danger m-2" id="deleteChapterBtn" type="submit" name="deleteChapter" style="display: none;">DELETE</button>
                 {% endif %}
             </div>
             <div>
@@ -22,23 +39,6 @@
                     {{form.requestedContentChange}}
                 {% endif %}
             </div>
-            <div>
-                {% if editingAsCoAuthor %}
-                    <button class="btn btn-primary" type="submit">Send co-author request</button>
-                {% else %}
-                    <button class="btn btn-primary" type="submit">Save Changes</button>
-                    <button class="btn btn-danger" id="deleteChapterBtn" type="submit" name="deleteChapter" style="display: none;">CONFIRM DELETE</button>
-                {% endif %}
-            </div>
         </form>
-        {% if not editingAsCoAuthor %}
-        <div>
-            <button class="btn btn-danger" id="deleteChapterSwitch" type="button" onclick="deleteChapterSwitch()">Delete Chapter {{ chapterInfo.chapterNumber }}</button>
-            <div id="deleteChapterConfirmationDiv" style="display: none;">
-                <h5>Are you sure you want to delete Chapter {{ chapterInfo.chapterNumber }}? This change is irreversible.</h5>
-                <button class="btn btn-success" type="button" id="keepChapterBtn" onclick="keepChapter()">KEEP CHAPTER</button>
-            </div>
-        </div>
-        {% endif %}
     </div>
 {% endblock%}
