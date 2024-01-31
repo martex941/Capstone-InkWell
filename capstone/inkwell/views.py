@@ -313,12 +313,23 @@ def deleteComment(request, commentID):
             time.sleep(1)
             return redirect('ink_view', inkID=ink.id)
 
-def inkCoAuthors(request, inkID):
-    coauthors = Ink.objects.get(id=inkID).coAuthors.all()    
+def inkCoAuthors(request, inkID, searchQuery):
+    if searchQuery == "":
+        coauthors = Ink.objects.get(id=inkID).coAuthors.all()    
+    else:
+        coauthors = Ink.objects.get(id=inkID).coAuthors.filter(username__contains=searchQuery)
+
     return render(request, "inkwell/inkCoAuthors.html", {
         "coauthors": coauthors,
         "inkID": inkID
     })
+
+def searchInkCoAuthors(request, inkID):
+    if request.method == "POST":
+        query = request.POST.get("searchInkCoAuthorsQuery")
+        return redirect('inkCoAuthors', inkID=inkID, searchQuery=query)
+    else:
+        return redirect('inkCoAuthors', inkID=inkID)
 
 @login_required
 def followInk(request, inkID):

@@ -68,8 +68,9 @@
     color: var(--text-color);
 }
 
-.followersList .card {
+.followersList .card, .inkCoAuthorsList .card {
     height: 250px;
+    width: 175px;
 }
 
 .card {
@@ -393,11 +394,6 @@ body {
 /* !!!!!!!!!!!!!! IF FORM ON EDIT_PROFILE ACTS FUNNY THEN ITS BECAUSE OF THE EDIT-PROFILE-FORM CLASS HERE !!!!!!!!!!!!! */
 .edit-profile-form form { 
     margin: 1rem;
-}
-
-/* followers.html ||||||||||||||||||||||||||*/
-.followersList .card {
-    width: 175px;
 }
 
 /* index.html ||||||||||||||||||||||||||*/

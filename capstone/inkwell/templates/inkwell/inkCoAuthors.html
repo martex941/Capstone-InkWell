@@ -4,17 +4,46 @@
 
 <a href="{% url 'ink_view' inkID=inkID %}"><button class="backToInkView btn btn-khaki">&larr; Back to InkWell</button></a>
 <h3>People who are co-authors to {{ user }}'s inks</h3>
-
-<div class="container">
+<div class="disFdirColAliCen">
+    <form class="form disFdirColAliCen" action="{% url 'searchInkCoAuthors' inkID=inkID %}" method="post">
+        {% csrf_token %}
+        <input placeholder="Search..." type="text" class="searchInput-style form-control" name="searchInkCoAuthorsQuery">    
+        <button class="btn btn-khaki mt-2" type="submit">SEARCH</button>
+    </form>
+</div>
+<div class="inkCoAuthorsList row d-flex justify-content-center">
     {% for coauthor in coauthors %}
-        <div class="row co-author-reference">
-            <div class="col">
-                {{ coauthor.username }}
-            </div>
-            <div class="col">
-                <a href="{% url 'well' username=coauthor.username %}"><button class="btn btn-khaki">Go to {{ coauthor.username }}'s InkWell</button></a>
-            </div>
+    <div class="card col-md-4">
+        <div class="card-body disFdirColAliCen">
+            {% if coauthor.profilePicture %}
+                <img class="author-profile-picture" src="/media/{{coauthor.profilePicture}}">
+            {% else %}
+                <img class="author-profile-picture" src="/media/no-profile-picture-icon.jpg">
+            {% endif %}
+            <span class="card-title lead">{{ coauthor.username }}</span>
+            <br>
+            <a href="{% url 'well' username=coauthor.username %}"><button class="btn btn-khaki">Visit InkWell</button></a>
         </div>
+    </div>
     {% endfor %}
+    <div class="pagination d-flex justify-content-center">
+        {% if coauthors.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ coauthors.previous_page_number }}">previous</a>
+        {% endif %}
+
+        {% for page in pages %}
+            {% if page == coauthors.number %}
+            <span class="current">{{ page }}</span>
+            {% else %}
+                <a href="?page={{ page }}">{{ page }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if coauthors.has_next %}
+            <a href="?page={{ coauthors.next_page_number }}">next</a>
+            <a href="?page={{ coauthors.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}
