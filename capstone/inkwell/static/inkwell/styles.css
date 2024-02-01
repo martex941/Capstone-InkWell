@@ -348,9 +348,9 @@ body {
     box-shadow: 3px 3px 5px #888888;
 }
 
-.inkViewChapters-style, .inkViewTitle {
-    /* font-family: 'Courier New', Courier, monospace !important; */
-}
+/* .inkViewChapters-style, .inkViewTitle {
+    font-family: 'Courier New', Courier, monospace !important;
+} */
 
 .inkViewComments {
     margin: 0;
