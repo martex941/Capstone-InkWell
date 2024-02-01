@@ -128,37 +128,3 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-QUILL_CONFIGS = {
-    'default': {
-        'theme': 'snow',
-        'modules': {
-            'syntax': True,
-            'toolbar': [
-                [{'size': []}],
-                ['bold', 'italic', 'underline', 'strike'],
-                [{'color': []}, {'background': []}],
-                [{'script': 'super'}, {'script': 'sub'}],
-                [{'header': '1'}, {'header': '2'}],
-                [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
-                ['direction', {'align': []}],
-                ['image'],
-                ['clean']
-            ],
-        },
-    },
-}
-
-# QUILL_CONFIGS = {
-#     'default': {
-#         'modules': {
-#             'toolbar': [
-#                 ['bold', 'italic', 'underline', 'strike'],
-#                 [{'list': 'ordered'}, {'list': 'bullet'}],
-#                 ['link', ],
-#                 [{'color': []}, {'background': []}],
-#                 ['clean'],
-#             ],
-#         },
-#     },
-# }
