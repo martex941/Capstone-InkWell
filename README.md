@@ -2,7 +2,7 @@
 <sub>by Kamil Wiśniewski</sub>
 
 ## **What is InkWell?**
-InkWell is a website for writers to write and collaborate on their projects. It features a rich text editor using [Django Quill by LeeHanYeong](https://github.com/LeeHanYeong/django-quill-editor). My idea behind it was a basic version of GitHub but for people who write books, short stories or anything similarily related. 
+InkWell is a website for writers to write and collaborate on their projects. It features a rich text editor using [Django Quill by LeeHanYeong](https://github.com/LeeHanYeong/django-quill-editor). The idea behind InkWell was to create a basic version of GitHub but for people who write books, short stories or anything similarily related. 
 
 
 ### **Important packages:**
