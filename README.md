@@ -5,10 +5,10 @@
 InkWell is a website for writers to write and collaborate on their projects. It features a rich text editor using [Django Quill by LeeHanYeong](https://github.com/LeeHanYeong/django-quill-editor). The idea behind InkWell was to create a basic version of GitHub but for people who write books, short stories or anything similarily related. 
 
 
-### **Important packages:**
-- [django-quill-editor](https://pypi.org/project/django-quill-editor/)
-- [Pillow](https://pypi.org/project/Pillow/)
-- [BeautifulSoup](https://pypi.org/project/beautifulsoup4/)
+### **Featuring:**
+- [django-quill-editor](https://pypi.org/project/django-quill-editor/) for text editing.
+- [Pillow](https://pypi.org/project/Pillow/) for profile pictures.
+- [BeautifulSoup](https://pypi.org/project/beautifulsoup4/) for tags.
 
 # **Overview**
 
