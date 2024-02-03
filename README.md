@@ -51,7 +51,36 @@ Writers have a lot of freedom in chosing how their work is going to look. They c
     </div>
 </form>
 ```
-The form which is used for editing content is different for authors and co-authors accordingly, for examply only an author can change the title of a chapter and made immidiate changes to its contents as well as initiate deletion process and go through with it. Restrictions such as these have been applied throughout the project in order to disallow any malicious activity.
+The form which is used for editing content is different for authors and co-authors accordingly, for example only an author can change the title of a chapter and make immidiate changes to its contents as well as initiate deletion process and go through with it. Restrictions such as these have been applied throughout the project in order to disallow any malicious activity.
+
+```python
+if "deleteChapter" in request.POST:
+    subsequentChapters = Chapter.objects.filter(chapterNumber__gt=chapterInfo.chapterNumber)
+    with transaction.atomic():
+        chapterInfo.delete()
+        for chapter in subsequentChapters:
+            chapter.chapterNumber -= 1
+            chapter.save()
+    time.sleep(1)
+    return HttpResponseRedirect(reverse("edit_ink", kwargs={'inkID': inkID}))
+```
+Deletion process also handles changing numbers of any subsequent chapters.
+
+```python
+form = ChapterForm(request.POST)
+if form.is_valid():
+    form = ChapterForm(request.POST, instance=chapterInfo)
+    form.save()
+    if inkInfo.updateStatus == False:
+        inkInfo.updateStatus == True
+    inkInfo.save()
+    time.sleep(1)
+    if inkInfo.privateStatus != True:
+        new_post = Post(message=f'{current_user} updated their ink "{inkInfo.title}"', referencedPostInk=inkInfo)
+        new_post.save()
+    return HttpResponseRedirect(reverse("edit_ink", kwargs={'inkID': inkID}))
+```
+
 
 
 ### 1.3 Editing Inks
@@ -71,6 +100,29 @@ They are credited when you view an ink.
 
 
 ### 2.2 Co-author requests and review
+
+```python
+if editingAsCoAuthor:
+    form = CoAuthorRequestForm(request.POST)
+    if form.is_valid():
+        # Create new co-author request
+        new_coAuthorRequest = CoAuthorRequest(coAuthor=current_user, requestedChapter=chapterInfo)
+        new_coAuthorRequest.save()
+        time.sleep(1)
+
+        # Update the new co-author request using the form
+        form = CoAuthorRequestForm(request.POST, instance=new_coAuthorRequest)
+        form.save()
+        time.sleep(1)
+
+        # Create a notification for the author
+        new_notification = Notification(
+            notifiedUser=inkInfo.inkOwner, 
+            contents=f'New co-author request from {current_user} regarding Chapter {chapterInfo.chapterNumber}: {chapterInfo.chapterTitle} of ink titled "{inkInfo.title}"', 
+            url=f"coAuthorRequest/{chapterInfo.id}/{new_coAuthorRequest.id}")
+        new_notification.save()
+```
+Sending a co-author request creates a notification for the author.
 
 ## **3. Discoverability**
 

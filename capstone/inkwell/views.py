@@ -452,14 +452,14 @@ def edit_chapter(request, chapterID, inkID):
                 print(form.errors)
         else:
             if "deleteChapter" in request.POST:
-                    subsequentChapters = Chapter.objects.filter(chapterNumber__gt=chapterInfo.chapterNumber)
-                    with transaction.atomic():
-                        chapterInfo.delete()
-                        for chapter in subsequentChapters:
-                            chapter.chapterNumber -= 1
-                            chapter.save()
-                    time.sleep(1)
-                    return HttpResponseRedirect(reverse("edit_ink", kwargs={'inkID': inkID}))
+                subsequentChapters = Chapter.objects.filter(chapterNumber__gt=chapterInfo.chapterNumber)
+                with transaction.atomic():
+                    chapterInfo.delete()
+                    for chapter in subsequentChapters:
+                        chapter.chapterNumber -= 1
+                        chapter.save()
+                time.sleep(1)
+                return HttpResponseRedirect(reverse("edit_ink", kwargs={'inkID': inkID}))
             form = ChapterForm(request.POST)
             if form.is_valid():
                 form = ChapterForm(request.POST, instance=chapterInfo)
