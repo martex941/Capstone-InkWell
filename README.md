@@ -82,7 +82,7 @@ Successfully saving changes creates a new Post model which is displayed on the t
 
 ### 1.3 Editing Inks
 Editing an ink allows the author to change its title, description, tags and contents of individual chapters.
-![Image of ink editing screen](/capstone/media/readme/editing-ink.jpg)
+![Image of ink editing screen](/capstone/media/readme/editing-ink.png)
 ```python
 newInkTitle = request.POST.get("title")
 newTags = request.POST.get("tagsData").split(',')
