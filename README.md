@@ -82,7 +82,7 @@ Successfully saving changes creates a new Post model which is displayed on the t
 
 ### 1.3 Editing Inks
 Editing an ink allows the author to change its title, description, tags and contents of individual chapters.
-![Image of ink editing screen](/capstone/media/readme/)
+![Image of ink editing screen](/capstone/media/readme/editing-ink.jpg)
 ```python
 newInkTitle = request.POST.get("title")
 newTags = request.POST.get("tagsData").split(',')
@@ -195,16 +195,24 @@ It also assigns all the tags from the upper container into the tagData input aft
 Authors can also use ink settings page to change the status of their ink to private or public. The page is also where they can delete their inks 
 ![Image of ink deletion prompt screen](/capstone/media/readme/)
 
+### 1.3 Viewing Inks
+Upon viewing an ink the user will see three distinct sections.
+- ink info that features its title, views, author name, link to co-author credit list, tags and ink contents divided into chapters 
+- chapter navigation and buttons for editing and following the ink
+- comment section where users can share their opinions
+
+Firstly, the main ink container is quite straightforward as it just takes information from the server and serves it in a container. 
+![Image of ink viewing container](/capstone/media/readme/)
+Secondly, the chapter navigation is positioned on the left even if the user scrolls down (unless viewing in lower width resolution upon which it stays at the top).
+![Gif showing changing resolution which results in UI shift.](/capstone/media/readme/)
+
 ## **2. Co-Authorship**
 
 ### 2.1 Who are Co-Authors?
-Co-Authors are users who have made at least one positively reviewed change in another author's chapter. 
-They are credited when you view an ink.
-![Image showing ink title, credited author and link to a list of co-authors](/capstone/media/readme/)
+Co-Authors are users who have made at least one positively reviewed change in another author's chapter. There is no distinct co-author model in the database as there is no need for one, there are just ManyToManyFields which link user objects referring to them as co-authors. Co-Authors play an important roll in InkWell, because they can contribute to any public ink. Then, if their contribution is accepted they are credited when anyone views the ink. Anyone can open the co-author list and see who contributed to a given ink. There is also an indicator that shows how many contributions, small or big, a co-author has made.
 ![Image showing a list of co-authors](/capstone/media/readme/)
 
 ### 2.2 Co-author requests and review
-
 ```python
 if editingAsCoAuthor:
     form = CoAuthorRequestForm(request.POST)
@@ -226,10 +234,16 @@ if editingAsCoAuthor:
             url=f"coAuthorRequest/{chapterInfo.id}/{new_coAuthorRequest.id}")
         new_notification.save()
 ```
-Sending a co-author request creates a notification for the author.
+Sending a co-author request creates a notification for the author who then can open the request review screen by clicking on it.
+![Image of co-author request notifications on the main page](/capstone/media/readme/)
+
+On the co-author request review page the author can then see what content was deleted, highlighted by red background, and what was added to their work, highlighted by green background, similarily to github.
+![Image of co-author request review page showing three containers, one with original content, another showing deleted content and the last one which displays added content](/capstone/media/readme/)
 
 ## **3. Discoverability**
 
 ### 3.1 Timeline
+
 ### 3.2 Discover Authors
-### 3.3 Viewing Inks
+
+### 3.3 Search Function

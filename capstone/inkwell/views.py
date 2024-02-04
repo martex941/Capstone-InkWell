@@ -407,9 +407,11 @@ def addNewChapter(request, newChapterNumber, inkId):
     if request.method == "POST":
         newChapterTitle = request.POST.get("newChapterTitle")
         inkOrigin = Ink.objects.get(id=inkId)
+
         new_chapter = Chapter(chapterNumber=newChapterNumber, chapterTitle=newChapterTitle, chapterInkOrigin=inkOrigin)
         new_chapter.save()
         time.sleep(1) # Necessary for the server to catch up making the new chapter model
+
         return HttpResponseRedirect(reverse("edit_chapter", kwargs={'chapterID': new_chapter.id, 'inkID': inkOrigin.id}))
 
 @login_required
