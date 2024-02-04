@@ -52,7 +52,6 @@ Writers have a lot of freedom in chosing how their work is going to look. They c
 </form>
 ```
 The form which is used for editing content is different for authors and co-authors accordingly, for example only an author can change the title of a chapter and make immidiate changes to its contents as well as initiate deletion process and go through with it. Restrictions such as these have been applied throughout the project in order to disallow any malicious activity.
-
 ```python
 if "deleteChapter" in request.POST:
     subsequentChapters = Chapter.objects.filter(chapterNumber__gt=chapterInfo.chapterNumber)
@@ -65,7 +64,6 @@ if "deleteChapter" in request.POST:
     return HttpResponseRedirect(reverse("edit_ink", kwargs={'inkID': inkID}))
 ```
 Deletion process also handles changing numbers of any subsequent chapters.
-
 ```python
 form = ChapterForm(request.POST)
 if form.is_valid():
@@ -80,12 +78,119 @@ if form.is_valid():
         new_post.save()
     return HttpResponseRedirect(reverse("edit_ink", kwargs={'inkID': inkID}))
 ```
-
-
+Successfully saving changes creates a new Post model which is displayed on the timeline, that is of course if the ink status is set to public at the time of the change.
 
 ### 1.3 Editing Inks
 Editing an ink allows the author to change its title, description, tags and contents of individual chapters.
 ![Image of ink editing screen](/capstone/media/readme/)
+```python
+newInkTitle = request.POST.get("title")
+newTags = request.POST.get("tagsData").split(',')
+newTags = [BeautifulSoup(tag, 'html.parser').get_text(strip=True) for tag in newTags]
+newDescription = request.POST.get("descriptionEdit")
+
+if editInk.updateStatus == False:
+    editInk.updateStatus == True
+
+editInk.title = newInkTitle
+editInk.tags.clear()
+if newTags:
+    readyNewTags = Tag.objects.filter(tagName__in=newTags)
+    editInk.tags.add(*readyNewTags)
+editInk.description = newDescription
+editInk.save()
+```
+Changing the title and description is quite straightforward. Changing tags though is quite trickier, this is where BeautifulSoup comes in. It helps us convert the tags from tagsData input in the form into a list of strings which are then used to find appropriate tag objects to assign them to the ink.
+```html
+<div class="tagsEdit-style mt-3" id="tagsEdit">
+<div class="container p-2 pb-0">
+    <div class="tagContainer" id="chosenTags">
+        <h5>Tags:</h5>
+        {% for tag in editInk.tags.all %}
+            <div class="draggable tag" id="tag">
+                {{ tag.tagName }}
+            </div>
+        {% endfor%}
+    </div>
+</div>
+<hr>
+<div class="container tagContainer pb-2" id="availableTags">
+    {% for tag in tags %}
+        {% if tag not in editInk.tags.all %}
+            <div class="draggable tag pd-1" id="tagEdit">
+                <span id="{{ tag.tagName }}">{{ tag.tagName }}</span>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+</div>
+<input type="hidden" name="tagsData" id="tagDataListField" value="">
+```
+The UI is designed in the form of two containers. Upper one that constitutes of assigned tags and tags ready to be assigned, and lower which contains all tags that are not assigned yet and can be either dragged or clicked to be moved into the upper container. All of it is possible thanks to the updateTags JavaScript function.
+```javascript
+$(document).ready(function() {
+    $(".draggable").draggable({
+        revert: "invalid",
+        helper: "original",
+        snap: ".tagContainer",
+        snapMode: "inner",
+        snapTolerance: 20
+    });
+
+    $(".tagContainer").droppable({
+        accept: ".draggable",
+        drop: function(event, ui) {
+            handleDrop(ui.helper, $(this));
+        }
+    });
+
+    $(".draggable").on("click", function() {
+        var draggable = $(this);
+        var currentContainer = draggable.parent();
+
+        var targetContainer = currentContainer.attr("id") === "chosenTags" ? $("#availableTags") : $("#chosenTags");
+
+        handleDrop(draggable, targetContainer);
+    });
+
+    function handleDrop(draggable, targetContainer) {
+        var position = draggable.position();
+        var containerPosition = targetContainer.offset();
+
+        var left = position.left - containerPosition.left;
+        var top = position.top - containerPosition.top;
+
+        draggable.css({
+            left: left,
+            top: top
+        });
+
+        targetContainer.append(draggable);
+
+        draggable.css({
+            left: 0,
+            top: 0
+        });
+    }
+});
+```
+It handles positioning of the tags when they are dragged or clicked in both containers interchangeably.
+```javascript
+$(document).ready(function() {
+    function updateHiddenField() {
+        var tagDataList = $("#chosenTags .tag").map(function() {
+            return $(this).text();
+        }).get().join(',');
+
+        $("#tagDataListField").val(tagDataList);
+    }
+
+    $(formID).submit(function() {
+        updateHiddenField();
+    });
+});
+```
+It also assigns all the tags from the upper container into the tagData input after form submission.
 
 Authors can also use ink settings page to change the status of their ink to private or public. The page is also where they can delete their inks 
 ![Image of ink deletion prompt screen](/capstone/media/readme/)
@@ -97,7 +202,6 @@ Co-Authors are users who have made at least one positively reviewed change in an
 They are credited when you view an ink.
 ![Image showing ink title, credited author and link to a list of co-authors](/capstone/media/readme/)
 ![Image showing a list of co-authors](/capstone/media/readme/)
-
 
 ### 2.2 Co-author requests and review
 
