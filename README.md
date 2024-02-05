@@ -83,6 +83,8 @@ Successfully saving changes creates a new Post model which is displayed on the t
 ### 1.3 Editing Inks
 Editing an ink allows the author to change its title, description, tags and contents of individual chapters.
 ![Image of ink editing screen](/capstone/media/readme/editing-ink.png)
+
+Changing the title and description is quite straightforward. Changing tags is quite trickier, this is where BeautifulSoup comes in. It helps us convert the tags from tagsData input in the form into a list of strings which are then used to find appropriate tag objects to assign them to the ink.
 ```python
 newInkTitle = request.POST.get("title")
 newTags = request.POST.get("tagsData").split(',')
@@ -100,7 +102,8 @@ if newTags:
 editInk.description = newDescription
 editInk.save()
 ```
-Changing the title and description is quite straightforward. Changing tags though is quite trickier, this is where BeautifulSoup comes in. It helps us convert the tags from tagsData input in the form into a list of strings which are then used to find appropriate tag objects to assign them to the ink.
+
+The UI is designed in the form of two containers. Upper one that constitutes of assigned tags and tags ready to be assigned, and lower which contains all tags that are not assigned yet and can be either dragged or clicked to be moved into the upper container. All of it is possible thanks to the updateTags JavaScript function.
 ```html
 <div class="tagsEdit-style mt-3" id="tagsEdit">
 <div class="container p-2 pb-0">
@@ -126,7 +129,8 @@ Changing the title and description is quite straightforward. Changing tags thoug
 </div>
 <input type="hidden" name="tagsData" id="tagDataListField" value="">
 ```
-The UI is designed in the form of two containers. Upper one that constitutes of assigned tags and tags ready to be assigned, and lower which contains all tags that are not assigned yet and can be either dragged or clicked to be moved into the upper container. All of it is possible thanks to the updateTags JavaScript function.
+
+The function handles positioning of the tags when they are dragged or clicked in both containers interchangeably.
 ```javascript
 $(document).ready(function() {
     $(".draggable").draggable({
@@ -174,7 +178,7 @@ $(document).ready(function() {
     }
 });
 ```
-It handles positioning of the tags when they are dragged or clicked in both containers interchangeably.
+It also assigns all the tags from the upper container into the tagData input after form submission.
 ```javascript
 $(document).ready(function() {
     function updateHiddenField() {
@@ -190,7 +194,6 @@ $(document).ready(function() {
     });
 });
 ```
-It also assigns all the tags from the upper container into the tagData input after form submission.
 
 Authors can also use ink settings page to change the status of their ink to private or public. The page is also where they can delete their inks 
 ![Image of ink deletion prompt screen](/capstone/media/readme/)
@@ -238,12 +241,101 @@ Sending a co-author request creates a notification for the author who then can o
 ![Image of co-author request notifications on the main page](/capstone/media/readme/)
 
 On the co-author request review page the author can then see what content was deleted, highlighted by red background, and what was added to their work, highlighted by green background, similarily to github.
+```javascript
+function coAuthorRequestHighlight() {
+    var originalText = document.getElementById("originalText").innerText;
+    var modifiedText = document.getElementById("modifiedText").innerText;
+    var deletedText = document.getElementById("whatWasDeleted").innerText;
+
+    var result = "";
+    
+    for (var i = 0; i < modifiedText.length; i++) {
+        if (modifiedText[i] !== originalText[i]) {
+            result += '<span class="added">' + modifiedText[i] + '</span>';
+        }
+        else {
+            result += modifiedText[i];
+        }
+    }
+    document.getElementById("modifiedText").innerHTML = result;
+
+    var deletedHighlight = "";
+    for (var i = 0; i < deletedText.length; i++) {
+        if (deletedText[i] !== modifiedText[i]) {
+            deletedHighlight += '<span class="deleted">' + deletedText[i] + '</span>';
+        }
+        else {
+            deletedHighlight += deletedText[i];
+        }
+    }
+    document.getElementById("whatWasDeleted").innerHTML = deletedHighlight;
+}
+```
 ![Image of co-author request review page showing three containers, one with original content, another showing deleted content and the last one which displays added content](/capstone/media/readme/)
+
+If the author accepts the request then the change is instantaneous, if they decide to reject it however, then they will have to provide a reason as to why the suggested content change was not adequate for their work.
+![Image showing request rejection screen](/capstone/media/readme/)
 
 ## **3. Discoverability**
 
 ### 3.1 Timeline
+The post timeline which is situated in the middle on the main page of InkWell shows all posts related to all public inks. It has a following filter which shows posts only made by the authors that the current user follows. Depending on the post they can have various information displayed; there are posts which display that an ink has been updated by the author themselves, other ones that show that another author updated it (which is a result of a successful co-author request review) and lastly, posts which just display that an ink has been created (only if the author did not check the "Make Ink Private" checkmark during its creation). Aside from this every post always shows ink tags (if any were added), ink description, original author's name, ink title and creation date.
+![Image showing the main timeline](/capstone/media/readme/)
+
+The timeline also has infinite scroll function that loads the content as the user scrolls down.
+```javascript
+window.onscroll = () => {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        if (infiniteScrollSwitch == true) {
+            page++;
+            load(page, timeline);    
+        }
+    }
+};    
+```
+It also shows a message once there is no more content to load and subsequently stops the infinite scroll function.
+```javascript
+else {
+    infiniteScrollSwitch = false;
+    const emptyPageDiv = document.createElement('div');
+    emptyPageDiv.className = 'emptyPageDiv text-center';
+
+    const emptyPageSpan = document.createElement('span');
+    emptyPageSpan.className = 'emptyPageSpan';
+    emptyPageSpan.innerHTML = "The end";
+
+    emptyPageDiv.append(emptyPageSpan);
+
+    document.querySelector("#timeline").append(emptyPageDiv);
+}
+```
+
 
 ### 3.2 Discover Authors
+Discover authors section is also displayed on the main page and sits on the left side of the screen. It consists of several categories: popular authors, top authors, top co-authors and discover authors. Let's break them down.
+
+Popular authors 
+```python
+popularAuthors = sorted(users, key=lambda user: (user.readers + user.followers) + (user.readers * user.followers), reverse=True)[:5]
+topAuthors = sorted(users, key=lambda user: (user.letters + user.acceptedCoAuthorRequests) + (user.letters * user.acceptedCoAuthorRequests), reverse=True)[:5]
+topCoAuthors = sorted(users, key=lambda user: user.acceptedCoAuthorRequests, reverse=True)[:5]
+discoverAuthors = User.objects.annotate(random_order=Random()).order_by('random_order')[:10]
+```
+
+
+```python
+startDate = datetime(2024, 1, 1)
+
+def index(request):
+    global startDate
+    currentDate = datetime.now()
+    timeDifference = currentDate - startDate
+
+    if timeDifference >= timedelta(days=7):
+        updateDiscoverAuthors(request)
+        
+        startDate = currentDate
+```
+
 
 ### 3.3 Search Function
