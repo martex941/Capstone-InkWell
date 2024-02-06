@@ -2,7 +2,9 @@ from django.contrib.auth.models import AbstractUser
 from django_quill.fields import QuillField
 from django.utils import timezone
 from collections import Counter
+from datetime import datetime
 from django.db import models
+
 
 class User(AbstractUser):
     about = models.CharField(max_length=250, default="")
@@ -64,6 +66,11 @@ class User(AbstractUser):
     def __str__(self):
         return f"{self.username}"
     
+class UpdateAuthorsDate(models.Model):
+    globalDate = models.DateTimeField(default=datetime(2024, 1, 1), editable=True)
+
+    def __str__(self):
+        return f"{self.globalDate}"
 
 class Follow(models.Model):
     follower = models.ForeignKey(User, on_delete=models.CASCADE, related_name="follower", default="")

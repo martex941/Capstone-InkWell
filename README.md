@@ -314,15 +314,12 @@ else {
 ### 3.2 Discover Authors
 Discover authors section is also displayed on the main page and sits on the left side of the screen. It consists of several categories: popular authors, top authors, top co-authors and discover authors. Let's break them down.
 
-Popular authors 
-```python
-popularAuthors = sorted(users, key=lambda user: (user.readers + user.followers) + (user.readers * user.followers), reverse=True)[:5]
-topAuthors = sorted(users, key=lambda user: (user.letters + user.acceptedCoAuthorRequests) + (user.letters * user.acceptedCoAuthorRequests), reverse=True)[:5]
-topCoAuthors = sorted(users, key=lambda user: user.acceptedCoAuthorRequests, reverse=True)[:5]
-discoverAuthors = User.objects.annotate(random_order=Random()).order_by('random_order')[:10]
-```
+1. Popular authors are determined by combining author's readers (summed up amount of views from all inks) and followers. As the most popular authors are the ones that got the highest viewcounts and most followers.
+2. Top authors are the ones who did the most amount of writing that week and had the highest amount of successful co-author requests for their works.
+3. Top co-authors are determined by their amount of accepted co-author requests to the works of others.
+4. Discover authors are 10 randomly selected authors with no conditions other than luck.
 
-
+The discover authors section is set to update every 7 days where the start date is 1st of January 2024. The first time index page is loaded on the 7-day period date, the global date sets itself 7 days ahead.
 ```python
 startDate = datetime(2024, 1, 1)
 
@@ -336,6 +333,5 @@ def index(request):
         
         startDate = currentDate
 ```
-
 
 ### 3.3 Search Function

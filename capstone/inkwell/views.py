@@ -10,11 +10,12 @@ from django.db.models.functions import Random
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from datetime import datetime, timedelta
 from bs4 import BeautifulSoup
+from django.utils import timezone
 import time, json
 
 from .helpers import email_validator
 from .forms import ChapterForm, CoAuthorRequestForm
-from .models import User, Ink, Notification, Well, Follow, Chapter, Post, Comment, CoAuthorRequest, DiscoverAuthors, Tag
+from .models import User, Ink, Notification, Well, Follow, Chapter, Post, Comment, CoAuthorRequest, DiscoverAuthors, Tag, UpdateAuthorsDate
 
 def updateDiscoverAuthors(request):
     users = User.objects.all()
@@ -77,17 +78,21 @@ def mainSearch(request):
             return redirect('index')
         return redirect('mainSearchResults', searchQuery=query)
 
-startDate = datetime(2024, 1, 1)
-
 def index(request):
-    global startDate
-    currentDate = datetime.now()
-    timeDifference = currentDate - startDate
+    startDate = UpdateAuthorsDate.objects.first()
+    if startDate is None:
+        startDate = UpdateAuthorsDate(globalDate=datetime(2024, 1, 1))
+        startDate.save()
 
+    currentDate = timezone.now()
+    timeDifference = currentDate - startDate.globalDate
+    print(startDate.globalDate)
+    print(currentDate)
+    print(timeDifference)
     if timeDifference >= timedelta(days=7):
         updateDiscoverAuthors(request)
-        
-        startDate = currentDate
+        startDate.globalDate = currentDate
+        startDate.save()
 
     disco  = DiscoverAuthors.objects.get(id=1)
 

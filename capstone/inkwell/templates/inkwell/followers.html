@@ -2,7 +2,7 @@
 
 {% block body %}
 
-<a href="{% url 'well' username=followed_user.username %}"><button class="backToInkWell btn btn-khaki">Back to InkWell</button></a>
+<a href="{% url 'well' username=followed_user.username %}"><button class="backToInkWell btn btn-khaki">&larr; Back to InkWell</button></a>
 
 <div class="followersList row d-flex justify-content-center">
     <h3>People who follow {{ followed_user.username }}</h3>
