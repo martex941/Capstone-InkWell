@@ -319,19 +319,20 @@ Discover authors section is also displayed on the main page and sits on the left
 3. Top co-authors are determined by their amount of accepted co-author requests to the works of others.
 4. Discover authors are 10 randomly selected authors with no conditions other than luck.
 
-The discover authors section is set to update every 7 days where the start date is 1st of January 2024. The first time index page is loaded on the 7-day period date, the global date sets itself 7 days ahead.
+The discover authors section is set to update at least every 7 days (if the server is up) where the start date is 1st of January 2024. The first time index page is loaded on the 7-day (or longer) period date, the global date sets itself and is triggered in another 7 days or more.
 ```python
-startDate = datetime(2024, 1, 1)
+startDate = UpdateAuthorsDate.objects.first()
+if startDate is None:
+    startDate = UpdateAuthorsDate(globalDate=datetime(2024, 1, 1))
+    startDate.save()
 
-def index(request):
-    global startDate
-    currentDate = datetime.now()
-    timeDifference = currentDate - startDate
+currentDate = timezone.now()
+timeDifference = currentDate - startDate.globalDate
 
-    if timeDifference >= timedelta(days=7):
-        updateDiscoverAuthors(request)
-        
-        startDate = currentDate
+if timeDifference >= timedelta(days=7):
+    updateDiscoverAuthors(request)
+    startDate.globalDate = currentDate
+    startDate.save()
 ```
 
 ### 3.3 Search Function

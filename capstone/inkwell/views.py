@@ -86,9 +86,7 @@ def index(request):
 
     currentDate = timezone.now()
     timeDifference = currentDate - startDate.globalDate
-    print(startDate.globalDate)
-    print(currentDate)
-    print(timeDifference)
+
     if timeDifference >= timedelta(days=7):
         updateDiscoverAuthors(request)
         startDate.globalDate = currentDate
