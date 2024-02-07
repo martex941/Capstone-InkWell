@@ -24,12 +24,19 @@
                                     <img class="author-profile-picture" src="media/no-profile-picture-icon.jpg">
                                 {% endif %}
                             </div>
-                            <div class="col">
+                            <div class="col disFdirColAliCen">
                                 <a class="authorLink" href="{% url 'well' username=author.username %}"><h5 class="">{{author.username}}</h5></a>
                                 {% if author.followers == 1 %}
                                     <h5 class="lead">{{ author.followers }} follower</h5>
                                 {% else %}
                                     <h5 class="lead">{{ author.followers }} followers</h5>
+                                {% endif %}
+                                {% if author.mostUsedTags %}
+                                    <div class="col">
+                                        {% for tag in author.mostUsedTags %}
+                                            <span class="tag">{{tag}}</span>
+                                        {% endfor %}
+                                    </div>
                                 {% endif %}
                             </div>
                         </div>
@@ -48,12 +55,19 @@
                                     <img class="author-profile-picture" src="media/no-profile-picture-icon.jpg">
                                 {% endif %}
                             </div>
-                            <div class="col">
+                            <div class="col disFdirColAliCen">
                                 <a class="authorLink" href="{% url 'well' username=author.username %}"><h5 class="">{{author.username}}</h5></a>
                                 {% if author.followers == 1 %}
                                     <h5 class="lead">{{ author.followers }} follower</h5>
                                 {% else %}
                                     <h5 class="lead">{{ author.followers }} followers</h5>
+                                {% endif %}
+                                {% if author.mostUsedTags %}
+                                    <div class="col">
+                                        {% for tag in author.mostUsedTags %}
+                                            <span class="tag">{{tag}}</span>
+                                        {% endfor %}
+                                    </div>
                                 {% endif %}
                             </div>
                         </div>
@@ -72,12 +86,19 @@
                                     <img class="author-profile-picture" src="media/no-profile-picture-icon.jpg">
                                 {% endif %}
                             </div>
-                            <div class="col">
+                            <div class="col disFdirColAliCen">
                                 <a class="authorLink" href="{% url 'well' username=author.username %}"><h5 class="">{{author.username}}</h5></a>
                                 {% if author.followers == 1 %}
                                     <h5 class="lead">{{ author.followers }} follower</h5>
                                 {% else %}
                                     <h5 class="lead">{{ author.followers }} followers</h5>
+                                {% endif %}
+                                {% if author.mostUsedTags %}
+                                    <div class="col">
+                                        {% for tag in author.mostUsedTags %}
+                                            <span class="tag">{{tag}}</span>
+                                        {% endfor %}
+                                    </div>
                                 {% endif %}
                             </div>
                         </div>
@@ -96,12 +117,19 @@
                                     <img class="author-profile-picture" src="media/no-profile-picture-icon.jpg">
                                 {% endif %}
                             </div>
-                            <div class="col">
+                            <div class="col disFdirColAliCen">
                                 <a class="authorLink" href="{% url 'well' username=author.username %}"><h5 class="">{{author.username}}</h5></a>
                                 {% if author.followers == 1 %}
                                     <h5 class="lead">{{ author.followers }} follower</h5>
                                 {% else %}
                                     <h5 class="lead">{{ author.followers }} followers</h5>
+                                {% endif %}
+                                {% if author.mostUsedTags %}
+                                    <div class="col">
+                                        {% for tag in author.mostUsedTags %}
+                                            <span class="tag">{{tag}}</span>
+                                        {% endfor %}
+                                    </div>
                                 {% endif %}
                             </div>
                         </div>

@@ -498,6 +498,11 @@ body {
     background-color: var(--primary-color);
 }
 
+.authors-col .disFdirColAliCen {
+    padding-right: 0;
+    padding-left: 24px;
+}
+
 /* .authors-btn-style, .notifications-btn-style {
     display: none;
 } */
