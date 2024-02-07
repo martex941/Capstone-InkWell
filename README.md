@@ -336,3 +336,43 @@ if timeDifference >= timedelta(days=7):
 ```
 
 ### 3.3 Search Function
+The search function operates on every page that displays a lot of data. There are smaller search functions such as searching through author's follower list, co-author list, ink followers or co-author requests. All they do is filter the database using the string input from the search form.
+
+For example: the coauthors view has a "searchQuery" argument which can be used for filtering but does not have to be.
+```python
+def coauthors(request, username, searchQuery):
+```
+In urls.py coauthors view is associated with three paths, first one that is default and has no filtering, second one that can be filtered and the last path which relates to the search function itself.
+```python
+path('well/<str:username>/coauthors', views.coauthors, {'searchQuery':''}, name='coauthors'),
+path('well/<str:username>/coauthors/<str:searchQuery>', views.coauthors, name='coauthors'),
+path('searchCoAuthors/<str:username>', views.searchCoAuthors, name="searchCoAuthors"),
+```
+In the search function view the query is used as an argument when redirecting to the coauthors view page.
+```python
+def searchCoAuthors(request, username):
+    if request.method == "POST":
+        query = request.POST.get("searchCoAuthorsQuery")
+        return redirect('coauthors', username=username, searchQuery=query)
+    else:
+        return redirect('coauthors', username=username)
+```
+
+Although nearly all searches are done the same way, there is one that is distinct, that is the main search. Main search function is located in the navigation bar and can be used to search for authors and inks. It sends the user to a page that displays the search results. It is distinct as it is not associated with any other page that already displays data, such as followers or coauthors view pages that can work without their search functions.
+![Image showing main search results page](/capstone/media/readme/)
+
+Every page that is capable of displaying large amounts of data is also split into multiple pages of data using django's Paginator. The user can navigate through the pages manually with the exception of main timeline and notifications column that have infinite scrolling.
+```python
+pag = Paginator(coauthors, 20)
+page = request.GET.get('page')
+try:
+    pag_items = pag.page(page)
+except PageNotAnInteger:
+    pag_items = pag.page(1)
+except EmptyPage:
+    pag_items = pag.page(pag.num_pages)
+
+pages = range(1, pag.num_pages+1)
+```
+
+## **Final notes**
