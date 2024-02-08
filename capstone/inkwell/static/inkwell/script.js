@@ -6,7 +6,13 @@ function getCsrf(name) {
 
 function timeline() {
 
-    document.querySelector("#mainTimelineBtn").style.display = 'none';
+    mainTimelineBtn = document.querySelector("#mainTimelineBtn");
+    mainTimelineBtnFooter = document.querySelector("#mainTimelineBtnFooter");
+    followingTimelineBtn = document.querySelector("#followingTimelineBtn");
+    followingTimelineBtnFooter = document.querySelector("#followingTimelineBtnFooter");
+
+    mainTimelineBtn.style.display = 'none';
+    mainTimelineBtnFooter.style.display = 'none';
 
     // Declare the page
     let page = 1;
@@ -90,24 +96,87 @@ function timeline() {
 
     load(page, "allInks");
 
-    function mainTimelineBtn () {
+    mainTimelineBtn.addEventListener('click', () => {
         page = 1;
-        document.querySelector("#mainTimelineBtn").style.display = 'none';
-        document.querySelector("#followingTimelineBtn").style.display = 'block';
+        mainTimelineBtn.style.display = 'none';
+        followingTimelineBtn.style.display = 'block';
+        mainTimelineBtnFooter.style.display = 'none';
+        followingTimelineBtnFooter.style.display = 'block';
         // Clear the timeline feed
         document.querySelector("#timeline").innerHTML = '';
         load(page, "allInks");
-    }
-    function followingTimelineBtn () {
+    });
+
+    followingTimelineBtn.addEventListener('click', () => {
         page = 1;
-        document.querySelector("#mainTimelineBtn").style.display = 'block';
-        document.querySelector("#followingTimelineBtn").style.display = 'none';
+        mainTimelineBtn.style.display = 'block';
+        followingTimelineBtn.style.display = 'none';
+        mainTimelineBtnFooter.style.display = 'block';
+        followingTimelineBtnFooter.style.display = 'none';
         // Clear the timeline feed
         document.querySelector("#timeline").innerHTML = '';
         load(page, "followedInks");
-    }
-    document.querySelector("#mainTimelineBtn").addEventListener('click', mainTimelineBtn);
-    document.querySelector("#followingTimelineBtn").addEventListener('click', followingTimelineBtn);
+    });
+
+    mainTimelineBtnFooter.addEventListener('click', () => {
+        page = 1;
+        mainTimelineBtn.style.display = 'none';
+        followingTimelineBtn.style.display = 'block';
+        mainTimelineBtnFooter.style.display = 'none';
+        followingTimelineBtnFooter.style.display = 'block';
+        // Clear the timeline feed
+        document.querySelector("#timeline").innerHTML = '';
+        load(page, "allInks");
+    });
+
+    followingTimelineBtnFooter.addEventListener('click', () => {
+        page = 1;
+        mainTimelineBtnFooter.style.display = 'block';
+        followingTimelineBtnFooter.style.display = 'none';
+        mainTimelineBtn.style.display = 'block';
+        followingTimelineBtn.style.display = 'none';
+        // Clear the timeline feed
+        document.querySelector("#timeline").innerHTML = '';
+        load(page, "followedInks");
+    });
+
+    // function mainTimelineBtn () {
+    //     page = 1;
+    //     document.querySelector("#mainTimelineBtn").style.display = 'none';
+    //     document.querySelector("#followingTimelineBtn").style.display = 'block';
+    //     // Clear the timeline feed
+    //     document.querySelector("#timeline").innerHTML = '';
+    //     load(page, "allInks");
+    // }
+    // function followingTimelineBtn () {
+    //     page = 1;
+    //     document.querySelector("#mainTimelineBtn").style.display = 'block';
+    //     document.querySelector("#followingTimelineBtn").style.display = 'none';
+    //     // Clear the timeline feed
+    //     document.querySelector("#timeline").innerHTML = '';
+    //     load(page, "followedInks");
+    // }
+    // function mainTimelineBtnFooter () {
+    //     page = 1;
+    //     document.querySelector("#mainTimelineBtnFooter").style.display = 'none';
+    //     document.querySelector("#followingTimelineBtnFooter").style.display = 'block';
+    //     // Clear the timeline feed
+    //     document.querySelector("#timeline").innerHTML = '';
+    //     load(page, "allInks");
+    // }
+    // function followingTimelineBtnFooter () {
+    //     page = 1;
+    //     document.querySelector("#mainTimelineBtnFooter").style.display = 'block';
+    //     document.querySelector("#followingTimelineBtnFooter").style.display = 'none';
+    //     // Clear the timeline feed
+    //     document.querySelector("#timeline").innerHTML = '';
+    //     load(page, "followedInks");
+    // }
+    // document.querySelector("#mainTimelineBtn").addEventListener('click', mainTimelineBtn);
+    // document.querySelector("#followingTimelineBtn").addEventListener('click', followingTimelineBtn);
+    // document.querySelector("#mainTimelineBtnFooter").addEventListener('click', mainTimelineBtnFooter);
+    // document.querySelector("#followingTimelineBtnFooter").addEventListener('click', followingTimelineBtnFooter);
+
 }
 
 function notifications() {
