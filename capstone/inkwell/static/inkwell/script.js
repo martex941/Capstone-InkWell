@@ -272,20 +272,6 @@ function followInk(command) {
     }, 50);
 }
 
-// Changes the follow/unfollow button
-// function following_switch() {
-//     const following_check = document.querySelector("#following-check").dataset.following;
-//     console.log(following_check);
-//     if (following_check === "True") {
-//         document.querySelector("#followBtn").style.display = 'none';
-//         document.querySelector("#unfollowBtn").style.display = 'block';
-//     }
-//     else if (following_check === "False") {
-//         document.querySelector("#followBtn").style.display = 'block';
-//         document.querySelector("#unfollowBtn").style.display = 'none';
-//     }
-// }
-
 // Displaying messages, connected with checkAvailability function
 function displayMessage(messageDivID, message, color) {
     const messageDiv = document.getElementById(`${messageDivID}`);

@@ -195,7 +195,8 @@ def newInk(request):
 
         if title == "" or description == "":
             return render(request, "inkwell/newInk.html", {
-                "messages": ["All fields must be filled."]
+                "messages": ["All fields must be filled."],
+                "title": "New Ink"
             })
 
         current_user = User.objects.get(username=request.user)
@@ -302,7 +303,8 @@ def ink_view(request, inkID):
         "chapters": chapters,
         "following_check": following_check,
         "viewingAsAuthor": viewingAsAuthor,
-        "comments": comments
+        "comments": comments,
+        "title": viewedInk.title
     })
 
 @login_required
@@ -402,7 +404,7 @@ def edit_ink(request, inkID):
         "chapters": chapters,
         "newChapterNum": (lastChapter + 1),
         "editingAsCoAuthor": editingAsCoAuthor,
-        "title": "Editing Ink"
+        "title": f"Editing {editInk.title}"
     })
 
 @login_required
@@ -483,7 +485,7 @@ def edit_chapter(request, chapterID, inkID):
         "inkID": inkID,
         "form": form,
         "editingAsCoAuthor": editingAsCoAuthor,
-        "title": "Editing chapter"
+        "title": f"Editing {inkInfo.title}"
     })
 
 @login_required
@@ -565,7 +567,7 @@ def coAuthorRequest(request, chapterID, requestID):
                 return render(request, "inkwell/coAuthorRequest.html", {
                     "originalChapter": originalChapter,
                     "newChapterContent": relatedRequest,
-                    "title": "Request review",
+                    "title": "Co-Author Request Review",
                     "message": "Please provide a reason for request denial."
                 })
             relatedRequest.declinedMessage = declineReason
@@ -583,7 +585,7 @@ def coAuthorRequest(request, chapterID, requestID):
     return render(request, "inkwell/coAuthorRequest.html", {
         "originalChapter": originalChapter,
         "newChapterContent": relatedRequest,
-        "title": "Request review"
+        "title": "Co-Author Request Review"
     })
 
 def well(request, username):
@@ -677,7 +679,8 @@ def followers(request, username, searchQuery):
     return render(request, "inkwell/followers.html", {
         "followers": pag_items,
         "pages": pages,
-        "followed_user": user
+        "followed_user": user,
+        "title": f"{user.username}'s Followers"
     })
 
 def searchFollowers(request, username):
@@ -710,7 +713,8 @@ def coauthors(request, username, searchQuery):
     return render(request, "inkwell/coauthors.html", {
         "coauthors": pag_items,
         "pages": pages,
-        "user": user
+        "user": user,
+        "title": f"{user.username}'s Co-Authors"
     })
 
 def searchCoAuthors(request, username):
@@ -722,7 +726,9 @@ def searchCoAuthors(request, username):
 
 @login_required
 def settings(request):
-    return render(request, "inkwell/settings.html")
+    return render(request, "inkwell/settings.html", {
+        "title": "Settings"
+    })
 
 @login_required
 def password_change(request):
@@ -738,19 +744,22 @@ def password_change(request):
             # Check if the old password matches the user's current password
             if not user.check_password(old_password):
                 return render(request, "inkwell/password_change.html", {
-                    "message": "Incorrect old password."
+                    "message": "Incorrect old password.",
+                    "title": "Password Change"
                 })
             
             # Check if the new password is valid
             if len(new_password) < 8:
                 return render(request, "inkwell/password_change.html", {
-                    "message": "New password must be at least 8 characters long."
+                    "message": "New password must be at least 8 characters long.",
+                    "title": "Password Change"
                 })
             
             # Check if the new passwords match
             if new_password != new_password_confirm:
                 return render(request, "inkwell/password_change.html", {
-                    "message": "Passwords must match."
+                    "message": "Passwords must match.",
+                    "title": "Password Change"
                 })
 
             # Update the user's password
@@ -761,10 +770,13 @@ def password_change(request):
             update_session_auth_hash(request, user)
             
             return render(request, "inkwell/password_change.html", {
-                "message": "Password changed successfully."
+                "message": "Password changed successfully.",
+                "title": "Password Change"
             })
         
-    return render(request, "inkwell/password_change.html")
+    return render(request, "inkwell/password_change.html", {
+        "title": "Password Change"
+    })
 
 @login_required
 def username_change(request):
@@ -774,15 +786,18 @@ def username_change(request):
         user = request.user
         if new_username.strip().lower() == old_username.strip().lower():
             return render(request, "inkwell/username_change.html", {
-                "message": "New username must be different than the old username."
+                "message": "New username must be different than the old username.",
+                "title": "Username Change"
             })
         elif len(new_username) < 5:
             return render(request, "inkwell/username_change.html", {
-                "message": "New username must be at least 5 characters long."
+                "message": "New username must be at least 5 characters long.",
+                "title": "Username Change"
             })
         elif User.objects.filter(username=new_username).exclude(pk=user.pk).exists():
             return render(request, "inkwell/username_change.html", {
-                "message": "Username is already taken."
+                "message": "Username is already taken.",
+                "title": "Username Change"
             })
         else:
             current_user = User.objects.get(pk=user.pk)
@@ -791,7 +806,9 @@ def username_change(request):
             time.sleep(1)
             return redirect('username_change')
         
-    return render(request, "inkwell/username_change.html")
+    return render(request, "inkwell/username_change.html", {
+        "title": "Username Change"
+    })
 
 @login_required
 def edit_profile(request):
@@ -816,7 +833,8 @@ def edit_profile(request):
 
     return render(request, "inkwell/edit_profile.html", {
         "profile_picture": profilePic,
-        "description": description
+        "description": description,
+        "title": "Editing Profile"
     })
 
 @login_required
@@ -869,13 +887,15 @@ def delete_ink(request, inkID):
             return render(request, "inkwell/delete_ink.html", {
                 "selectedInk": selectedInk,
                 "inkID": inkID,
-                "message": "Invalid title."
+                "message": "Invalid title.",
+                "title": f"Deleting {selectedInk.title}"
             })
 
 
     return render(request, "inkwell/delete_ink.html", {
         "selectedInk": selectedInk,
-        "inkID": inkID
+        "inkID": inkID,
+        "title": f"Deleting {selectedInk.title}"
     })
 
 def login_view(request):
@@ -891,10 +911,13 @@ def login_view(request):
             return HttpResponseRedirect(reverse("index"))
         else:
             return render(request, "inkwell/login.html", {
-                "message": "Invalid username and/or password."
+                "message": "Invalid username and/or password.",
+                "title": "Login"
             })
 
-    return render(request, 'inkwell/login.html')
+    return render(request, 'inkwell/login.html', {
+        "title": "Login"
+    })
 
 @login_required
 def logout_view(request):
@@ -913,26 +936,31 @@ def register(request):
         # Check various conditions 
         if len(username) < 5:
             return render(request, "inkwell/register.html", {
-                "message": "Username must be at least 5 characters long"
+                "message": "Username must be at least 5 characters long",
+                "title": "Register"
             })
         
         if email_validator(email) == False:
             return render(request, "inkwell/register.html", {
-                "message": "Email is invalid"
+                "message": "Email is invalid",
+                "title": "Register"
             })
 
         if len(password) < 8:
             return render(request, "inkwell/register.html", {
-                "message": "Password must be at least 8 characters long"
+                "message": "Password must be at least 8 characters long",
+                "title": "Register"
             })
         elif password != confirmedPassword:
             return render(request, "inkwell/register.html", {
-                "message": "Passwords must match"
+                "message": "Passwords must match",
+                "title": "Register"
             })
 
         if username == "" or email == "" or password == "" or confirmedPassword == "":
             return render(request, "inkwell/register.html", {
-                "message": "All fields must be filled in order to register"
+                "message": "All fields must be filled in order to register",
+                "title": "Register"
             })
         
         # Attempt to create new user
@@ -946,7 +974,10 @@ def register(request):
             return HttpResponseRedirect(reverse("edit_profile"))
         except IntegrityError:
             return render(request, "network/register.html", {
-                "message": "Username already taken."
+                "message": "Username already taken.",
+                "title": "Register"
             })
 
-    return render(request, 'inkwell/register.html')
+    return render(request, 'inkwell/register.html', {
+        "title": "Register"
+    })

@@ -1,6 +1,5 @@
 :root {
     /* BLACK AND GREEN SHADES */
-    --black: #020202ff;
     --dark-green: #0d2818ff;
     --pakistan-green: #04471cff;
     --sea-green: #058c42ff;
@@ -12,23 +11,21 @@
     --platinum: #e6e8e6ff;
     --timberwolf: #ced0ceff;
     --eerie-black: #191919ff;
-
     --gunmetal: #223843ff;
-    --antiflash-white: #eff1f3ff;
     --timberwolf: #dbd3d8ff;
     --desert-sand: #d8b4a0ff;
     --burnt-sienna: #d77a61ff;
-
     --baby-powder: #fdfffcff;
     --lapis-lazuli: #235789ff;
     --fire-engine-red: #c1292eff;
     --school-bus-yellow: #f1d302ff;
     --raisin-black: #161925ff;
 
+
     --khaki: #b7ad99ff;
-    --folly: #ff4365ff;
+    --antiflash-white: #eff1f3ff;
+    --black: #020202ff;
     --black: #030301ff;
-    --turquoise: #00d9c0ff;
     --ivory: #fffff3ff;
 
     --primary-color: var(--antiflash-white);
@@ -165,7 +162,7 @@ body {
 }
 
 @media (max-width: 943px) {
-    /* ink_view.html ||||||||||||||||||||||||||*/
+    /* ink_view.html */
     .chapterListCol {
         display: none;
     }
@@ -182,7 +179,7 @@ body {
         width: 100%;
     }
 
-    /* edit_ink.html \\\\\\\\\\\\\\\\\\\\\\\\\\\ */
+    /* edit_ink.html */
     .inkEditContainer .col-8 {
         width: auto;
     }
@@ -213,7 +210,7 @@ body {
 }
 
 @media (max-width: 642px){
-    /* ink_view.html ||||||||||||||||||||||||||*/
+    /* ink_view.html */
     .inkTitleCard {
         display: flex;
         justify-content: center;
@@ -227,7 +224,7 @@ body {
 }
 
 @media (max-width: 530px) {
-    /* well.html \\\\\\\\\\\\\\\\\\\\ */
+    /* well.html */
     .well-banner, .well {
         width: 95vw;
     }
@@ -237,7 +234,7 @@ body {
 }
 
 @media (min-width: 531px) {
-    /* well.html \\\\\\\\\\\\\\\\\\\\ */
+    /* well.html */
     .well-banner, .well {
         width: 530px;
     }
@@ -246,13 +243,13 @@ body {
     }
 }
 
-/* coauthors.html ||||||||||||||||||||||||||*/
+/* coauthors.html */
 .coauthorsList .card {
     height: 260px;
     width: 200px;
 }
 
-/* edit_ink.html ||||||||||||||||||||||||||*/
+/* edit_ink.html */
 .editingAsCoAuthorText {
     color: rgb(207, 24, 24);
 }
@@ -296,7 +293,6 @@ body {
 
 .chapterEditorDiv {
     margin-top: 1rem;
-    /* font-family: 'Courier New', Courier, monospace; */
 }
 
 .chaptersListEdit {
@@ -323,7 +319,7 @@ body {
     resize: vertical; 
 }
 
-/* ink_view.html ||||||||||||||||||||||||||*/
+/* ink_view.html */
 .chapterListCol {
     width: 19rem;
 }
@@ -351,10 +347,6 @@ body {
     box-shadow: 3px 3px 5px #888888;
 }
 
-/* .inkViewChapters-style, .inkViewTitle {
-    font-family: 'Courier New', Courier, monospace !important;
-} */
-
 .inkViewComments {
     margin: 0;
 }
@@ -375,7 +367,7 @@ body {
     resize: vertical; 
 }
 
-/* edit_profile.html ||||||||||||||||||||||||||*/
+/* edit_profile.html */
 .edit-profile-container {
     padding: 1rem;
 }
@@ -394,12 +386,11 @@ body {
     object-fit: cover;
 }
 
-/* !!!!!!!!!!!!!! IF FORM ON EDIT_PROFILE ACTS FUNNY THEN ITS BECAUSE OF THE EDIT-PROFILE-FORM CLASS HERE !!!!!!!!!!!!! */
 .edit-profile-form form { 
     margin: 1rem;
 }
 
-/* index.html ||||||||||||||||||||||||||*/
+/* index.html */
 .indexTimeline {
     background-color: var(--primary-color);
     border-left: var(--border-color) 1.5px solid;
@@ -471,8 +462,6 @@ body {
 .notifications-col-style {
     height: 450px;
     width: 300px;
-    /* overflow-y: auto;
-    text-overflow: ellipsis; */
     border: var(--border-color) 1px solid;
     border-radius: 5%;
     margin: 1rem;
@@ -516,23 +505,18 @@ body {
     padding-left: 24px;
 }
 
-/* .authors-btn-style, .notifications-btn-style {
-    display: none;
-} */
-
-/* ink_settings.html ||||||||||||||||||||||*/
-
+/* ink_settings.html */
 .privatizeInkForm {
     margin: 1rem;
 }
 
-/* login.html and register.html |||||||||||||||||||||*/
+/* login.html and register.html */
 .login-container.container, .register-container.container {
     border: none;
     width: 25%;
 }
 
-/* settings.html |||||||||||||||||||||||||| */
+/* settings.html */
 .settings-buttons {
     margin-top: 1rem;
 }
@@ -546,7 +530,7 @@ body {
     width: 235px;
 }
 
-/* newInk.html ||||||||||||||||||||*/
+/* newInk.html */
 .newInk-description-container .description {
     width: 100%;
 }
@@ -583,7 +567,7 @@ body {
     border: 1.5px var(--border-color) solid;
 }
 
-/* well.html ||||||||||||||||||||*/
+/* well.html */
 .well-col {
     width: auto;
 }
@@ -630,7 +614,7 @@ body {
     width: 0px;
 }
 
-/* coAuthorRequest.html ||||||||||||||||||||| */
+/* coAuthorRequest.html */
 .request-review-text {
     border: var(--border-color) 1px solid;
     margin: 1rem;
@@ -649,7 +633,7 @@ body {
     background-color: #ffaaaa;
 }
 
-/* coAuthorRequestsList.html \\\\\\\\\\\\\ */
+/* coAuthorRequestsList.html */
 .card {
     width: 316px;
     margin: 1rem;
