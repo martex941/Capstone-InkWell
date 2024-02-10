@@ -33,7 +33,6 @@ Inks are not divided by pages like typical pieces of writing, they are divided b
 InkWell utilizes [Django Quill](https://github.com/LeeHanYeong/django-quill-editor) to let writers edit chapters in their inks. Writers have a lot of freedom in chosing how their work is going to look. They can add images, change fonts, colors, background colors and even embed videos.
 ![Image of Django Quill editor while editing a chapter](/capstone/media/readme/)
 
-
 The form which is used for editing content is different for authors and co-authors accordingly, for example only an author can change the title of a chapter and make immidiate changes to its contents as well as initiate deletion process and go through with it. Restrictions such as these have been applied throughout the project in order to not allow any malicious activity.
 ```html
 <form class="form editChapterForm" action="{% url 'edit_chapter' chapterID=chapterInfo.id inkID=inkID %}" method="post">
@@ -208,8 +207,6 @@ $(document).ready(function() {
 Authors can also use the "Ink Settings" page to change the status of their ink to private or public and delete them.
 ![Image of ink deletion prompt screen](/capstone/media/readme/)
 
-
-
 ### 1.3 Viewing Inks
 Upon viewing an ink the user will see three distinct sections.
 - ink info that features its title, views, author name, link to co-author credit list, tags and ink contents divided into chapters 
@@ -224,7 +221,7 @@ Secondly, the chapter navigation is positioned on the left even if the user scro
 ## **2. Co-Authorship**
 
 ### 2.1 Who are Co-Authors?
-Co-Authors are users who have made at least one positively reviewed change in another author's chapter. There is no distinct co-author model in the database as there is no need for one, there are just ManyToManyFields which link user objects referring to them as co-authors. Co-Authors play an important roll in InkWell, because they can contribute to any public ink. Then, if their contribution is accepted they are credited when anyone views the ink. Anyone can open the co-author list and see who contributed to a given ink. There is also an indicator that shows how many contributions, small or big, a co-author has made.
+Co-Authors are users who have made at least one positively reviewed change in another author's chapter. There is no distinct co-author model in the database as there is no need for one, there are just ManyToManyFields which link user objects referring to them as co-authors. Co-Authors play an important roll in InkWell, because they can contribute to any public ink. Then, if their contribution is accepted they are credited when anyone views the ink. Anyone can open the co-author list and see who contributed to a given ink. There is also an indicator that shows how many contributions a co-author has made.
 ![Image showing a list of co-authors](/capstone/media/readme/)
 
 ### 2.2 Co-author requests and review
@@ -360,7 +357,7 @@ path('well/<str:username>/coauthors', views.coauthors, {'searchQuery':''}, name=
 path('well/<str:username>/coauthors/<str:searchQuery>', views.coauthors, name='coauthors'),
 path('searchCoAuthors/<str:username>', views.searchCoAuthors, name="searchCoAuthors"),
 ```
-In the search function view the query is used as an argument when redirecting to the coauthors view page.
+In the search function view the query is used as an argument when redirecting to the "coauthors" view page.
 ```python
 def searchCoAuthors(request, username):
     if request.method == "POST":
@@ -386,5 +383,3 @@ except EmptyPage:
 
 pages = range(1, pag.num_pages+1)
 ```
-
-## **Final notes**
