@@ -113,6 +113,32 @@ def index(request):
         'title': "InkWell"
     })
 
+def indexNotifications(request):
+    return render(request, "inkwell/notifications.html", {
+        "title": "Notifications"
+    })
+
+def indexDiscoverAuthors(request):
+    disco  = DiscoverAuthors.objects.get(id=1)
+
+    pops = disco.popularAuthors.all()
+    popularAuthors = sorted(pops, key=lambda user: (user.readers + user.followers) + (user.readers * user.followers), reverse=True)[:5]
+
+    tops = disco.topAuthors.all()
+    topAuthors = sorted(tops, key=lambda user: (user.letters + user.acceptedCoAuthorRequests) + (user.letters * user.acceptedCoAuthorRequests), reverse=True)[:5]
+    
+    topCos = disco.topCoAuthors.all()
+    topCoAuthors = sorted(topCos, key=lambda user: user.yourAcceptedCoAuthorRequests, reverse=True)[:5]
+
+    discoverAuthors = disco.discoverAuthors.all().annotate(random_order=Random()).order_by('random_order')[:10]
+    return render(request, "inkwell/discoverAuthors.html", {
+        'popularAuthors': popularAuthors,
+        'topAuthors': topAuthors,
+        'topCoAuthors': topCoAuthors,
+        'discoverAuthors': discoverAuthors,
+        "title": "Discover Authors"
+    })
+
 def timeline(request, page):
 
     def serializeInks(posts, page):

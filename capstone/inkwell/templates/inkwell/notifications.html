@@ -1,0 +1,26 @@
+{% extends "inkwell/layout.html" %}
+
+{% block body %}
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        notifications();
+    })
+</script>
+
+<div class="disFdirColAliCen">
+    <div class="notifications-col-style col-2">
+        <h5 class="text-center mt-2">NOTIFICATIONS</h5>
+        <div class="notifications-style" id="notifications-col">
+            <div class="" id="notifications">
+                <!-- Notifications generate here -->
+            </div>    
+        </div>
+    </div>
+    <div class="row pb-0 pt-0 index-footer">
+        <div class="index-main-col-btns">
+            <a href="{% url 'indexDiscoverAuthors' %}"><button class="authors-btn-style btn btn-khaki" id="authors-btn">Authors</button></a>
+            <a href="{% url 'index' %}"><button class="btn btn-khaki" id="mainTimelineBtnFooter">Main Timeline</button></a>
+        </div>
+    </div>
+</div>
+{% endblock %}

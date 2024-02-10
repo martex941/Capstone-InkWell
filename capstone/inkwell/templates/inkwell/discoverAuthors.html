@@ -1,0 +1,156 @@
+{% extends "inkwell/layout.html" %}indexTime
+
+{% block body %}
+<div class="disFdirColAliCen">
+    <div class="col-2 authors-col">
+        <div class="authors-style">
+            <div class="underline-text popular-authors text-center" id="popularAuthors">
+                <h3>Most popular authors this week</h3>
+                <!-- authors that had the most new followers times the amount of their readers this week -->
+                {% for author in popularAuthors %}
+                    <div class="row">
+                        <div class="col">
+                            {% if author.profilePicture %}
+                                <img class="author-profile-picture" src="media/{{ author.profilePicture }}">
+                            {% else %}
+                                <img class="author-profile-picture" src="media/no-profile-picture-icon.jpg">
+                            {% endif %}
+                            <a class="authorLink" href="{% url 'well' username=author.username %}"><h5 class="">{{author.username}}</h5></a>
+                            {% if author.followers == 1 %}
+                                <h5 class="lead">{{ author.followers }} follower</h5>
+                            {% else %}
+                                <h5 class="lead">{{ author.followers }} followers</h5>
+                            {% endif %}
+                        </div>
+
+                        <div class="col disFdirColAliCen author-info">
+                            {% if author.mostUsedTags %}
+                                <div class="disFdirColAliCen">
+                                    <span>Writes:</span>
+                                    {% for tag in author.mostUsedTags %}
+                                        <span class="tag">{{tag}}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <span>No tags available.</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            
+            <div class="underline-text top-authors text-center" id="topAuthors">
+                <h3>Top authors this week</h3>
+                <!-- multiply amount of letters written in their inks times amount of accepted co-auhtor requests -->
+                {% for author in topAuthors %}
+                    <div class="row">
+                        <div class="col">
+                            {% if author.profilePicture %}
+                                <img class="author-profile-picture" src="media/{{ author.profilePicture }}">
+                            {% else %}
+                                <img class="author-profile-picture" src="media/no-profile-picture-icon.jpg">
+                            {% endif %}
+                            <a class="authorLink" href="{% url 'well' username=author.username %}"><h5 class="">{{author.username}}</h5></a>
+                            {% if author.followers == 1 %}
+                                <h5 class="lead">{{ author.followers }} follower</h5>
+                            {% else %}
+                                <h5 class="lead">{{ author.followers }} followers</h5>
+                            {% endif %}
+                        </div>
+
+                        <div class="col disFdirColAliCen author-info">
+                            {% if author.mostUsedTags %}
+                                <div class="disFdirColAliCen">
+                                    <span>Writes:</span>
+                                    {% for tag in author.mostUsedTags %}
+                                        <span class="tag">{{tag}}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <span>No tags available.</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            
+            <div class="underline-text top-co-authors text-center" id="topCoAuthors">
+                <h3>Top co-authors this week</h3>
+                <!-- co-authors that had the biggest amount of accepted edit requests -->
+                {% for author in topCoAuthors %}
+                    <div class="row">
+                        <div class="col">
+                            {% if author.profilePicture %}
+                                <img class="author-profile-picture" src="media/{{ author.profilePicture }}">
+                            {% else %}
+                                <img class="author-profile-picture" src="media/no-profile-picture-icon.jpg">
+                            {% endif %}
+                            <a class="authorLink" href="{% url 'well' username=author.username %}"><h5 class="">{{author.username}}</h5></a>
+                            {% if author.followers == 1 %}
+                                <h5 class="lead">{{ author.followers }} follower</h5>
+                            {% else %}
+                                <h5 class="lead">{{ author.followers }} followers</h5>
+                            {% endif %}
+                        </div>
+
+                        <div class="col disFdirColAliCen author-info">
+                            {% if author.mostUsedTags %}
+                                <div class="disFdirColAliCen">
+                                    <span>Writes:</span>
+                                    {% for tag in author.mostUsedTags %}
+                                        <span class="tag">{{tag}}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <span>No tags available.</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            
+            <div class="underline-text discover-authors text-center">
+                <h3>Discover</h3>
+                <!-- 20 users are chosen at random -->
+                {% for author in discoverAuthors %}
+                    <div class="row">
+                        <div class="col">
+                            {% if author.profilePicture %}
+                                <img class="author-profile-picture" src="media/{{ author.profilePicture }}">
+                            {% else %}
+                                <img class="author-profile-picture" src="media/no-profile-picture-icon.jpg">
+                            {% endif %}
+                            <a class="authorLink" href="{% url 'well' username=author.username %}"><h5 class="">{{author.username}}</h5></a>
+                            {% if author.followers == 1 %}
+                                <h5 class="lead">{{ author.followers }} follower</h5>
+                            {% else %}
+                                <h5 class="lead">{{ author.followers }} followers</h5>
+                            {% endif %}
+                        </div>
+
+                        <div class="col disFdirColAliCen author-info">
+                            {% if author.mostUsedTags %}
+                                <div class="disFdirColAliCen">
+                                    <span>Writes:</span>
+                                    {% for tag in author.mostUsedTags %}
+                                        <span class="tag">{{tag}}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <span>No tags available.</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="row pb-0 pt-0 index-footer">
+        <div class="index-main-col-btns">
+            <a href="{% url 'index' %}"><button class="btn btn-khaki" id="mainTimelineBtnFooter">Main Timeline</button></a>
+            <a href="{% url 'indexNotifications' %}"><button class="notifications-btn-style btn btn-khaki" id="notifications-btn">Notifications</span></button></a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

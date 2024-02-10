@@ -159,11 +159,11 @@ body {
 
 @media (max-width: 1200px) {
     /* index.html \\\\\\\\\\\\\\\\\\\ */
-    .notifications-style, .authors-style {
+    .indexMainRow .notifications-style, .indexMainRow .authors-style {
         display: none;
     }
 
-    .notifications-col-style, .authors-col {
+    .indexMainRow .notifications-col-style, .indexMainRow .authors-col {
         border: none;
         width: auto;
         display: none;
@@ -415,6 +415,7 @@ body {
     border-right: var(--border-color) 1.5px solid;
     margin: 1rem;
     margin-bottom: 2.5rem;
+    border-radius: 15px;
     width: 39%;
     height: auto;
     padding: 0;
@@ -509,6 +510,10 @@ body {
     object-fit: cover;
 }
 
+.topAuthors .author-info {
+    width: 200px;
+}
+
 .authors-col {
     margin: 1rem;
     width: 315px;
@@ -518,7 +523,7 @@ body {
     background-color: var(--primary-color);
 }
 
-.authors-col .disFdirColAliCen {
+.indexMainRow .authors-col .disFdirColAliCen {
     padding-right: 0;
     padding-left: 24px;
 }

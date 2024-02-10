@@ -9,7 +9,7 @@
     });
 </script>
 
-    <div class="row pt-0">
+    <div class="row pt-0 indexMainRow">
         <div class="col-2 authors-col">
             <div class="authors-style">
                 <div class="underline-text popular-authors text-center" id="popularAuthors">
@@ -17,7 +17,7 @@
                     <!-- authors that had the most new followers times the amount of their readers this week -->
                     {% for author in popularAuthors %}
                         <div class="row">
-                            <div class="col-1">
+                            <div class="col-1 authors-profile-pic-col">
                                 {% if author.profilePicture %}
                                     <img class="author-profile-picture" src="media/{{ author.profilePicture }}">
                                 {% else %}
@@ -162,10 +162,10 @@
 
     <div class="row pb-0 pt-0 index-footer">
         <div class="index-main-col-btns">
-            <button class="authors-btn-style btn btn-khaki" id="authors-btn" onclick="authorsBtn()">Authors</button>
+            <a href="{% url 'indexDiscoverAuthors' %}"><button class="authors-btn-style btn btn-khaki" id="authors-btn">Authors</button></a>
             <button class="btn btn-khaki" id="mainTimelineBtnFooter">Main Timeline</button>
             <button class="btn btn-khaki" id="followingTimelineBtnFooter">Following</button>
-            <button class="notifications-btn-style btn btn-khaki" id="notifications-btn" onclick="notificationsBtn()">Notifications</span></button>
+            <a href="{% url 'indexNotifications' %}"><button class="notifications-btn-style btn btn-khaki" id="notifications-btn">Notifications</span></button></a>
         </div>
     </div>
 

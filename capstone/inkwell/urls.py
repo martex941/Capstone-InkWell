@@ -6,6 +6,8 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('indexNotifications', views.indexNotifications, name='indexNotifications'),
+    path('indexDiscoverAuthors', views.indexDiscoverAuthors, name='indexDiscoverAuthors'),
     path('login', views.login_view, name='login'),
     path('logout', views.logout_view, name='logout'),
     path('register', views.register, name='register'),
@@ -26,11 +28,11 @@ urlpatterns = [
     path('addNewChapter/<int:newChapterNumber>/<int:inkId>', views.addNewChapter, name='addNewChapter'),
     path('edit_chapter/<int:chapterID>/<int:inkID>', views.edit_chapter, name='edit_chapter'),
     path('yourCoAuthorRequests', views.yourCoAuthorRequests, {'searchQuery':''}, name='yourCoAuthorRequests'),
-    path('yourCoAuthorRequests/<str:searchQuery>', views.yourCoAuthorRequests, name="yourCoAuthorRequests"),
-    path('searchYourCoAuthorRequests', views.searchYourCoAuthorRequests, name="searchYourCoAuthorRequests"),
+    path('yourCoAuthorRequests/<str:searchQuery>', views.yourCoAuthorRequests, name='yourCoAuthorRequests'),
+    path('searchYourCoAuthorRequests', views.searchYourCoAuthorRequests, name='searchYourCoAuthorRequests'),
     path('coAuthorRequestsList', views.coAuthorRequestsList, {'searchQuery':''}, name='coAuthorRequestsList'),
-    path('coAuthorRequestsList/<str:searchQuery>', views.coAuthorRequestsList, name="coAuthorRequestsList"),
-    path('searchCoAuthorRequestsList', views.searchCoAuthorRequestsList, name="searchCoAuthorRequestsList"),
+    path('coAuthorRequestsList/<str:searchQuery>', views.coAuthorRequestsList, name='coAuthorRequestsList'),
+    path('searchCoAuthorRequestsList', views.searchCoAuthorRequestsList, name='searchCoAuthorRequestsList'),
     path('coAuthorRequest/<int:chapterID>/<int:requestID>', views.coAuthorRequest, name='coAuthorRequest'),
     path('ink_view/<int:inkID>', views.ink_view, name='ink_view'),
     path('ink_view/<int:inkID>/followInk', views.followInk, name='followInk'),
@@ -45,13 +47,13 @@ urlpatterns = [
     path('searchFollowers/<str:username>', views.searchFollowers, name='searchFollowers'),
     path('well/<str:username>/coauthors', views.coauthors, {'searchQuery':''}, name='coauthors'),
     path('well/<str:username>/coauthors/<str:searchQuery>', views.coauthors, name='coauthors'),
-    path('searchCoAuthors/<str:username>', views.searchCoAuthors, name="searchCoAuthors"),
+    path('searchCoAuthors/<str:username>', views.searchCoAuthors, name='searchCoAuthors'),
     path('timeline/<int:page>', views.timeline, name='timeline'),
     path('notifications/<int:page>', views.notifications, name='notificaitons'),
     path('well/<str:username>/follow', views.follow, name='follow'),
     path('well/<str:username>/unfollow', views.unfollow, name='unfollow'),
-    path('mainSearch', views.mainSearch, name="mainSearch"),
-    path('mainSearchResults/<str:searchQuery>/', views.mainSearchResults, name="mainSearchResults")
+    path('mainSearch', views.mainSearch, name='mainSearch'),
+    path('mainSearchResults/<str:searchQuery>/', views.mainSearchResults, name='mainSearchResults')
 ]
 
 if settings.DEBUG:
