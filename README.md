@@ -2,28 +2,39 @@
 <sub>by Kamil Wiśniewski</sub>
 
 ## **What is InkWell?**
-InkWell is a website for writers to write and collaborate on their projects. It features a rich text editor using [Django Quill by LeeHanYeong](https://github.com/LeeHanYeong/django-quill-editor). The idea behind InkWell was to create a basic version of GitHub but for people who write books, short stories or anything similarily related. 
+InkWell is a website for writers to write and collaborate. It features a rich text editor using [Django Quill by LeeHanYeong](https://github.com/LeeHanYeong/django-quill-editor). The idea behind InkWell was to create a GitHub-like project of but for people who write books, short stories or anything similarily related.
 
+### **Languages used:**
+- HTML
+- CSS
+- JavaScript
+- Python (Django)
 
-### **Featuring:**
-- [django-quill-editor](https://pypi.org/project/django-quill-editor/) for text editing.
-- [Pillow](https://pypi.org/project/Pillow/) for profile pictures.
-- [BeautifulSoup](https://pypi.org/project/beautifulsoup4/) for tags.
+### **Packages used:**
+- [django-quill-editor](https://pypi.org/project/django-quill-editor/)
+- [Pillow](https://pypi.org/project/Pillow/)
+- [BeautifulSoup](https://pypi.org/project/beautifulsoup4/)
+- [jQuery](https://jquery.com/)
+- [Bootstrap](https://getbootstrap.com/)
 
 # **Overview**
+
+## **0. Distinctiveness and Complexity**
+With InkWell I wanted to create a website with connection to books, like my final project for CS50x where I made a website called ReadRoll. It recommended a random book to the user based on a chosen genre. This time I created a website that allows users to write books or any other body of writing, however, I did not think that writing text online was enough of a challenge. Therefore, I added a GitHub-like spin to it. Users can make "pull requests" which are called "Co-Author requests" to suggest content changes for other authors. Authors can then review these changes and see what content was added or deleted (akin to github) and decide to "push" them into production, i.e., accept the Co-Author request, change the content and permanently add that author to their list of Co-Authors. That is the main premise of InkWell, however, there are many more features that make the website great, below is an extensive overview of these features.
 
 ## **1. Writing**
 
 ### 1.1 Inks and Chapters
-Ink is a name for any body of writing on the website, whether it be a short story, a long novel, a public diary or even an essay. The ink model is the biggest of all in this project. It features a three ManyToManyFields one of which links users who are co-authors, another that acts as a follower list and the last one is used for adding tags. It also has two BooleanField's which correspond to its privacy and update statuses. Lastly, it obviously has CharFields for description and title and DateTimeField as well as PositiveBigIntegerField for date and view count.
+Ink is a name for any body of writing on the website, whether it be a short story, a long novel, a public diary or even an essay. The ink model is the biggest of all in this project. It features a three ManyToManyFields one of which links users who are co-authors, another that acts as a follower list and the last one is used for adding tags. It also has two BooleanField's which correspond to its privacy and update statuses. It has CharFields for description and title, DateTimeField as well as PositiveBigIntegerField for date and view count.
 
-Inks are not divided by pages like typical pieces of writing, they are divided by chapters instead. The chapter model is a lot smaller than ink model, however, it is the only model that features a QuillField to store its rich text contents. It also has basic fields that correspond to chapter numbers, titles and ForeignKey to its ink of origin.
+Inks are not divided by pages like typical pieces of writing, they are divided by chapters instead. The chapter model is a lot smaller than the ink model, however, it is the only model that features a QuillField to store its rich text contents. It also has basic fields that correspond to chapter numbers, titles and ForeignKey to its ink of origin.
 
 ### 1.2 Editing Chapters
-InkWell utilizes [Django Quill](https://github.com/LeeHanYeong/django-quill-editor) to let writers edit chapters in their inks.
+InkWell utilizes [Django Quill](https://github.com/LeeHanYeong/django-quill-editor) to let writers edit chapters in their inks. Writers have a lot of freedom in chosing how their work is going to look. They can add images, change fonts, colors, background colors and even embed videos.
 ![Image of Django Quill editor while editing a chapter](/capstone/media/readme/)
-Writers have a lot of freedom in chosing how their work is going to look. They can add images, change fonts, colors, background colors and even embed videos.
 
+
+The form which is used for editing content is different for authors and co-authors accordingly, for example only an author can change the title of a chapter and make immidiate changes to its contents as well as initiate deletion process and go through with it. Restrictions such as these have been applied throughout the project in order to not allow any malicious activity.
 ```html
 <form class="form editChapterForm" action="{% url 'edit_chapter' chapterID=chapterInfo.id inkID=inkID %}" method="post">
     {% csrf_token %}
@@ -51,7 +62,6 @@ Writers have a lot of freedom in chosing how their work is going to look. They c
     </div>
 </form>
 ```
-The form which is used for editing content is different for authors and co-authors accordingly, for example only an author can change the title of a chapter and make immidiate changes to its contents as well as initiate deletion process and go through with it. Restrictions such as these have been applied throughout the project in order to disallow any malicious activity.
 ```python
 if "deleteChapter" in request.POST:
     subsequentChapters = Chapter.objects.filter(chapterNumber__gt=chapterInfo.chapterNumber)
@@ -84,7 +94,7 @@ Successfully saving changes creates a new Post model which is displayed on the t
 Editing an ink allows the author to change its title, description, tags and contents of individual chapters.
 ![Image of ink editing screen](/capstone/media/readme/editing-ink.png)
 
-Changing the title and description is quite straightforward. Changing tags is quite trickier, this is where BeautifulSoup comes in. It helps us convert the tags from tagsData input in the form into a list of strings which are then used to find appropriate tag objects to assign them to the ink.
+Changing the title and description is quite straightforward. Changing tags is quite trickier, this is where [BeautifulSoup](https://pypi.org/project/beautifulsoup4/) comes in. It helps us convert the tags from tagsData input in the form into a list of strings which are then used to find appropriate tag objects to assign them to the ink.
 ```python
 newInkTitle = request.POST.get("title")
 newTags = request.POST.get("tagsData").split(',')
@@ -103,7 +113,7 @@ editInk.description = newDescription
 editInk.save()
 ```
 
-The UI is designed in the form of two containers. Upper one that constitutes of assigned tags and tags ready to be assigned, and lower which contains all tags that are not assigned yet and can be either dragged or clicked to be moved into the upper container. All of it is possible thanks to the updateTags JavaScript function.
+The UI is designed in the form of two containers. Upper one that constitutes of assigned tags and tags ready to be assigned, and lower which contains all tags that are not assigned yet and can be either dragged or clicked to be moved into the upper container.
 ```html
 <div class="tagsEdit-style mt-3" id="tagsEdit">
 <div class="container p-2 pb-0">
@@ -130,7 +140,7 @@ The UI is designed in the form of two containers. Upper one that constitutes of 
 <input type="hidden" name="tagsData" id="tagDataListField" value="">
 ```
 
-The function handles positioning of the tags when they are dragged or clicked in both containers interchangeably.
+All of it is possible thanks to the updateTags JavaScript function that utilizes [jQuery](https://jquery.com/). It handles positioning of the tags when they are dragged or clicked in both containers interchangeably which adds a nice responsive feel to the form.
 ```javascript
 $(document).ready(function() {
     $(".draggable").draggable({
@@ -195,8 +205,10 @@ $(document).ready(function() {
 });
 ```
 
-Authors can also use ink settings page to change the status of their ink to private or public. The page is also where they can delete their inks 
+Authors can also use the "Ink Settings" page to change the status of their ink to private or public and delete them.
 ![Image of ink deletion prompt screen](/capstone/media/readme/)
+
+
 
 ### 1.3 Viewing Inks
 Upon viewing an ink the user will see three distinct sections.
