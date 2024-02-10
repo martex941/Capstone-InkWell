@@ -20,12 +20,12 @@ InkWell is a website for writers to write and collaborate. It features a rich te
 # **Overview**
 
 ## **0. Distinctiveness and Complexity**
-With InkWell I wanted to create a website with connection to books, like my final project for CS50x where I made a website called ReadRoll. It recommended a random book to the user based on a chosen genre. This time I created a website that allows users to write books or any other body of writing, however, I did not think that writing text online was enough of a challenge. Therefore, I added a GitHub-like spin to it. Users can make "pull requests" which are called "Co-Author requests" to suggest content changes for other authors. Authors can then review these changes and see what content was added or deleted (akin to github) and decide to "push" them into production, i.e., accept the Co-Author request, change the content and permanently add that author to their list of Co-Authors. That is the main premise of InkWell, however, there are many more features that make the website great, below is an extensive overview of these features.
+With InkWell I wanted to create a website with connection to books, like my final project for CS50x where I made a website called ReadRoll. It recommended a random book to the user based on a chosen genre. This time I created a website that allows users to write books or any other body of writing, however, I did not think that writing text online was enough of a challenge. Therefore, I added a GitHub-like spin to it. Users can make "pull requests" which are called "Co-Author requests" to suggest content changes for other authors. Authors can then review these changes and see what content was added or deleted (akin to GitHub) and decide to "push" them into production, i.e., accept the Co-Author request, change the content and permanently add that author to their list of Co-Authors. That is the main premise of InkWell, however, there are many more features that make the website great, below is an extensive overview of these features.
 
 ## **1. Writing**
 
 ### 1.1 Inks and Chapters
-Ink is a name for any body of writing on the website, whether it be a short story, a long novel, a public diary or even an essay. The ink model is the biggest of all in this project. It features a three ManyToManyFields one of which links users who are co-authors, another that acts as a follower list and the last one is used for adding tags. It also has two BooleanField's which correspond to its privacy and update statuses. It has CharFields for description and title, DateTimeField as well as PositiveBigIntegerField for date and view count.
+Ink is a name for any body of writing on the website, whether it be a short story, a long novel, a public diary or even an essay. The ink model is the biggest of all in this project. It features a three ManyToManyFields one of which links users who are Co-Authors, another that acts as a follower list and the last one is used for adding tags. It also has two BooleanField's which correspond to its privacy and update statuses. It has CharFields for description and title, DateTimeField as well as PositiveBigIntegerField for date and view count.
 
 Inks are not divided by pages like typical pieces of writing, they are divided by chapters instead. The chapter model is a lot smaller than the ink model, however, it is the only model that features a QuillField to store its rich text contents. It also has basic fields that correspond to chapter numbers, titles and ForeignKey to its ink of origin.
 
@@ -33,7 +33,7 @@ Inks are not divided by pages like typical pieces of writing, they are divided b
 InkWell utilizes [Django Quill](https://github.com/LeeHanYeong/django-quill-editor) to let writers edit chapters in their inks. Writers have a lot of freedom in chosing how their work is going to look. They can add images, change fonts, colors, background colors and even embed videos.
 ![Image of Django Quill editor while editing a chapter](/capstone/media/readme/)
 
-The form which is used for editing content is different for authors and co-authors accordingly, for example only an author can change the title of a chapter and make immidiate changes to its contents as well as initiate deletion process and go through with it. Restrictions such as these have been applied throughout the project in order to not allow any malicious activity.
+The form which is used for editing content is different for authors and Co-Authors accordingly, for example only an author can change the title of a chapter and make immidiate changes to its contents as well as initiate deletion process and go through with it. Restrictions such as these have been applied throughout the project in order to not allow any malicious activity.
 ```html
 <form class="form editChapterForm" action="{% url 'edit_chapter' chapterID=chapterInfo.id inkID=inkID %}" method="post">
     {% csrf_token %}
@@ -47,7 +47,7 @@ The form which is used for editing content is different for authors and co-autho
     </div>
     <div class="row d-flex justify-content-between p-0">
         {% if editingAsCoAuthor %}
-            <button class="btn btn-primary" type="submit">Send co-author request</button>
+            <button class="btn btn-primary" type="submit">Send Co-Author request</button>
         {% else %}
             <button class="btn btn-primary m-2" type="submit">Save Changes</button>
             <button class="btn btn-danger m-2" id="deleteChapterBtn" type="submit" name="deleteChapter" style="display: none;">DELETE</button>
@@ -209,7 +209,7 @@ Authors can also use the "Ink Settings" page to change the status of their ink t
 
 ### 1.3 Viewing Inks
 Upon viewing an ink the user will see three distinct sections.
-- ink info that features its title, views, author name, link to co-author credit list, tags and ink contents divided into chapters 
+- ink info that features its title, views, author name, link to Co-Author credit list, tags and ink contents divided into chapters 
 - chapter navigation and buttons for editing and following the ink
 - comment section where users can share their opinions
 
@@ -221,20 +221,20 @@ Secondly, the chapter navigation is positioned on the left even if the user scro
 ## **2. Co-Authorship**
 
 ### 2.1 Who are Co-Authors?
-Co-Authors are users who have made at least one positively reviewed change in another author's chapter. There is no distinct co-author model in the database as there is no need for one, there are just ManyToManyFields which link user objects referring to them as co-authors. Co-Authors play an important roll in InkWell, because they can contribute to any public ink. Then, if their contribution is accepted they are credited when anyone views the ink. Anyone can open the co-author list and see who contributed to a given ink. There is also an indicator that shows how many contributions a co-author has made.
-![Image showing a list of co-authors](/capstone/media/readme/)
+Co-Authors are users who have made at least one positively reviewed change in another author's chapter. There is no distinct Co-Author model in the database as there is no need for one, there are just ManyToManyFields which link user objects referring to them as Co-Authors. Co-Authors play an important roll in InkWell, because they can contribute to any public ink. Anyone can open the Co-Author list and see who contributed to a given ink.
+![Image showing a list of Co-Authors](/capstone/media/readme/)
 
 ### 2.2 Co-author requests and review
 ```python
 if editingAsCoAuthor:
     form = CoAuthorRequestForm(request.POST)
     if form.is_valid():
-        # Create new co-author request
+        # Create new Co-Author request
         new_coAuthorRequest = CoAuthorRequest(coAuthor=current_user, requestedChapter=chapterInfo)
         new_coAuthorRequest.save()
         time.sleep(1)
 
-        # Update the new co-author request using the form
+        # Update the new Co-Author request using the form
         form = CoAuthorRequestForm(request.POST, instance=new_coAuthorRequest)
         form.save()
         time.sleep(1)
@@ -242,14 +242,14 @@ if editingAsCoAuthor:
         # Create a notification for the author
         new_notification = Notification(
             notifiedUser=inkInfo.inkOwner, 
-            contents=f'New co-author request from {current_user} regarding Chapter {chapterInfo.chapterNumber}: {chapterInfo.chapterTitle} of ink titled "{inkInfo.title}"', 
+            contents=f'New Co-Author request from {current_user} regarding Chapter {chapterInfo.chapterNumber}: {chapterInfo.chapterTitle} of ink titled "{inkInfo.title}"', 
             url=f"coAuthorRequest/{chapterInfo.id}/{new_coAuthorRequest.id}")
         new_notification.save()
 ```
-Sending a co-author request creates a notification for the author who then can open the request review screen by clicking on it.
-![Image of co-author request notifications on the main page](/capstone/media/readme/)
+Sending a Co-Author request creates a notification for the author who then can open the request review screen by clicking on it.
+![Image of a Co-Author request notification](/capstone/media/readme/co-author-request-notif.png)
 
-On the co-author request review page the author can then see what content was deleted, highlighted by red background, and what was added to their work, highlighted by green background, similarily to github.
+On the Co-Author request review page the author can then see what content was deleted, highlighted by red background, and what was added to their work, highlighted by green background, similarily to github.
 ```javascript
 function coAuthorRequestHighlight() {
     var originalText = document.getElementById("originalText").innerText;
@@ -280,7 +280,7 @@ function coAuthorRequestHighlight() {
     document.getElementById("whatWasDeleted").innerHTML = deletedHighlight;
 }
 ```
-![Image of co-author request review page showing three containers, one with original content, another showing deleted content and the last one which displays added content](/capstone/media/readme/)
+![Image of a Co-Author request review page showing three containers, one with original content, another showing deleted content and the last one which displays added content](/capstone/media/readme/)
 
 If the author accepts the request then the change is instantaneous, if they decide to reject it however, then they will have to provide a reason as to why the suggested content change was not adequate for their work.
 ![Image showing request rejection screen](/capstone/media/readme/)
@@ -288,7 +288,7 @@ If the author accepts the request then the change is instantaneous, if they deci
 ## **3. Discoverability**
 
 ### 3.1 Timeline
-The post timeline which is situated in the middle on the main page of InkWell shows all posts related to all public inks. It has a following filter which shows posts only made by the authors that the current user follows. Depending on the post they can have various information displayed; there are posts which display that an ink has been updated by the author themselves, other ones that show that another author updated it (which is a result of a successful co-author request review) and lastly, posts which just display that an ink has been created (only if the author did not check the "Make Ink Private" checkmark during its creation). Aside from this every post always shows ink tags (if any were added), ink description, original author's name, ink title and creation date.
+The post timeline which is situated in the middle on the main page of InkWell shows all posts related to all public inks. It has a following filter which shows posts only made by the authors that the current user follows. Depending on the post they can have various information displayed; there are posts which display that an ink has been updated by the author themselves, other ones that show that another author updated it (which is a result of a successful Co-Author request review) and lastly, posts which just display that an ink has been created (only if the author did not check the "Make Ink Private" checkmark during its creation). Aside from this every post always shows ink tags (if any were added), ink description, original author's name, ink title and creation date.
 ![Image showing the main timeline](/capstone/media/readme/)
 
 The timeline also has infinite scroll function that loads the content as the user scrolls down.
@@ -321,11 +321,11 @@ else {
 
 
 ### 3.2 Discover Authors
-Discover authors section is also displayed on the main page and sits on the left side of the screen. It consists of several categories: popular authors, top authors, top co-authors and discover authors. Let's break them down.
+Discover authors section is also displayed on the main page and sits on the left side of the screen. It consists of several categories: popular authors, top authors, top Co-Authors and discover authors. Let's break them down.
 
 1. Popular authors are determined by combining author's readers (summed up amount of views from all inks) and followers. As the most popular authors are the ones that got the highest viewcounts and most followers.
-2. Top authors are the ones who did the most amount of writing that week and had the highest amount of successful co-author requests for their works.
-3. Top co-authors are determined by their amount of accepted co-author requests to the works of others.
+2. Top authors are the ones who did the most amount of writing that week and had the highest amount of successful Co-Author requests for their works.
+3. Top Co-Authors are determined by their amount of accepted Co-Author requests to the works of others.
 4. Discover authors are 10 randomly selected authors with no conditions other than luck.
 
 The discover authors section is set to update at least every 7 days (if the server is up) where the start date is 1st of January 2024. The first time index page is loaded on the 7-day (or longer) period date, the global date sets itself and is triggered in another 7 days or more.
@@ -345,7 +345,7 @@ if timeDifference >= timedelta(days=7):
 ```
 
 ### 3.3 Search Function
-The search function operates on every page that displays a lot of data. There are smaller search functions such as searching through author's follower list, co-author list, ink followers or co-author requests. All they do is filter the database using the string input from the search form.
+The search function operates on every page that displays a lot of data. There are smaller search functions such as searching through author's follower list, Co-Author list, ink followers or Co-Author requests. All they do is filter the database using the string input from the search form.
 
 For example: the coauthors view has a "searchQuery" argument which can be used for filtering but does not have to be.
 ```python

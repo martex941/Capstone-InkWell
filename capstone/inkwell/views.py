@@ -463,12 +463,12 @@ def edit_chapter(request, chapterID, inkID):
         if editingAsCoAuthor:
             form = CoAuthorRequestForm(request.POST)
             if form.is_valid():
-                # Create new co-author request
+                # Create new Co-Author request
                 new_coAuthorRequest = CoAuthorRequest(coAuthor=current_user, requestedChapter=chapterInfo)
                 new_coAuthorRequest.save()
                 time.sleep(1)
 
-                # Update the new co-author request using the form
+                # Update the new Co-Author request using the form
                 form = CoAuthorRequestForm(request.POST, instance=new_coAuthorRequest)
                 form.save()
                 time.sleep(1)
@@ -476,7 +476,7 @@ def edit_chapter(request, chapterID, inkID):
                 # Create a notification for the author
                 new_notification = Notification(
                     notifiedUser=inkInfo.inkOwner, 
-                    contents=f'New co-author request from {current_user} regarding Chapter {chapterInfo.chapterNumber}: {chapterInfo.chapterTitle} of ink titled "{inkInfo.title}"', 
+                    contents=f'New Co-Author request from {current_user} regarding Chapter {chapterInfo.chapterNumber}: {chapterInfo.chapterTitle} of ink titled "{inkInfo.title}"', 
                     url=f"coAuthorRequest/{chapterInfo.id}/{new_coAuthorRequest.id}")
                 new_notification.save()
 
@@ -547,7 +547,7 @@ def yourCoAuthorRequests(request, searchQuery):
 
     return render(request, "inkwell/yourCoAuthorRequests.html", {
         "yourRequests": yourRequests,
-        "title": "Your co-author requests"
+        "title": "Your Co-Author requests"
     })
 
 @login_required
@@ -624,7 +624,7 @@ def well(request, username):
 
     inks = Ink.objects.filter(inkOwner=wellOwner.pk, privateStatus=False)
     followers = wellOwner.followers
-    co_authors = wellOwner.acceptedCoAuthorRequests
+    co_authors = wellOwner.collaborators.count()
     
     return render(request, "inkwell/well.html", {
         "wellOwner": wellOwner,

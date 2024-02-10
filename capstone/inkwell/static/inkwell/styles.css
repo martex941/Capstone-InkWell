@@ -272,6 +272,11 @@ body {
     color: rgb(207, 24, 24);
 }
 
+.inkInfoAsCoAuthor p, .inkViewDescription p {
+    width: 100%;
+    overflow-wrap: break-word;
+}
+
 .mainSearchContainer .tag {
     margin: 0.2rem;
 }

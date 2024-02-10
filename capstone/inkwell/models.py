@@ -37,7 +37,7 @@ class User(AbstractUser):
     
     @property
     def collaborators(self):
-        collabs = Ink.objects.filter(inkOwner=self).exclude(coAuthors=None).values_list('coAuthors', flat=True)
+        collabs = Ink.objects.filter(inkOwner=self).exclude(coAuthors=None).values_list('coAuthors', flat=True).distinct()
         return collabs
 
     @property

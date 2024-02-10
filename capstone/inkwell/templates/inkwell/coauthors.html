@@ -7,7 +7,7 @@
 
 
 <div class="coauthorsList row d-flex justify-content-center">
-    <h3>People who are co-authors to {{ user }}'s inks</h3>
+    
     <div class="disFdirColAliCen">
         <form class="form disFdirColAliCen" action="{% url 'searchCoAuthors' username=user.username %}" method="post">
             {% csrf_token %}
@@ -15,6 +15,7 @@
             <button class="btn btn-khaki mt-2" type="submit">SEARCH</button>
         </form>
     </div>
+    <h3 class="text-center mt-3">{{ user }}'s Co-Authors:</h3>
     {% for coauthor in coauthors %}
     <div class="card col-md-4">
         <div class="coauthor-pfp disFdirColAliCen mt-4">
@@ -26,7 +27,7 @@
         </div>
         <div class="card-body disFdirColAliCen">
             <h5 class="card-title lead">{{ coauthor.username }}</h5>
-            <span>Co-author entries: {{ coauthor.acceptedCoAuthorRequests }}</span>
+            <br>
             <a href="{% url 'well' username=coauthor.username %}"><button class="btn btn-khaki">Visit InkWell</button></a>    
         </div>
     </div>
