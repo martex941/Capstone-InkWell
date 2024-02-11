@@ -248,6 +248,7 @@ if editingAsCoAuthor:
         new_notification.save()
 ```
 Sending a Co-Author request creates a notification for the author who then can open the request review screen by clicking on it.
+
 ![Image of a Co-Author request notification](/capstone/media/readme/co-author-request-notif.png)
 
 On the Co-Author request review page the author can then see what content was deleted, highlighted by red background, and what was added to their work, highlighted by green background, similarily to github.
