@@ -14,6 +14,11 @@
 - [jQuery](https://jquery.com/)
 - [Bootstrap](https://getbootstrap.com/)
 
+### **How to run it**
+Step 1: Install all of the above mentioned packages
+Step 2: Locate folder with "manage.py" file
+Step 3: Run this command: python manage.py runserver
+
 # **Overview**
 
 ## **0. Distinctiveness and Complexity**
