@@ -295,7 +295,6 @@ If the author accepts the request then the change is instantaneous, if they deci
 ### 3.1 Timeline
 The post timeline which is situated in the middle on the main page of InkWell shows all posts related to all public inks. It has a following filter which shows posts only made by the authors that the current user follows. Depending on the post they can have various information displayed; there are posts which display that an ink has been updated by the author themselves, other ones that show that another author updated it (which is a result of a successful Co-author request review) and lastly, posts which just display that an ink has been created (only if the author did not check the "Make Ink Private" checkmark during its creation). Aside from this every post always shows ink tags (if any were added), ink description, original author's name, ink title and creation date.
 ![Image showing the main timeline](/capstone/media/readme/main-timeline.png)
-![Image of a post that shows a successful Co-author request](/capstone/media/readme/co-author-request-post.png)
 
 The timeline also has infinite scroll function that loads the content as the user scrolls down.
 ```javascript
@@ -333,6 +332,8 @@ Discover authors section is also displayed on the main page and sits on the left
 2. Top authors are the ones who did the most amount of writing that week and had the highest amount of successful Co-author requests for their works.
 3. Top Co-authors are determined by their amount of accepted Co-author requests to the works of others.
 4. Discover authors are 10 randomly selected authors with no conditions other than luck.
+
+![Image showing discover authors section on index page](/capstone/media/readme/discover-authors.png)
 
 The discover authors section is set to update at least every 7 days (if the server is up) where the start date is 1st of January 2024. The first time index page is loaded on the 7-day (or longer) period date, the global date sets itself and is triggered in another 7 days or more.
 ```python
