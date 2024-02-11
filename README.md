@@ -57,7 +57,7 @@ The form which is used for editing content is different for authors and Co-Autho
     </div>
 </form>
 ```
-![Image showing Edit Chapter page for a Co-Author](/capstone/media/readme/co-author-editing-chapter.png)
+
 ```python
 if "deleteChapter" in request.POST:
     subsequentChapters = Chapter.objects.filter(chapterNumber__gt=chapterInfo.chapterNumber)
@@ -202,7 +202,8 @@ $(document).ready(function() {
 ```
 
 Authors can also use the "Ink Settings" page to change the status of their ink to private or public and delete them.
-![Image of ink deletion prompt screen](/capstone/media/readme/ink-delete-confirm.png)
+
+![Image of ink deletion prompt screen](/capstone/media/readme/delete-ink-confirm.png)
 
 ### 1.3 Viewing Inks
 Upon viewing an ink the user will see three distinct sections.
@@ -222,6 +223,10 @@ Co-Authors are users who have made at least one positively reviewed change in an
 ![Image showing a list of Co-Authors](/capstone/media/readme/ink-co-authors.png)
 
 ### 2.2 Co-author requests and review
+Co-Author requests are suggestions for content change made by authors who are not the original authors of the said content.
+
+![Image showing Edit Chapter page for a Co-Author](/capstone/media/readme/co-author-editing-chapter.png)
+
 ```python
 if editingAsCoAuthor:
     form = CoAuthorRequestForm(request.POST)
