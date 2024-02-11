@@ -17,19 +17,21 @@
 # **Overview**
 
 ## **0. Distinctiveness and Complexity**
-With InkWell I wanted to create a website with some connection to books, similarily to my final project for CS50x where I made a website called ReadRoll. It recommended a random book to the user based on a chosen genre. This time I created a website that allows users to write books or any other body of writing, however, I did not think that writing text online was enough of a challenge. Therefore, I added a GitHub-like spin to it. Users can make "pull requests" which are called "Co-Author requests" to suggest content changes for other authors. Authors can then review these changes and see what content was added or deleted (akin to GitHub) and decide to "push" them into production, i.e., accept the Co-Author request, change the content and permanently add that author to their list of Co-Authors. That is the main premise of InkWell, however, there are many more features that make the website great, below is an extensive overview of these features.
+With InkWell I wanted to create a website with some connection to books, similarily to my final project for CS50x where I made a website called ReadRoll. It recommended a random book to the user based on a chosen genre. This time I created a website that allows users to write books or any other body of writing, however, I did not think that writing text online was enough of a challenge. Therefore, I added a GitHub-like spin to it. Users can make "pull requests" which are called "Co-author requests" to suggest content changes for other authors. authors can then review these changes and see what content was added or deleted (akin to GitHub) and decide to "push" them into production, i.e., accept the Co-author request, change the content and permanently add that author to their list of Co-authors. That is the main premise of InkWell, however, there are many more features that make the website great, below is an extensive overview of these features.
 
 ## **1. Writing**
 
 ### 1.1 Inks and Chapters
-Ink is a name for any body of writing on the website, whether it be a short story, a long novel, a public diary or even an essay. The ink model is the biggest of all in this project. It features a three ManyToManyFields one of which links users who are Co-Authors, another that acts as a follower list and the last one is used for adding tags. It also has two BooleanField's which correspond to its privacy and update statuses. It has CharFields for description and title, DateTimeField as well as PositiveBigIntegerField for date and view count.
+Ink is a name for any body of writing on the website, whether it be a short story, a long novel, a public diary or even an essay. The ink model is the biggest of all in this project. It features a three ManyToManyFields one of which links users who are Co-authors, another that acts as a follower list and the last one is used for adding tags. It also has two BooleanField's which correspond to its privacy and update statuses. It has CharFields for description and title, DateTimeField as well as PositiveBigIntegerField for date and view count.
 
 Inks are not divided by pages like typical pieces of writing, they are divided by chapters instead. The chapter model is a lot smaller than the ink model, however, it is the only model that features a QuillField to store its rich text contents. It also has basic fields that correspond to chapter numbers, titles and ForeignKey to its ink of origin.
 
 ### 1.2 Editing Chapters
 InkWell utilizes [Django Quill](https://github.com/LeeHanYeong/django-quill-editor) to let writers edit chapters in their inks. Writers have a lot of freedom in chosing how their work is going to look. They can add images, change fonts, colors, background colors and even embed videos.
 
-The form which is used for editing content is different for authors and Co-Authors accordingly, for example only an author can change the title of a chapter and make immidiate changes to its contents as well as initiate deletion process and go through with it. Restrictions such as these have been applied throughout the project in order to not allow any malicious activity.
+![Image showing author's point of view when editing a chapter](/capstone/media/readme/editing-chapter.png)
+
+The form which is used for editing content is different for authors and Co-authors accordingly, for example only an author can change the title of a chapter and make immidiate changes to its contents as well as initiate deletion process and go through with it. Restrictions such as these have been applied throughout the project in order to not allow any malicious activity.
 ```html
 <form class="form editChapterForm" action="{% url 'edit_chapter' chapterID=chapterInfo.id inkID=inkID %}" method="post">
     {% csrf_token %}
@@ -207,7 +209,7 @@ Authors can also use the "Ink Settings" page to change the status of their ink t
 
 ### 1.3 Viewing Inks
 Upon viewing an ink the user will see three distinct sections.
-- ink info that features its title, views, author name, link to Co-Author credit list, tags and ink contents divided into chapters 
+- ink info that features its title, views, author name, link to Co-author credit list, tags and ink contents divided into chapters 
 - chapter navigation and buttons for editing and following the ink
 - comment section where users can share their opinions
 
@@ -219,13 +221,13 @@ Secondly, the chapter navigation is positioned on the left even if the user scro
 ## **2. Co-Authorship**
 
 ### 2.1 Who are Co-Authors?
-Co-Authors are users who have made at least one positively reviewed change in another author's chapter. There is no distinct Co-Author model in the database as there is no need for one, there are just ManyToManyFields which link user objects referring to them as Co-Authors. Co-Authors play an important roll in InkWell, because they can contribute to any public ink. Anyone can open the Co-Author list and see who contributed to a given ink.
-![Image showing a list of Co-Authors](/capstone/media/readme/ink-co-authors.png)
+Co-authors are users who have made at least one positively reviewed change in another author's chapter. There is no distinct Co-author model in the database as there is no need for one, there are just ManyToManyFields which link user objects referring to them as Co-authors. Co-authors play an important roll in InkWell, because they can contribute to any public ink. Anyone can open the Co-author list and see who contributed to a given ink.
+![Image showing a list of Co-authors](/capstone/media/readme/ink-co-authors.png)
 
 ### 2.2 Co-author requests and review
-Co-Author requests are suggestions for content change made by authors who are not the original authors of the said content.
+Co-author requests are suggestions for content change made by authors who are not the original authors of the said content.
 
-![Image showing Edit Chapter page for a Co-Author](/capstone/media/readme/co-author-editing-chapter.png)
+![Image showing Edit Chapter page for a Co-author](/capstone/media/readme/co-author-editing-chapter.png)
 
 ```python
 if editingAsCoAuthor:
@@ -248,11 +250,11 @@ if editingAsCoAuthor:
             url=f"coAuthorRequest/{chapterInfo.id}/{new_coAuthorRequest.id}")
         new_notification.save()
 ```
-Sending a Co-Author request creates a notification for the author who then can open the request review screen by clicking on it.
+Sending a Co-author request creates a notification for the author who then can open the request review screen by clicking on it.
 
-![Image of a Co-Author request notification](/capstone/media/readme/co-author-request-notif.png)
+![Image of a Co-author request notification](/capstone/media/readme/co-author-request-notif.png)
 
-On the Co-Author request review page the author can then see what content was deleted, highlighted by red background, and what was added to their work, highlighted by green background, similarily to github.
+On the Co-author request review page the author can then see what content was deleted, highlighted by red background, and what was added to their work, highlighted by green background, similarily to GitHub.
 ```javascript
 function coAuthorRequestHighlight() {
     var originalText = document.getElementById("originalText").innerText;
@@ -283,7 +285,7 @@ function coAuthorRequestHighlight() {
     document.getElementById("whatWasDeleted").innerHTML = deletedHighlight;
 }
 ```
-![Image of a Co-Author request review page showing three containers, one with original content, another showing deleted content and the last one which displays added content](/capstone/media/readme/co-author-request-view.png)
+![Image of a Co-author request review page showing three containers, one with original content, another showing deleted content and the last one which displays added content](/capstone/media/readme/co-author-request-view.png)
 
 If the author accepts the request then the change is instantaneous, if they decide to reject it however, then they will have to provide a reason as to why the suggested content change was not adequate for their work.
 ![Image showing request rejection screen](/capstone/media/readme/decline-request-reason.png)
@@ -291,9 +293,9 @@ If the author accepts the request then the change is instantaneous, if they deci
 ## **3. Discoverability**
 
 ### 3.1 Timeline
-The post timeline which is situated in the middle on the main page of InkWell shows all posts related to all public inks. It has a following filter which shows posts only made by the authors that the current user follows. Depending on the post they can have various information displayed; there are posts which display that an ink has been updated by the author themselves, other ones that show that another author updated it (which is a result of a successful Co-Author request review) and lastly, posts which just display that an ink has been created (only if the author did not check the "Make Ink Private" checkmark during its creation). Aside from this every post always shows ink tags (if any were added), ink description, original author's name, ink title and creation date.
+The post timeline which is situated in the middle on the main page of InkWell shows all posts related to all public inks. It has a following filter which shows posts only made by the authors that the current user follows. Depending on the post they can have various information displayed; there are posts which display that an ink has been updated by the author themselves, other ones that show that another author updated it (which is a result of a successful Co-author request review) and lastly, posts which just display that an ink has been created (only if the author did not check the "Make Ink Private" checkmark during its creation). Aside from this every post always shows ink tags (if any were added), ink description, original author's name, ink title and creation date.
 ![Image showing the main timeline](/capstone/media/readme/main-timeline.png)
-![Image of a post that shows a successful Co-Author request](/capstone/media/readme/co-author-request-post.png)
+![Image of a post that shows a successful Co-author request](/capstone/media/readme/co-author-request-post.png)
 
 The timeline also has infinite scroll function that loads the content as the user scrolls down.
 ```javascript
@@ -325,11 +327,11 @@ else {
 
 
 ### 3.2 Discover Authors
-Discover authors section is also displayed on the main page and sits on the left side of the screen. It consists of several categories: popular authors, top authors, top Co-Authors and discover authors. Let's break them down.
+Discover authors section is also displayed on the main page and sits on the left side of the screen. It consists of several categories: popular authors, top authors, top Co-authors and discover authors. Let's break them down.
 
 1. Popular authors are determined by combining author's readers (summed up amount of views from all inks) and followers. As the most popular authors are the ones that got the highest viewcounts and most followers.
-2. Top authors are the ones who did the most amount of writing that week and had the highest amount of successful Co-Author requests for their works.
-3. Top Co-Authors are determined by their amount of accepted Co-Author requests to the works of others.
+2. Top authors are the ones who did the most amount of writing that week and had the highest amount of successful Co-author requests for their works.
+3. Top Co-authors are determined by their amount of accepted Co-author requests to the works of others.
 4. Discover authors are 10 randomly selected authors with no conditions other than luck.
 
 The discover authors section is set to update at least every 7 days (if the server is up) where the start date is 1st of January 2024. The first time index page is loaded on the 7-day (or longer) period date, the global date sets itself and is triggered in another 7 days or more.
@@ -349,7 +351,7 @@ if timeDifference >= timedelta(days=7):
 ```
 
 ### 3.3 Search Function
-The search function operates on every page that displays a lot of data. There are smaller search functions such as searching through author's follower list, Co-Author list, ink followers or Co-Author requests. All they do is filter the database using the string input from the search form.
+The search function operates on every page that displays a lot of data. There are smaller search functions such as searching through author's follower list, Co-author list, ink followers or Co-author requests. All they do is filter the database using the string input from the search form.
 
 For example: the coauthors view has a "searchQuery" argument which can be used for filtering but does not have to be.
 ```python
@@ -387,3 +389,6 @@ except EmptyPage:
 
 pages = range(1, pag.num_pages+1)
 ```
+
+## **Final Notes**
+This was a big project for me and even though I consider it finished there is still much more than can be added on top of it. I have many plans and ideas to make it into a real website that is used by people to write, collaborate and share their literary works. If that does not come to fruition then perhaps something similar to it, under a different name. In any case, this project was really fun to create and plan out and I hope someone will be inspired enough to make something great based on this idea.

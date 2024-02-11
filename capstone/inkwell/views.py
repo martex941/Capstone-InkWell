@@ -481,12 +481,12 @@ def edit_chapter(request, chapterID, inkID):
         if editingAsCoAuthor:
             form = CoAuthorRequestForm(request.POST)
             if form.is_valid():
-                # Create new Co-Author request
+                # Create new Co-author request
                 new_coAuthorRequest = CoAuthorRequest(coAuthor=current_user, requestedChapter=chapterInfo)
                 new_coAuthorRequest.save()
                 time.sleep(1)
 
-                # Update the new Co-Author request using the form
+                # Update the new Co-author request using the form
                 form = CoAuthorRequestForm(request.POST, instance=new_coAuthorRequest)
                 form.save()
                 time.sleep(1)
