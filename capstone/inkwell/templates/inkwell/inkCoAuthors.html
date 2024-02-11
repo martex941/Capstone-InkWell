@@ -3,7 +3,6 @@
 {% block body %}
 
 <a href="{% url 'ink_view' inkID=inkID %}"><button class="backToInkView btn btn-khaki">&larr; Back to InkWell</button></a>
-<h3>People who are co-authors to {{ user }}'s inks</h3>
 <div class="disFdirColAliCen">
     <form class="form disFdirColAliCen" action="{% url 'searchInkCoAuthors' inkID=inkID %}" method="post">
         {% csrf_token %}
@@ -11,6 +10,7 @@
         <button class="btn btn-khaki mt-2" type="submit">SEARCH</button>
     </form>
 </div>
+<h3 class="text-center mt-3">Co-Authors of "{{ ink.title }}":</h3>
 <div class="inkCoAuthorsList row d-flex justify-content-center">
     {% for coauthor in coauthors %}
     <div class="card col-md-4">

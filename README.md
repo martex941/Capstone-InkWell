@@ -31,7 +31,7 @@ Inks are not divided by pages like typical pieces of writing, they are divided b
 
 ### 1.2 Editing Chapters
 InkWell utilizes [Django Quill](https://github.com/LeeHanYeong/django-quill-editor) to let writers edit chapters in their inks. Writers have a lot of freedom in chosing how their work is going to look. They can add images, change fonts, colors, background colors and even embed videos.
-![Image of Django Quill editor while editing a chapter](/capstone/media/readme/)
+![Image of Django Quill editor while editing a chapter](/capstone/media/readme/editing-chapter.png)
 
 The form which is used for editing content is different for authors and Co-Authors accordingly, for example only an author can change the title of a chapter and make immidiate changes to its contents as well as initiate deletion process and go through with it. Restrictions such as these have been applied throughout the project in order to not allow any malicious activity.
 ```html
@@ -61,6 +61,7 @@ The form which is used for editing content is different for authors and Co-Autho
     </div>
 </form>
 ```
+![Image showing Edit Chapter page for a Co-Author](/capstone/media/readme/co-author-editing-chapter.png)
 ```python
 if "deleteChapter" in request.POST:
     subsequentChapters = Chapter.objects.filter(chapterNumber__gt=chapterInfo.chapterNumber)
@@ -205,7 +206,7 @@ $(document).ready(function() {
 ```
 
 Authors can also use the "Ink Settings" page to change the status of their ink to private or public and delete them.
-![Image of ink deletion prompt screen](/capstone/media/readme/)
+![Image of ink deletion prompt screen](/capstone/media/readme/ink-delete-confirm.png)
 
 ### 1.3 Viewing Inks
 Upon viewing an ink the user will see three distinct sections.
@@ -214,15 +215,15 @@ Upon viewing an ink the user will see three distinct sections.
 - comment section where users can share their opinions
 
 Firstly, the main ink container is quite straightforward as it just takes information from the server and serves it in a container. 
-![Image of ink viewing container](/capstone/media/readme/)
+![Image of ink viewing container](/capstone/media/readme/ink-view.png)
 Secondly, the chapter navigation is positioned on the left even if the user scrolls down (unless viewing in lower width resolution upon which it stays at the top).
-![Gif showing changing resolution which results in UI shift.](/capstone/media/readme/)
+![Gif showing changing resolution which results in UI shift.](/capstone/media/readme/window-resizing.gif)
 
 ## **2. Co-Authorship**
 
 ### 2.1 Who are Co-Authors?
 Co-Authors are users who have made at least one positively reviewed change in another author's chapter. There is no distinct Co-Author model in the database as there is no need for one, there are just ManyToManyFields which link user objects referring to them as Co-Authors. Co-Authors play an important roll in InkWell, because they can contribute to any public ink. Anyone can open the Co-Author list and see who contributed to a given ink.
-![Image showing a list of Co-Authors](/capstone/media/readme/)
+![Image showing a list of Co-Authors](/capstone/media/readme/ink-co-authors.png)
 
 ### 2.2 Co-author requests and review
 ```python
@@ -280,16 +281,17 @@ function coAuthorRequestHighlight() {
     document.getElementById("whatWasDeleted").innerHTML = deletedHighlight;
 }
 ```
-![Image of a Co-Author request review page showing three containers, one with original content, another showing deleted content and the last one which displays added content](/capstone/media/readme/)
+![Image of a Co-Author request review page showing three containers, one with original content, another showing deleted content and the last one which displays added content](/capstone/media/readme/co-author-request-view.png)
 
 If the author accepts the request then the change is instantaneous, if they decide to reject it however, then they will have to provide a reason as to why the suggested content change was not adequate for their work.
-![Image showing request rejection screen](/capstone/media/readme/)
+![Image showing request rejection screen](/capstone/media/readme/decline-request-reason.png)
 
 ## **3. Discoverability**
 
 ### 3.1 Timeline
 The post timeline which is situated in the middle on the main page of InkWell shows all posts related to all public inks. It has a following filter which shows posts only made by the authors that the current user follows. Depending on the post they can have various information displayed; there are posts which display that an ink has been updated by the author themselves, other ones that show that another author updated it (which is a result of a successful Co-Author request review) and lastly, posts which just display that an ink has been created (only if the author did not check the "Make Ink Private" checkmark during its creation). Aside from this every post always shows ink tags (if any were added), ink description, original author's name, ink title and creation date.
-![Image showing the main timeline](/capstone/media/readme/)
+![Image showing the main timeline](/capstone/media/readme/main-timeline.png)
+![Image of a post that shows a successful Co-Author request](/capstone/media/readme/co-author-request-post.png)
 
 The timeline also has infinite scroll function that loads the content as the user scrolls down.
 ```javascript
@@ -368,7 +370,7 @@ def searchCoAuthors(request, username):
 ```
 
 Although nearly all searches are done the same way, there is one that is distinct, that is the main search. Main search function is located in the navigation bar and can be used to search for authors and inks. It sends the user to a page that displays the search results. It is distinct as it is not associated with any other page that already displays data, such as followers or coauthors view pages that can work without their search functions.
-![Image showing main search results page](/capstone/media/readme/)
+![Image showing main search results page](/capstone/media/readme/main-search-results.png)
 
 Every page that is capable of displaying large amounts of data is also split into multiple pages of data using django's Paginator. The user can navigate through the pages manually with the exception of main timeline and notifications column that have infinite scrolling.
 ```python

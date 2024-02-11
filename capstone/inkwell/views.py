@@ -345,14 +345,28 @@ def deleteComment(request, commentID):
             return redirect('ink_view', inkID=ink.id)
 
 def inkCoAuthors(request, inkID, searchQuery):
+    ink = Ink.objects.get(id=inkID)
     if searchQuery == "":
         coauthors = Ink.objects.get(id=inkID).coAuthors.all()    
     else:
         coauthors = Ink.objects.get(id=inkID).coAuthors.filter(username__contains=searchQuery)
 
+    pag = Paginator(coauthors, 20)
+    page = request.GET.get('page')
+    try:
+        pag_items = pag.page(page)
+    except PageNotAnInteger:
+        pag_items = pag.page(1)
+    except EmptyPage:
+        pag_items = pag.page(pag.num_pages)
+
+    pages = range(1, pag.num_pages+1)
+
     return render(request, "inkwell/inkCoAuthors.html", {
-        "coauthors": coauthors,
-        "inkID": inkID
+        "coauthors": pag_items,
+        "pages": pages,
+        "inkID": inkID,
+        "ink": ink
     })
 
 def searchInkCoAuthors(request, inkID):
@@ -423,6 +437,10 @@ def edit_ink(request, inkID):
         editInk.description = newDescription
         editInk.save()
         time.sleep(1)
+
+        if editInk.privateStatus != True:
+            new_post = Post(message=f'{current_user} updated their ink "{editInk.title}"', referencedPostInk=editInk)
+            new_post.save()
 
     return render(request, "inkwell/edit_ink.html", {
         "editInk": editInk,
