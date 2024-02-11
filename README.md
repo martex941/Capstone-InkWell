@@ -1,9 +1,6 @@
 # **InkWell**
 <sub>by Kamil Wiśniewski</sub>
 
-## **What is InkWell?**
-InkWell is a website for writers to write and collaborate. It features a rich text editor using [Django Quill by LeeHanYeong](https://github.com/LeeHanYeong/django-quill-editor). The idea behind InkWell was to create a GitHub-like project of but for people who write books, short stories or anything similarily related.
-
 ### **Languages used:**
 - HTML
 - CSS
@@ -20,7 +17,7 @@ InkWell is a website for writers to write and collaborate. It features a rich te
 # **Overview**
 
 ## **0. Distinctiveness and Complexity**
-With InkWell I wanted to create a website with connection to books, like my final project for CS50x where I made a website called ReadRoll. It recommended a random book to the user based on a chosen genre. This time I created a website that allows users to write books or any other body of writing, however, I did not think that writing text online was enough of a challenge. Therefore, I added a GitHub-like spin to it. Users can make "pull requests" which are called "Co-Author requests" to suggest content changes for other authors. Authors can then review these changes and see what content was added or deleted (akin to GitHub) and decide to "push" them into production, i.e., accept the Co-Author request, change the content and permanently add that author to their list of Co-Authors. That is the main premise of InkWell, however, there are many more features that make the website great, below is an extensive overview of these features.
+With InkWell I wanted to create a website with some connection to books, similarily to my final project for CS50x where I made a website called ReadRoll. It recommended a random book to the user based on a chosen genre. This time I created a website that allows users to write books or any other body of writing, however, I did not think that writing text online was enough of a challenge. Therefore, I added a GitHub-like spin to it. Users can make "pull requests" which are called "Co-Author requests" to suggest content changes for other authors. Authors can then review these changes and see what content was added or deleted (akin to GitHub) and decide to "push" them into production, i.e., accept the Co-Author request, change the content and permanently add that author to their list of Co-Authors. That is the main premise of InkWell, however, there are many more features that make the website great, below is an extensive overview of these features.
 
 ## **1. Writing**
 
@@ -31,7 +28,6 @@ Inks are not divided by pages like typical pieces of writing, they are divided b
 
 ### 1.2 Editing Chapters
 InkWell utilizes [Django Quill](https://github.com/LeeHanYeong/django-quill-editor) to let writers edit chapters in their inks. Writers have a lot of freedom in chosing how their work is going to look. They can add images, change fonts, colors, background colors and even embed videos.
-![Image of Django Quill editor while editing a chapter](/capstone/media/readme/editing-chapter.png)
 
 The form which is used for editing content is different for authors and Co-Authors accordingly, for example only an author can change the title of a chapter and make immidiate changes to its contents as well as initiate deletion process and go through with it. Restrictions such as these have been applied throughout the project in order to not allow any malicious activity.
 ```html
