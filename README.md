@@ -17,7 +17,9 @@
 ### **How to run it**
 Step 1: Install all of the above mentioned packages
 Step 2: Locate folder with "manage.py" file
-Step 3: Run this command: python manage.py runserver
+Step 3: Run command: python manage.py makemigrations
+Step 4: Run command: python manage.py migrate
+Step 5: Run command: python manage.py runserver
 
 # **Overview**
 
