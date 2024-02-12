@@ -56,22 +56,22 @@
             <h5>NEW CONTENT</h5>
             <div class="request-review-text" id="modifiedText">
                 <!-- Your modified text here -->
-                {{newChapterContent.chapterContents.html|safe}}
+                <p>{{newChapterContent.chapterContents.html|safe}}</p>
             </div>
         {% else %}
             <h5>ORIGINAL TEXT</h5>
             <div class="request-review-text" id="originalText">
                 <!-- Your original text here -->
-                {{originalChapter.chapterContents.html|safe}}
+                <p>{{originalChapter.chapterContents.html|safe}}</p>
             </div>
             <h5>NEW CONTENT (highlighted in green)</h5>
             <div class="request-review-text" id="modifiedText">
                 <!-- Your modified text here -->
-                {{newChapterContent.chapterContents.html|safe}}
+                <p>{{newChapterContent.chapterContents.html|safe}}</p>
             </div>
             <h5>DELETED CONTENT (highlighted in red)</h5>
             <div class="request-review-text" id="whatWasDeleted">
-                {{originalChapter.chapterContents.html|safe}}
+                <p>{{originalChapter.chapterContents.html|safe}}</p>
             </div>
         {% endif %}
     </div>
