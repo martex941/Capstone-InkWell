@@ -139,44 +139,6 @@ function timeline() {
         document.querySelector("#timeline").innerHTML = '';
         load(page, "followedInks");
     });
-
-    // function mainTimelineBtn () {
-    //     page = 1;
-    //     document.querySelector("#mainTimelineBtn").style.display = 'none';
-    //     document.querySelector("#followingTimelineBtn").style.display = 'block';
-    //     // Clear the timeline feed
-    //     document.querySelector("#timeline").innerHTML = '';
-    //     load(page, "allInks");
-    // }
-    // function followingTimelineBtn () {
-    //     page = 1;
-    //     document.querySelector("#mainTimelineBtn").style.display = 'block';
-    //     document.querySelector("#followingTimelineBtn").style.display = 'none';
-    //     // Clear the timeline feed
-    //     document.querySelector("#timeline").innerHTML = '';
-    //     load(page, "followedInks");
-    // }
-    // function mainTimelineBtnFooter () {
-    //     page = 1;
-    //     document.querySelector("#mainTimelineBtnFooter").style.display = 'none';
-    //     document.querySelector("#followingTimelineBtnFooter").style.display = 'block';
-    //     // Clear the timeline feed
-    //     document.querySelector("#timeline").innerHTML = '';
-    //     load(page, "allInks");
-    // }
-    // function followingTimelineBtnFooter () {
-    //     page = 1;
-    //     document.querySelector("#mainTimelineBtnFooter").style.display = 'block';
-    //     document.querySelector("#followingTimelineBtnFooter").style.display = 'none';
-    //     // Clear the timeline feed
-    //     document.querySelector("#timeline").innerHTML = '';
-    //     load(page, "followedInks");
-    // }
-    // document.querySelector("#mainTimelineBtn").addEventListener('click', mainTimelineBtn);
-    // document.querySelector("#followingTimelineBtn").addEventListener('click', followingTimelineBtn);
-    // document.querySelector("#mainTimelineBtnFooter").addEventListener('click', mainTimelineBtnFooter);
-    // document.querySelector("#followingTimelineBtnFooter").addEventListener('click', followingTimelineBtnFooter);
-
 }
 
 function notifications() {

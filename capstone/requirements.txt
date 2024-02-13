@@ -1,0 +1,6 @@
+Packages to install:
+- Django Quill Editor
+- Pillow
+- BeautifulSoup
+- jQuery
+- Bootstrap
